@@ -49,7 +49,7 @@ def add_book():
     popup.title("책 추가")
 
     # 팝업 창 크기 설정
-    center_popup(popup, 300, 200)
+    center_popup(popup, 350, 250)
 
     def save_book():
         book_id = book_id_entry.get()
@@ -139,7 +139,7 @@ def borrow_book():
     popup.title("책 대출")
 
     # 팝업 창 크기 설정
-    center_popup(popup, 300, 200)
+    center_popup(popup, 350, 250)
 
     def borrow():
         book_id = book_id_entry.get()
@@ -244,7 +244,7 @@ def delete_book():
     popup.title("책 삭제")
 
     # 팝업 창 크기 설정
-    center_popup(popup, 300, 200)
+    center_popup(popup, 350, 250)
 
     def delete():
         book_id = book_id_entry.get()
@@ -372,6 +372,62 @@ def register_member():
 
     tk.Button(popup, text="등록", command=register).pack(pady=10)
 
+def unregister_member():
+    """회원 탈퇴 기능을 구현합니다."""
+    popup = tk.Toplevel(root)
+    popup.title("회원 탈퇴")
+
+    # 팝업 창 크기 설정
+    center_popup(popup, 300, 250)
+
+    def unregister():
+        member_id = member_id_entry.get()
+        name = name_entry.get()
+        phone_number = phone_number_entry.get()
+
+        if not member_id or not name or not phone_number:
+            messagebox.showerror("오류", "모든 필드를 입력해야 합니다.", parent=popup)
+            return
+
+        members = []
+        member_found = False
+        try:
+            with open(MEMBERSHIP_FILE, 'r', encoding='utf-8') as file:
+                reader = csv.reader(file)
+                header = next(reader)
+                for row in reader:
+                    if row[0] == member_id and row[1] == name and row[2] == phone_number:
+                        member_found = True
+                    else:
+                        members.append(row)
+        except FileNotFoundError:
+            messagebox.showerror("오류", "회원 파일이 없습니다.", parent=popup)
+            return
+
+        if member_found:
+            with open(MEMBERSHIP_FILE, 'w', newline='', encoding='utf-8') as file:
+                writer = csv.writer(file)
+                writer.writerow(['member_id', 'name', 'phone_number'])
+                writer.writerows(members)
+            messagebox.showinfo("성공", "회원 탈퇴가 완료되었습니다.", parent=popup)
+            popup.destroy()
+        else:
+            messagebox.showerror("오류", "해당 회원을 찾을 수 없습니다.", parent=popup)
+
+    tk.Label(popup, text="회원 번호:").pack(pady=5)
+    member_id_entry = tk.Entry(popup)
+    member_id_entry.pack(pady=5)
+
+    tk.Label(popup, text="이름:").pack(pady=5)
+    name_entry = tk.Entry(popup)
+    name_entry.pack(pady=5)
+
+    tk.Label(popup, text="전화번호:").pack(pady=5)
+    phone_number_entry = tk.Entry(popup)
+    phone_number_entry.pack(pady=5)
+
+    tk.Button(popup, text="탈퇴", command=unregister).pack(pady=10)
+
 def main():
     """프로그램을 실행하는 메인 함수입니다."""
     global root  # root 변수를 전역 변수로 선언합니다.
@@ -413,14 +469,21 @@ def main():
     results_label = tk.Label(search_frame, text="", justify="left", anchor="nw", wraplength=500)
     results_label.grid(row=1, column=0, columnspan=3, pady=5)
     
-    # 회원 가입 버튼 추가
-    register_button = tk.Button(root, text="회원 가입", command=register_member, width=15, height=2)
-    register_button.grid(row=0, column=2, padx=10, pady=(100, 10), sticky="ne")
+    # 회원 가입 및 회원 탈퇴 버튼을 같은 행에 배치
+    member_frame = tk.Frame(root)
+    member_frame.grid(row=0, column=2, padx=10, pady=(100, 10), sticky="ne")
+    
+    register_button = tk.Button(member_frame, text="회원 가입", command=register_member, width=15, height=2)
+    register_button.grid(row=0, column=0, padx=5)
+    
+    unregister_button = tk.Button(member_frame, text="회원 탈퇴", command=unregister_member, width=15, height=2)
+    unregister_button.grid(row=0, column=1, padx=5)
     
     root.grid_rowconfigure(0, weight=1)
     root.grid_columnconfigure(1, weight=1)
     
     root.mainloop()
+
 
 if __name__ == "__main__":
     main()
