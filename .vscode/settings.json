@@ -1,0 +1,9 @@
+// 이 프로젝트에서 사용되는 vscode설정을 저장하는 파일
+// 이 설정은 vscode의 기본설정과 유저설정을 덮어쓴다.
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+}
