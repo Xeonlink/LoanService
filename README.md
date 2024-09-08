@@ -1,4 +1,37 @@
-# 프로젝트를 설정하는 방법
+# 개발환경 설정
+
+### vscode 확장프로그램
+
+1. [Black Formatter](https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter)
+
+    파일을 저장할 때 파이썬 코드를 포맷팅해주는 확장프로그램. js의 prettier와 같은 철학을 가지고 만들어졌다고 함. 설치후 해야될 설정들은 .vscode/.settings.json을 통해서 되어있으므로, 설치하고 사용하기만 하면 된다.
+
+2. [Rainbow CSV](https://marketplace.visualstudio.com/items?itemName=mechatroner.rainbow-csv)
+
+    csv파일을 볼때, 각 열을 기준으로 서로 다른 색으로 표시해주는 확장프로그램. csv를 사용하여 작업할 때, 실수의 가능성을 줄여준다.
+    
+    
+3. [SQLite Viewer](https://marketplace.visualstudio.com/items?itemName=qwtel.sqlite-viewer)
+
+    sqlite의 *.db 파일을 gui로 볼 수 있도록 하는 확장프로그램
+
+4. [GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
+
+    코드블럭 위에, 이 코드가 언제 누구에 의해서 작성되었는지 깃내역을 분석하여 작게 적어준다. 디버깅할 때 누가 짠 코드인지 쉽게 파악하여 수정해야될 사람이 누구인지 판단할 때 도움이 된다.
+
+5. [Edit CSV](https://marketplace.visualstudio.com/items?itemName=janisdd.vscode-edit-csv)
+
+    CSV파일을 GUI에서 편집할 수 있도록 해주는 확장프로그램. 마치 액셀의 스프레드시트를 다루는 것처럼 CSV파일을 vscode안에서 수정할 수 있다.
+
+6. [IntelliCode](https://marketplace.visualstudio.com/items?itemName=VisualStudioExptTeam.vscodeintellicode)
+
+    컴퓨터 사양이 가능한 경우에 프로젝트 전역분석 및 코드 입력패턴을 분석하여 다음에 입력할 코드를 추천해주는 확장프로그램
+
+7. [Pylance](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance)
+
+    IntelliCode를 파이썬에서 사용하려면 설치해야된다고 IntelliCode설정 가이드에 나와있지만, IntelliCode를 설치하면 자동으로 설치됨.
+    관련 설정방법은 IntelliCode QuickGuide의 파이썬 설정을 참조
+
 
 ### Windows
 

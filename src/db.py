@@ -1,6 +1,6 @@
-from peewee import SqliteDatabase, Model
-from .models.Book import Book
-from .models.User import User
+from peewee import *
+import uuid
+
 
 db = SqliteDatabase("./data/data.db")
 
@@ -12,9 +12,27 @@ class BaseModel(Model):
         database = db
 
 
+class Book(BaseModel):
+    """A model for a book."""
+
+    id = UUIDField(null=False, unique=True, primary_key=True, default=uuid.uuid4)
+    barcode_id = IntegerField(null=False, unique=True)
+    title = CharField(null=False)
+    author = CharField(null=False)
+
+
+class User(BaseModel):
+    """A model for a user."""
+
+    id = UUIDField(null=False, unique=True, primary_key=True)
+    barcode_id = IntegerField(null=False, unique=True)
+    name = CharField(null=False, unique=True)
+    contact = CharField(null=False, unique=True)
+    email = CharField(null=False, unique=True)
+
+
 db.connect()
 db.create_tables([Book, User], safe=True)
 
 if __name__ == "__main__":
-    print("This is a module, not a script")
-    exit(1)
+    Book.create(barcode_id=123, title="The Great Gatsby", author="F. Scott Fitzgerald")

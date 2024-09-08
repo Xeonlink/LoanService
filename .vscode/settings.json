@@ -6,4 +6,14 @@
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter"
   },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    // 커스텀 패키지 import시 자동으로 생성되는 __pycache__ 폴더를 숨김
+    "**/__pycache__": true,
+  }
 }
