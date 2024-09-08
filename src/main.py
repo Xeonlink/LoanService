@@ -4,9 +4,9 @@ import tkinter as tk
 from tkinter import messagebox
 
 # CSV 파일 경로
-BOOKS_FILE = "books.csv"
-LOANS_FILE = "loans.csv"
-MEMBERSHIP_FILE = "membership.csv"
+BOOKS_FILE = "./data/books.csv"
+LOANS_FILE = "./data/loans.csv"
+MEMBERSHIP_FILE = "./data/membership.csv"
 
 
 def initialize_files():
