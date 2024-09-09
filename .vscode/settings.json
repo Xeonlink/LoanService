@@ -16,5 +16,6 @@
     // 커스텀 패키지 import시 자동으로 생성되는 __pycache__ 폴더를 숨김
     "**/__pycache__": true,
   },
-  "python.analysis.typeCheckingMode": "basic"
+  "python.analysis.typeCheckingMode": "basic",
+  "svg.preview.background": "dark-transparent"
 }
