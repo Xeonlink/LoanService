@@ -1,4 +1,12 @@
-from peewee import *
+from peewee import (
+    SqliteDatabase,
+    Model,
+    UUIDField,
+    IntegerField,
+    CharField,
+    ForeignKeyField,
+    DateTimeField,
+)
 import uuid
 
 
@@ -24,11 +32,21 @@ class Book(BaseModel):
 class User(BaseModel):
     """A model for a user."""
 
-    id = UUIDField(null=False, unique=True, primary_key=True)
+    id = UUIDField(null=False, unique=True, primary_key=True, default=uuid.uuid4)
     barcode_id = IntegerField(null=False, unique=True)
     name = CharField(null=False, unique=True)
     contact = CharField(null=False, unique=True)
     email = CharField(null=False, unique=True)
+
+
+class Loan(BaseModel):
+    """A model for a loan."""
+
+    id = UUIDField(null=False, unique=True, primary_key=True)
+    book_id = ForeignKeyField(Book, backref="loans")
+    user_id = ForeignKeyField(User, backref="loans")
+    loan_date = DateTimeField(null=False)
+    return_date = DateTimeField(null=False)
 
 
 db.connect()

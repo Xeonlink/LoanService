@@ -123,3 +123,28 @@
     ```pwsh
     pip install -r requirement.txt
     ```
+
+# Tips
+
+### 필요한 아이콘을 가져오는 방법
+
+1. https://fontawesome.com/ 사이트로 이동한다.
+
+2. 무료로 제공되는 svg 아이콘중 적절한 아이콘을 다운받는다.
+
+3. assets/svg 폴더에 다운받은 파일을 넣는다.
+
+4. src/svg_converter.py 를 실행시킨다.
+
+    ```pwsh
+    python ./src/svg_converter.py
+    ```
+    꼭 위와 같이 실행시킬 필요는 없고, 터미널이 프로젝트 폴더에 있는 상태에서 svg_converter.py를 실행시킬 수 있으면 된다.
+
+    실행이 완료되면, svg폴더에 있는 파일과 똑같은 png파일이 assets.png폴더에 생성될 것이다.
+    
+    예를 들어 book.svg를 svg폴더에 넣었다면, book.png가 png폴더에 생성된다.
+
+5. 변환된 png파일을 프로젝트에서 사용한다.
+
+
