@@ -29,6 +29,7 @@ class SideMenu(ctk.CTkFrame):
             self.inner_side_menu,
             text=text,
             height=50,
+            text_color=("#111111", "gray98"),  # TODO: 테마에 맞게 나중에 일괄수정 필요
             font=("Arial", 14),
             corner_radius=0,
             # fg_color="transparent",
@@ -61,7 +62,7 @@ class SideMenu(ctk.CTkFrame):
         self._add_btn("🧔‍♂️ 회원관리")
 
         test = self._add_btn("📗 도서관리")
-        print(test.cget("fg_color"))
+        # print(test.cget("fg_color"))
         # test.configure(fg_color=("default", "default"))
 
         self._add_btn("⚙️ 설정")
