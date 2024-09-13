@@ -51,9 +51,15 @@ class SideMenu(ctk.CTkFrame):
         super().__init__(master, **kw)
         self.btns = []
 
+        self.configure(
+            # fg_color="transparent",
+            corner_radius=0,
+        )
+
         self.inner_side_menu = ctk.CTkFrame(
             self,
             fg_color="transparent",
+            corner_radius=0,
         )
         self.inner_side_menu.pack(side="left", fill="x")
 

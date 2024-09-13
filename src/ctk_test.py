@@ -2,6 +2,7 @@ from typing import Tuple, Union
 import customtkinter as ctk
 from SideMenu import SideMenu
 
+
 ctk.set_appearance_mode("system")
 ctk.set_default_color_theme("green")
 app = ctk.CTk()
@@ -49,14 +50,23 @@ search_term_frame.pack(
     padx=10,
 )
 
-search_target_combobox = ctk.CTkComboBox(
+
+def on_search_filter_changed(value: str):
+    print(value)
+
+
+search_target_combobox = ctk.CTkOptionMenu(
     search_term_frame,
     width=100,
     height=30,
     values=["도서명", "저자", "출판사"],
     # border_width=1,
     corner_radius=0,
-    # justify="center",
+    fg_color=ctk.ThemeManager.theme["CTkComboBox"]["fg_color"],
+    button_color=ctk.ThemeManager.theme["CTkComboBox"]["button_color"],
+    button_hover_color=ctk.ThemeManager.theme["CTkComboBox"]["button_hover_color"],
+    anchor="center",
+    command=on_search_filter_changed,
 )
 search_target_combobox.pack(side="left", ipadx=10)
 
