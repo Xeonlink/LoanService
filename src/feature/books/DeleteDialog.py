@@ -52,7 +52,6 @@ class DeleteDialog(ctk.CTkToplevel):
         ctk.CTkButton(
             action_frame,
             text="취소",
-            corner_radius=0,
             border_width=0,
             fg_color="transparent",
             command=self.close,
@@ -61,7 +60,6 @@ class DeleteDialog(ctk.CTkToplevel):
         ctk.CTkButton(
             action_frame,
             text="삭제",
-            corner_radius=0,
             border_width=0,
             command=self._delete,
         ).pack(side="left", fill="x", expand=True)

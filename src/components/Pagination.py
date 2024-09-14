@@ -59,7 +59,6 @@ class Pagination(ctk.CTkFrame):
             text="◀ 이전",
             width=70,
             height=30,
-            corner_radius=0,
             fg_color=ctk.ThemeManager.theme["CTkFrame"]["fg_color"],
             state="disabled" if page == 1 else "normal",
             command=on_prev_click,
@@ -71,7 +70,6 @@ class Pagination(ctk.CTkFrame):
             text=f"{page} / {total_page}",
             width=label_width,
             height=30,
-            corner_radius=0,
         )
         self.page_label.pack(side="left")
 
@@ -80,7 +78,6 @@ class Pagination(ctk.CTkFrame):
             text="다음 ▶",
             width=70,
             height=30,
-            corner_radius=0,
             fg_color=ctk.ThemeManager.theme["CTkFrame"]["fg_color"],
             state="disabled" if page == total_page else "normal",
             command=on_next_click,

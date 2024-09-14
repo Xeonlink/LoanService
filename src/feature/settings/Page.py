@@ -42,29 +42,29 @@ class Page(ctk.CTkFrame):
             **kwargs,
         )
 
-        theme_frame = ctk.CTkFrame(
+        inner_frame = ctk.CTkFrame(
             self,
-            corner_radius=0,
+            # fg_color="transparent",
+        )
+        inner_frame.pack(side="top", fill="y", expand=True)
+
+        theme_frame = ctk.CTkFrame(
+            inner_frame,
             fg_color="transparent",
         )
-        theme_frame.pack(side="top", fill="x", pady=5)
+        theme_frame.pack(side="top", fill="x", pady=5, padx=10)
 
-        theme_label_font = ctk.CTkFont(
-            family="Arial",
-            size=14,
-            weight="bold",
-        )
         theme_label = ctk.CTkLabel(
             theme_frame,
             text="🎨 테마 설정",
-            font=theme_label_font,
+            font=("Arial", 14, "bold"),
             anchor="w",
+            width=400,
         )
         theme_label.pack(side="top", fill="x", expand=True, padx=5)
 
         theme_segmentedbutton = ctk.CTkSegmentedButton(
             theme_frame,
-            corner_radius=0,
             values=["밝은", "어두운", "적응하는"],
             command=self._on_theme_click,
         )
@@ -79,28 +79,21 @@ class Page(ctk.CTkFrame):
         theme_sublabel.pack(side="top", fill="x", expand=True, padx=5)
 
         license_frame = ctk.CTkFrame(
-            self,
-            corner_radius=0,
+            inner_frame,
             fg_color="transparent",
         )
-        license_frame.pack(side="top", fill="x", pady=5)
+        license_frame.pack(side="top", fill="x", pady=5, padx=10)
 
-        license_label_font = ctk.CTkFont(
-            family="Arial",
-            size=14,
-            weight="bold",
-        )
         license_label = ctk.CTkLabel(
             license_frame,
             text="👀 오픈소스 라이센스",
             anchor="w",
-            font=license_label_font,
+            font=("Arial", 14, "bold"),
         )
         license_label.pack(side="top", padx=5, fill="x")
 
         license_textbox_frame = ctk.CTkFrame(
             license_frame,
-            corner_radius=0,
         )
         license_textbox_frame.pack(side="top", fill="both", expand=True)
 
@@ -108,7 +101,6 @@ class Page(ctk.CTkFrame):
         license_str = "".join(fd.readlines())
         license_textbox = ctk.CTkTextbox(
             license_textbox_frame,
-            corner_radius=0,
             fg_color="transparent",
             wrap="word",
         )
@@ -117,28 +109,21 @@ class Page(ctk.CTkFrame):
         license_textbox.pack(side="top", fill="both", expand=True, padx=5, pady=5)
 
         terms_of_service_frame = ctk.CTkFrame(
-            self,
-            corner_radius=0,
+            inner_frame,
             fg_color="transparent",
         )
-        terms_of_service_frame.pack(side="top", fill="x", pady=5)
+        terms_of_service_frame.pack(side="top", fill="x", pady=5, padx=10)
 
-        terms_of_service_label_font = ctk.CTkFont(
-            family="Arial",
-            size=14,
-            weight="bold",
-        )
         terms_of_service_label = ctk.CTkLabel(
             terms_of_service_frame,
             text="📝 이용약관",
             anchor="w",
-            font=terms_of_service_label_font,
+            font=("Arial", 14, "bold"),
         )
         terms_of_service_label.pack(side="top", padx=5, fill="x")
 
         terms_of_service_textbox_frame = ctk.CTkFrame(
             terms_of_service_frame,
-            corner_radius=0,
         )
         terms_of_service_textbox_frame.pack(side="top", fill="both", expand=True)
 
@@ -146,7 +131,6 @@ class Page(ctk.CTkFrame):
         terms_of_service_str = "".join(fd.readlines())
         terms_of_service_textbox = ctk.CTkTextbox(
             terms_of_service_textbox_frame,
-            corner_radius=0,
             fg_color="transparent",
             wrap="word",
         )

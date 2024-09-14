@@ -112,7 +112,6 @@ class EditDialog(ctk.CTkToplevel):
         ctk.CTkButton(
             root_frame,
             text="🔥 테스트용으로 채우기",
-            corner_radius=0,
             border_width=0,
             command=self._debug_fill,
         ).pack(side="top", fill="x", pady=5)
@@ -167,7 +166,6 @@ class EditDialog(ctk.CTkToplevel):
         self.error_textbox = ctk.CTkTextbox(
             root_frame,
             height=150,
-            corner_radius=0,
             fg_color=ctk.ThemeManager.theme["CTkFrame"]["fg_color"],
             state="disabled",
         )
@@ -180,7 +178,6 @@ class EditDialog(ctk.CTkToplevel):
         close_btn = ctk.CTkButton(
             action_frame,
             text="닫기 ⛌",
-            corner_radius=0,
             border_width=0,
             command=self.close,
             fg_color="transparent",
@@ -191,7 +188,6 @@ class EditDialog(ctk.CTkToplevel):
         clear_btn = ctk.CTkButton(
             action_frame,
             text="되돌리기 ⌫",
-            corner_radius=0,
             border_width=0,
             command=self.reset_all,
             fg_color="transparent",
@@ -202,7 +198,6 @@ class EditDialog(ctk.CTkToplevel):
         add_btn = ctk.CTkButton(
             action_frame,
             text="수정하기 📝",
-            corner_radius=0,
             border_width=0,
             command=self._on_update_click,
             width=120,

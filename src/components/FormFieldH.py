@@ -41,7 +41,6 @@ class FormFieldH(ctk.CTkFrame):
 
         title_label = ctk.CTkLabel(
             self,
-            corner_radius=0,
             fg_color="transparent",
             text=title_text,
             font=("Arial", 14),
@@ -52,7 +51,6 @@ class FormFieldH(ctk.CTkFrame):
 
         self._input = Input(
             self,
-            corner_radius=0,
             fg_color="transparent",
             placeholder_text=placeholder_text,
             height=input_height,

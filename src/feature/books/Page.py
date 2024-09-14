@@ -39,7 +39,6 @@ class Page(ctk.CTkFrame):
     def _create_book_tr(self, index: int, book: Book) -> ctk.CTkFrame:
         tr_frame = ctk.CTkFrame(
             self.tbody_frame,
-            corner_radius=0,
             fg_color="transparent",
         )
 
@@ -48,7 +47,6 @@ class Page(ctk.CTkFrame):
             text=str(index + 1),
             width=40,
             height=30,
-            corner_radius=0,
         )
         index_td_label.pack(side="left")
 
@@ -57,7 +55,6 @@ class Page(ctk.CTkFrame):
             text=str(book.title),
             width=100,
             height=30,
-            corner_radius=0,
             anchor="w",
         )
         title_td_label.pack(side="left", fill="x", expand=True)
@@ -67,7 +64,6 @@ class Page(ctk.CTkFrame):
             text=str(book.author),
             width=120,
             height=30,
-            corner_radius=0,
             anchor="w",
         )
         author_td_label.pack(side="left")
@@ -77,7 +73,6 @@ class Page(ctk.CTkFrame):
             text=str(book.publisher),
             width=120,
             height=30,
-            corner_radius=0,
             anchor="w",
         )
         publisher_td_label.pack(side="left")
@@ -87,7 +82,6 @@ class Page(ctk.CTkFrame):
             text=str(book.classification_num),
             width=80,
             height=30,
-            corner_radius=0,
             anchor="w",
         )
         classification_num_td_label.pack(side="left")
@@ -97,7 +91,6 @@ class Page(ctk.CTkFrame):
             text="📝",
             width=40,
             height=30,
-            corner_radius=0,
             fg_color="transparent",
             command=lambda: self._show_book_edit_toplevel(book),
         )
@@ -108,7 +101,6 @@ class Page(ctk.CTkFrame):
             text="🗑️",
             width=40,
             height=30,
-            corner_radius=0,
             fg_color="transparent",
             command=lambda: self._show_book_delete_toplevel(book),
         )
@@ -178,7 +170,7 @@ class Page(ctk.CTkFrame):
             widget.destroy()
 
     def __init__(self, master: Any):
-        super().__init__(master, corner_radius=0, fg_color="transparent")
+        super().__init__(master, fg_color="transparent")
 
         self.add_dialog: books.AddDialog | None = None
         self.edit_dialog: books.EditDialog | None = None
@@ -187,7 +179,6 @@ class Page(ctk.CTkFrame):
 
         search_frame = ctk.CTkFrame(
             self,
-            corner_radius=0,
             fg_color="transparent",
         )
         search_frame.pack(side="top", fill="x")
@@ -197,7 +188,6 @@ class Page(ctk.CTkFrame):
             text="도서 추가 ✚",
             width=100,
             height=30,
-            corner_radius=0,
             command=self._show_book_add_toplevel,
         )
         book_add_btn.pack(side="left")
@@ -223,7 +213,6 @@ class Page(ctk.CTkFrame):
             width=100,
             height=30,
             values=["도서명", "저자", "출판사"],
-            corner_radius=0,
             anchor="center",
         )
         self.search_filter_combobox.pack(side="left", ipadx=10)
@@ -240,7 +229,6 @@ class Page(ctk.CTkFrame):
             text="검색 🔍",
             width=100,
             height=30,
-            corner_radius=0,
             command=self._on_search_click,
         )
         search_btn.pack(side="left")
@@ -252,19 +240,16 @@ class Page(ctk.CTkFrame):
         # --------------------------------------------
         table_frame = ctk.CTkFrame(
             self,
-            corner_radius=0,
         )
         table_frame.pack(expand=True, fill="both")
 
         thead_frame = ctk.CTkFrame(
             table_frame,
-            corner_radius=0,
         )
         thead_frame.pack(side="top", fill="x")
 
         tr_frame = ctk.CTkFrame(
             thead_frame,
-            corner_radius=0,
             fg_color=ctk.ThemeManager.theme["CTkEntry"]["fg_color"],
         )
         tr_frame.pack(side="top", fill="x")
@@ -274,7 +259,6 @@ class Page(ctk.CTkFrame):
             text="번호",
             width=40,
             height=30,
-            corner_radius=0,
         )
         index_td_label.pack(side="left")
 
@@ -283,7 +267,6 @@ class Page(ctk.CTkFrame):
             text="제목",
             width=100,
             height=30,
-            corner_radius=0,
             anchor="w",
         )
         title_td_label.pack(side="left", fill="x", expand=True)
@@ -293,7 +276,6 @@ class Page(ctk.CTkFrame):
             text="저자",
             width=120,
             height=30,
-            corner_radius=0,
             anchor="w",
         )
         author_td_label.pack(side="left")
@@ -303,7 +285,6 @@ class Page(ctk.CTkFrame):
             text="출판사",
             width=120,
             height=30,
-            corner_radius=0,
             anchor="w",
         )
         publisher_td_label.pack(side="left")
@@ -313,7 +294,6 @@ class Page(ctk.CTkFrame):
             text="분류번호",
             width=80,
             height=30,
-            corner_radius=0,
             anchor="w",
         )
         classification_num_td_label.pack(side="left")
@@ -323,7 +303,6 @@ class Page(ctk.CTkFrame):
             text="수정",
             width=40,
             height=30,
-            corner_radius=0,
         )
         modifiy_td_label.pack(side="left")
 
@@ -332,13 +311,11 @@ class Page(ctk.CTkFrame):
             text="삭제",
             width=40,
             height=30,
-            corner_radius=0,
         )
         delete_td_label.pack(side="left")
 
         self.tbody_frame = ctk.CTkFrame(
             table_frame,
-            corner_radius=0,
             fg_color="transparent",
         )
         self.tbody_frame.pack(fill="both", expand=True)
@@ -350,14 +327,12 @@ class Page(ctk.CTkFrame):
         # --------------------------------------------
         footer_frame = ctk.CTkFrame(
             self,
-            corner_radius=0,
             fg_color="transparent",
         )
         footer_frame.pack(fill="x")
 
         footer_left_frame = ctk.CTkFrame(
             footer_frame,
-            corner_radius=0,
             fg_color="transparent",
             height=30,
             # width=50,
@@ -374,7 +349,6 @@ class Page(ctk.CTkFrame):
             width=120,
             height=30,
             values=list(self.per_page_map.keys()),
-            corner_radius=0,
             anchor="center",
         )
         self.per_page_combobox.pack(side="left")

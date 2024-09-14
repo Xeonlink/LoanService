@@ -25,7 +25,6 @@ class SideMenu(ctk.CTkFrame):
             height=50,
             text_color=("#111111", "gray98"),  # TODO: 테마에 맞게 나중에 일괄수정 필요
             font=("Arial", 14),
-            corner_radius=0,
             fg_color="transparent",
         )
 
@@ -70,6 +69,5 @@ class SideMenu(ctk.CTkFrame):
         self.center_frame = ctk.CTkFrame(
             self,
             fg_color="transparent",
-            corner_radius=0,
         )
         self.center_frame.pack(side="left", fill="x")

@@ -115,7 +115,6 @@ class AddDialog(ctk.CTkToplevel):
         ctk.CTkButton(
             root_frame,
             text="🔥 테스트용으로 채우기",
-            corner_radius=0,
             border_width=0,
             command=self._debug_fill,
         ).pack(side="top", fill="x", pady=5)
@@ -165,7 +164,6 @@ class AddDialog(ctk.CTkToplevel):
         self.error_textbox = ctk.CTkTextbox(
             root_frame,
             height=150,
-            corner_radius=0,
             fg_color=ctk.ThemeManager.theme["CTkFrame"]["fg_color"],
             state="disabled",
         )
@@ -178,7 +176,6 @@ class AddDialog(ctk.CTkToplevel):
         close_btn = ctk.CTkButton(
             action_frame,
             text="닫기 ⛌",
-            corner_radius=0,
             border_width=0,
             command=self.close,
             fg_color="transparent",
@@ -189,7 +186,6 @@ class AddDialog(ctk.CTkToplevel):
         clear_btn = ctk.CTkButton(
             action_frame,
             text="모두 지우기 ⌫",
-            corner_radius=0,
             border_width=0,
             command=self.reset_all,
             fg_color="transparent",
@@ -200,7 +196,6 @@ class AddDialog(ctk.CTkToplevel):
         add_btn = ctk.CTkButton(
             action_frame,
             text="추가하기 ✚",
-            corner_radius=0,
             border_width=0,
             command=self.on_add_click,
             width=120,

@@ -95,7 +95,7 @@ def on_settings_btn_click():
         side="left",
         fill="both",
         expand=True,
-        padx=180,
+        padx=10,
         pady=10,
     )
 
