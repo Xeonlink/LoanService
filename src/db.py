@@ -1,3 +1,4 @@
+from typing import Literal
 from peewee import (
     SqliteDatabase,
     Model,
@@ -24,9 +25,19 @@ class Book(BaseModel):
     """A model for a book."""
 
     id = UUIDField(null=False, unique=True, primary_key=True, default=uuid.uuid4)
-    barcode_id = IntegerField(null=False, unique=True)
+    barcode_id = CharField(null=False, unique=True)
     title = CharField(null=False)
     author = CharField(null=False)
+    publisher = CharField(null=False)
+    classification_num = CharField(null=False)
+
+    @classmethod
+    def is_barcode_exist(cls, barcode_id: str) -> bool:
+        try:
+            Book.get(barcode_id=barcode_id)
+            return True
+        except:
+            return False
 
 
 class User(BaseModel):
