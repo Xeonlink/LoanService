@@ -1,6 +1,5 @@
-from typing import Any, Tuple
-import customtkinter as ctk
 from utils import LangManager
+import customtkinter as ctk
 
 
 class Label(ctk.CTkLabel):
@@ -13,14 +12,14 @@ class Label(ctk.CTkLabel):
 
     def __init__(
         self,
-        master: Any,
+        master,
         width: int = 0,
         height: int = 28,
         corner_radius: int | None = None,
-        bg_color: str | Tuple[str, str] = "transparent",
-        fg_color: str | Tuple[str, str] | None = None,
-        text_color: str | Tuple[str, str] | None = None,
-        text_color_disabled: str | Tuple[str, str] | None = None,
+        bg_color: str | tuple[str, str] = "transparent",
+        fg_color: str | tuple[str, str] | None = None,
+        text_color: str | tuple[str, str] | None = None,
+        text_color_disabled: str | tuple[str, str] | None = None,
         text: str = "CTkLabel",
         font: tuple | ctk.CTkFont | None = None,
         image: ctk.CTkImage | None = None,

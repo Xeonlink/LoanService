@@ -1,7 +1,8 @@
-from typing import Any, Callable, Tuple, Literal
+from typing import Literal
+from db import Book
+import collections.abc as c
 import customtkinter as ctk
 import widgets
-from db import Book
 import re
 import random
 
@@ -11,7 +12,7 @@ class EditDialog(ctk.CTkToplevel):
     mode: Literal["recreate", "focus"] = "focus"
 
     @classmethod
-    def show(cls, book: Book, on_close: Callable[[], Any] | None = None) -> None:
+    def show(cls, book: Book, on_close: c.Callable[[], None] | None = None) -> None:
 
         if cls.dialog is None:
             cls.dialog = cls(book=book, on_close=on_close)
@@ -102,10 +103,10 @@ class EditDialog(ctk.CTkToplevel):
     def __init__(
         self,
         *args,
-        fg_color: str | Tuple[str, str] | None = None,
+        fg_color: str | tuple[str, str] | None = None,
         #
         book: Book,
-        on_close: Callable[[], Any] | None = None,
+        on_close: c.Callable[[], None] | None = None,
         **kwargs,
     ):
         super().__init__(*args, fg_color=fg_color, **kwargs)

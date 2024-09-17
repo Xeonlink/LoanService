@@ -1,4 +1,3 @@
-from typing import Tuple, Any
 import customtkinter as ctk
 
 
@@ -14,18 +13,18 @@ class TextArea(ctk.CTkTextbox):
 
     def __init__(
         self,
-        master: Any,
+        master,
         width: int = 200,
         height: int = 200,
         corner_radius: int | None = None,
         border_width: int | None = None,
         border_spacing: int = 3,
-        bg_color: str | Tuple[str, str] = "transparent",
-        fg_color: str | Tuple[str, str] | None = None,
-        border_color: str | Tuple[str, str] | None = None,
+        bg_color: str | tuple[str, str] = "transparent",
+        fg_color: str | tuple[str, str] | None = None,
+        border_color: str | tuple[str, str] | None = None,
         text_color: str | None = None,
-        scrollbar_button_color: str | Tuple[str, str] | None = None,
-        scrollbar_button_hover_color: str | Tuple[str, str] | None = None,
+        scrollbar_button_color: str | tuple[str, str] | None = None,
+        scrollbar_button_hover_color: str | tuple[str, str] | None = None,
         font: tuple | ctk.CTkFont | None = None,
         activate_scrollbars: bool = True,
         #

@@ -1,12 +1,10 @@
-from typing import Any, Callable, Tuple, Generic, TypeVar
-import tkinter
-import customtkinter as ctk
 from utils import LangManager
+import collections.abc as c
+import customtkinter as ctk
+import tkinter
 
-T = TypeVar("T")
 
-
-class Select(ctk.CTkOptionMenu, Generic[T]):
+class Select[T](ctk.CTkOptionMenu):
     """
     CTkOptionMenu에서 values속성의 기능을 없애고, options속성을 추가한 컴포넌트.
 
@@ -21,31 +19,31 @@ class Select(ctk.CTkOptionMenu, Generic[T]):
 
     def __init__(
         self,
-        master: Any,
+        master,
         width: int = 140,
         height: int = 28,
         corner_radius: int | None = None,
-        bg_color: str | Tuple[str, str] = "transparent",
-        fg_color: str | Tuple[str, str] | None = None,
-        button_color: str | Tuple[str, str] | None = None,
-        button_hover_color: str | Tuple[str, str] | None = None,
-        text_color: str | Tuple[str, str] | None = None,
-        text_color_disabled: str | Tuple[str, str] | None = None,
-        dropdown_fg_color: str | Tuple[str, str] | None = None,
-        dropdown_hover_color: str | Tuple[str, str] | None = None,
-        dropdown_text_color: str | Tuple[str, str] | None = None,
-        font: Tuple | ctk.CTkFont | None = None,
-        dropdown_font: Tuple | ctk.CTkFont | None = None,
+        bg_color: str | tuple[str, str] = "transparent",
+        fg_color: str | tuple[str, str] | None = None,
+        button_color: str | tuple[str, str] | None = None,
+        button_hover_color: str | tuple[str, str] | None = None,
+        text_color: str | tuple[str, str] | None = None,
+        text_color_disabled: str | tuple[str, str] | None = None,
+        dropdown_fg_color: str | tuple[str, str] | None = None,
+        dropdown_hover_color: str | tuple[str, str] | None = None,
+        dropdown_text_color: str | tuple[str, str] | None = None,
+        font: tuple | ctk.CTkFont | None = None,
+        dropdown_font: tuple | ctk.CTkFont | None = None,
         values: list[str] = [],
         variable: tkinter.Variable | None = None,
         state: str = tkinter.NORMAL,
         hover: bool = True,
-        command: Callable[[T], Any] | None = None,
+        command: c.Callable[[T], None] | None = None,
         dynamic_resizing: bool = True,
         anchor: str = "w",
         #
         options: dict[str, T] = {},
-        **kwargs
+        **kwargs,
     ):
         values_from_options = list(map(LangManager.get_text, list(options.keys())))
         super().__init__(
@@ -71,7 +69,7 @@ class Select(ctk.CTkOptionMenu, Generic[T]):
             command=lambda text: command(self._options_map[text]) if command else None,
             dynamic_resizing=dynamic_resizing,
             anchor=anchor,
-            **kwargs
+            **kwargs,
         )
 
         self._raw_options_map = options

@@ -1,6 +1,5 @@
-from typing import Any, Tuple
 import customtkinter as ctk
-from widgets.Input import Input
+import widgets
 
 
 class FormField(ctk.CTkFrame):
@@ -8,15 +7,15 @@ class FormField(ctk.CTkFrame):
 
     def __init__(
         self,
-        master: Any,
+        master,
         width: int = 200,
         height: int = 200,
         corner_radius: int | str | None = None,
         border_width: int | str | None = None,
-        bg_color: str | Tuple[str, str] = "transparent",
-        fg_color: str | Tuple[str, str] = "transparent",
-        border_color: str | Tuple[str, str] | None = None,
-        background_corner_colors: Tuple[str | Tuple[str, str]] | None = None,
+        bg_color: str | tuple[str, str] = "transparent",
+        fg_color: str | tuple[str, str] = "transparent",
+        border_color: str | tuple[str, str] | None = None,
+        background_corner_colors: tuple[str | tuple[str, str]] | None = None,
         overwrite_preferred_drawing_method: str | None = None,
         #
         title_text: str = "",
@@ -36,7 +35,7 @@ class FormField(ctk.CTkFrame):
             border_color,
             background_corner_colors,
             overwrite_preferred_drawing_method,
-            **kwargs
+            **kwargs,
         )
 
         self._title_label = ctk.CTkLabel(
@@ -48,13 +47,21 @@ class FormField(ctk.CTkFrame):
         )
         self._title_label.pack(side="top", fill="x", padx=2)
 
-        self._input = Input(
+        self._input = widgets.Input(
             self,
-            fg_color="transparent",
             placeholder_text=placeholder_text,
-            height=input_height,
         )
-        self._input.pack(side="top", fill="x")
+        self._input.pack(side="top", fill="both", expand=True)
+
+        self._erase_button = widgets.Button(
+            self,
+            text="지우기 ⌫",
+            text_key="erase_button",
+            width=80,
+            fg_color=ctk.ThemeManager.theme["CTkEntry"]["fg_color"],
+            command=self._input.clear,
+        )
+        self._erase_button.pack(side="left", fill="y")
 
         if sub_text:
             self._sub_label = ctk.CTkLabel(

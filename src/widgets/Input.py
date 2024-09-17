@@ -1,81 +1,73 @@
-from tkinter.constants import NORMAL
-from typing import Any, Tuple
+from utils import LangManager
+import tkinter
 import customtkinter as ctk
-import widgets
 
 
-class Input(ctk.CTkFrame):
+class Input(ctk.CTkEntry):
     def __init__(
         self,
-        master: Any,
-        width: int = 200,
-        height: int = 200,
-        corner_radius: int | str | None = None,
-        border_width: int | str | None = None,
-        bg_color: str | Tuple[str, str] = "transparent",
-        fg_color: str | Tuple[str, str] | None = None,
-        border_color: str | Tuple[str, str] | None = None,
-        background_corner_colors: Tuple[str | Tuple[str, str]] | None = None,
-        overwrite_preferred_drawing_method: str | None = None,
-        #
+        master,
+        width: int = 140,
+        height: int = 28,
+        corner_radius: int | None = None,
+        border_width: int = 0,
+        bg_color: str | tuple[str, str] = "transparent",
+        fg_color: str | tuple[str, str] | None = None,
+        border_color: str | tuple[str, str] | None = None,
+        text_color: str | tuple[str, str] | None = None,
+        placeholder_text_color: str | tuple[str, str] | None = None,
+        textvariable: ctk.Variable | None = None,
         placeholder_text: str | None = None,
-        text: str | None = None,
-        eraseable: bool = False,
-        **kwargs,
+        font: tuple | ctk.CTkFont | None = None,
+        state: str = tkinter.NORMAL,
+        #
+        placeholder_text_key: str | None = None,
+        **kwargs
     ):
         super().__init__(
-            master,
-            width,
-            height,
-            corner_radius,
-            border_width,
-            bg_color,
-            fg_color,
-            border_color,
-            background_corner_colors,
-            overwrite_preferred_drawing_method,
-            **kwargs,
-        )
-
-        self._erasable = eraseable
-
-        self._entry = ctk.CTkEntry(
-            self,
+            master=master,
+            width=width,
             height=height,
-            # fg_color="transparent",
-            border_width=0,
+            corner_radius=corner_radius,
+            border_width=border_width,
+            bg_color=bg_color,
+            fg_color=fg_color,
+            border_color=border_color,
+            text_color=text_color,
+            placeholder_text_color=placeholder_text_color,
+            textvariable=textvariable,
             placeholder_text=placeholder_text,
-            **kwargs,
+            font=font,
+            state=state,
+            **kwargs
         )
-        self._entry.pack(side="left", fill="x", expand=True)
-        if text:
-            self._entry.insert(0, text)
 
-        self._erase_button = widgets.Button(
-            self,
-            text="지우기 ⌫",
-            text_key="widgets_input_erase_button",
-            width=80,
-            height=height,
-            border_width=0,
-            fg_color=ctk.ThemeManager.theme["CTkEntry"]["fg_color"],
-            command=self.clear,
-            **kwargs,
-        )
-        self._erase_button.pack(side="left")
+        if placeholder_text_key is not None:
+            self._placeholder_text_unsubscriber = LangManager.subscribe(
+                key=placeholder_text_key,
+                callback=lambda value: self.configure(placeholder_text=value),
+            )
+            self.configure(placeholder_text=LangManager.get_text(placeholder_text_key))
+        else:
+            self._placeholder_text_unsubscriber = None
 
     def clear(self) -> None:
         """
         Input의 내용을 없앰, 단 내용이 없어진 자리에 placeholder_text가 다시 나타나지는 않음.
         다시 나타나게 하려면, 포커스를 줬다가 뺏으면 placeholder_text가 나타남.
         """
-        self._entry.delete(0, len(self._entry.get()))
+        self.delete(0, tkinter.END)
 
     def get(self) -> str:
-        """Input의 내용을 반환"""
-        return self._entry.get()
+        """Input의 내용을 가져옴"""
+        return super().get()
 
     def set(self, value: str) -> None:
         """Input의 내용을 설정"""
         self._entry.delete(0, len(self._entry.get()))
         self._entry.insert(0, value)
+
+    def destroy(self):
+        if self._placeholder_text_unsubscriber is not None:
+            self._placeholder_text_unsubscriber()
+        super().destroy()

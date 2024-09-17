@@ -1,4 +1,3 @@
-from typing import Tuple, Any
 import customtkinter as ctk
 import widgets
 from utils import Utils, LangManager
@@ -39,15 +38,15 @@ class Page(ctk.CTkFrame):
 
     def __init__(
         self,
-        master: Any,
+        master,
         width: int = 200,
         height: int = 200,
         corner_radius: int | str | None = None,
         border_width: int | str | None = None,
-        bg_color: str | Tuple[str, str] = "transparent",
-        fg_color: str | Tuple[str, str] | None = "transparent",
-        border_color: str | Tuple[str, str] | None = None,
-        background_corner_colors: Tuple[str | Tuple[str, str]] | None = None,
+        bg_color: str | tuple[str, str] = "transparent",
+        fg_color: str | tuple[str, str] | None = "transparent",
+        border_color: str | tuple[str, str] | None = None,
+        background_corner_colors: tuple[str | tuple[str, str]] | None = None,
         overwrite_preferred_drawing_method: str | None = None,
         **kwargs
     ):

@@ -1,5 +1,5 @@
+import collections.abc as c
 import customtkinter as ctk
-from typing import Any, Callable, Tuple
 import widgets
 
 
@@ -19,7 +19,7 @@ class SideMenu(ctk.CTkFrame):
         self,
         text: str = "",
         text_key: str | None = None,
-        on_click: Callable[[], None] = lambda: None,
+        on_click: c.Callable[[], None] = lambda: None,
     ) -> ctk.CTkButton:
         btn = widgets.Button(
             self.center_frame,
@@ -41,15 +41,15 @@ class SideMenu(ctk.CTkFrame):
 
     def __init__(
         self,
-        master: Any,
+        master,
         width: int = 200,
         height: int = 200,
         corner_radius: int = 0,
         border_width: int | str | None = None,
-        bg_color: str | Tuple[str, str] = "transparent",
-        fg_color: str | Tuple[str, str] | None = None,
-        border_color: str | Tuple[str, str] | None = None,
-        background_corner_colors: Tuple[str | Tuple[str, str]] | None = None,
+        bg_color: str | tuple[str, str] = "transparent",
+        fg_color: str | tuple[str, str] | None = None,
+        border_color: str | tuple[str, str] | None = None,
+        background_corner_colors: tuple[str | tuple[str, str]] | None = None,
         overwrite_preferred_drawing_method: str | None = None,
         **kwargs
     ):

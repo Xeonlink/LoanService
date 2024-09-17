@@ -1,6 +1,6 @@
-from typing import Any, Callable, Tuple
-import customtkinter as ctk
 from utils import LangManager
+import collections.abc as c
+import customtkinter as ctk
 
 
 class Button(ctk.CTkButton):
@@ -13,28 +13,28 @@ class Button(ctk.CTkButton):
 
     def __init__(
         self,
-        master: Any,
+        master,
         width: int = 140,
         height: int = 28,
         corner_radius: int | None = None,
         border_width: int | None = None,
         border_spacing: int = 2,
-        bg_color: str | Tuple[str, str] = "transparent",
-        fg_color: str | Tuple[str, str] | None = None,
-        hover_color: str | Tuple[str, str] | None = None,
-        border_color: str | Tuple[str, str] | None = None,
-        text_color: str | Tuple[str, str] | None = None,
-        text_color_disabled: str | Tuple[str, str] | None = None,
-        background_corner_colors: Tuple[str | Tuple[str, str]] | None = None,
+        bg_color: str | tuple[str, str] = "transparent",
+        fg_color: str | tuple[str, str] | None = None,
+        hover_color: str | tuple[str, str] | None = None,
+        border_color: str | tuple[str, str] | None = None,
+        text_color: str | tuple[str, str] | None = None,
+        text_color_disabled: str | tuple[str, str] | None = None,
+        background_corner_colors: tuple[str | tuple[str, str]] | None = None,
         round_width_to_even_numbers: bool = True,
         round_height_to_even_numbers: bool = True,
         text: str = "CTkButton",
-        font: Tuple | ctk.CTkFont | None = None,
+        font: tuple | ctk.CTkFont | None = None,
         textvariable: ctk.Variable | None = None,
-        image: ctk.CTkImage | Any | None = None,
+        image: ctk.CTkImage | None = None,
         state: str = "normal",
         hover: bool = True,
-        command: Callable[[], Any] | None = None,
+        command: c.Callable[[], None] | None = None,
         compound: str = "left",
         anchor: str = "center",
         #

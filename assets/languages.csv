@@ -4,8 +4,33 @@ settings_language_label,🌐 언어 설정,🌐 Language
 sidemenu_users_button,🧔‍♂️ 회원관리,🧔‍♂️ Users
 sidemenu_books_button,📗 도서관리,📗 Books
 sidemenu_settings_button,⚙️ 설정,⚙️ Setting
+,,
 users_page_add_user_button,회원 추가 ✚,Add User ✚
-widgets_input_erase_button,지우기 ⌫,Clear ⌫
 users_page_search_filter_select_name,이름,Name
 users_page_serach_filter_select_contact,연락처,Contact
-users_page_search_button,검색 🔍,Search 🔍
+users_page_table_column_loan_code,대출코드,Loan Code
+users_page_table_column_name,이름,Name
+users_page_table_column_contact,연락처,Contact
+users_page_table_column_edit,수정,Edit
+users_page_table_column_delete,삭제,Delete
+,,
+books_page_add_book_button,도서 추가 ✚,Add Book ✚
+books_page_search_filter_select_title,제목,Title
+books_page_search_filter_select_author,저자,Author
+books_page_search_filter_select_publisher,출판사,Publisher
+books_page_table_column_title,제목,Title
+books_page_table_column_author,저자,Author
+books_page_table_column_publisher,출판사,Publisher
+books_page_table_column_classification_num,분류번호,Code
+books_page_table_column_edit,수정,Edit
+books_page_table_column_delete,삭제,Delete
+,,
+search_input_placeholder,검색어를 입력하세요.,Enter your searh term
+erase_button,지우기 ⌫,Clear ⌫
+search_button,검색 🔍,Search 🔍
+10_per_page,10개씩 보기,10 per page
+20_per_page,20개씩 보기,20 per page
+30_per_page,30개씩 보기,30 per page
+table_index,번호,Index
+pagination_prev,◀ 이전,◀ Prev
+pagination_next,다음 ▶,Next ▶

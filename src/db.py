@@ -1,20 +1,11 @@
-from typing import Literal
-from peewee import (
-    SqliteDatabase,
-    Model,
-    UUIDField,
-    IntegerField,
-    CharField,
-    ForeignKeyField,
-    DateTimeField,
-)
+import peewee
 import uuid
 
 
-db = SqliteDatabase("./data/data.db")
+db = peewee.SqliteDatabase("./data/data.db")
 
 
-class BaseModel(Model):
+class BaseModel(peewee.Model):
     """A base model that will use our Sqlite database."""
 
     class Meta:
@@ -24,12 +15,12 @@ class BaseModel(Model):
 class Book(BaseModel):
     """A model for a book."""
 
-    id = UUIDField(null=False, unique=True, primary_key=True, default=uuid.uuid4)
-    barcode_id = CharField(null=False, unique=True)
-    title = CharField(null=False)
-    author = CharField(null=False)
-    publisher = CharField(null=False)
-    classification_num = CharField(null=False)
+    id = peewee.UUIDField(null=False, unique=True, primary_key=True, default=uuid.uuid4)
+    barcode_id = peewee.CharField(null=False, unique=True)
+    title = peewee.CharField(null=False)
+    author = peewee.CharField(null=False)
+    publisher = peewee.CharField(null=False)
+    classification_num = peewee.CharField(null=False)
 
     @classmethod
     def is_barcode_exist(cls, barcode_id: str) -> bool:
@@ -43,10 +34,10 @@ class Book(BaseModel):
 class User(BaseModel):
     """A model for a user."""
 
-    id = UUIDField(null=False, unique=True, primary_key=True, default=uuid.uuid4)
-    loan_code = IntegerField(null=False, unique=True)
-    name = CharField(null=False)
-    contact = CharField(null=False, unique=True)
+    id = peewee.UUIDField(null=False, unique=True, primary_key=True, default=uuid.uuid4)
+    loan_code = peewee.IntegerField(null=False, unique=True)
+    name = peewee.CharField(null=False)
+    contact = peewee.CharField(null=False, unique=True)
 
     @classmethod
     def is_loan_code_exist(cls, loan_code: str) -> bool:
@@ -68,11 +59,11 @@ class User(BaseModel):
 class Loan(BaseModel):
     """A model for a loan."""
 
-    id = UUIDField(null=False, unique=True, primary_key=True)
-    book_id = ForeignKeyField(Book, backref="loans")
-    user_id = ForeignKeyField(User, backref="loans")
-    loan_date = DateTimeField(null=False)
-    return_date = DateTimeField(null=False)
+    id = peewee.UUIDField(null=False, unique=True, primary_key=True)
+    book_id = peewee.ForeignKeyField(Book, backref="loans")
+    user_id = peewee.ForeignKeyField(User, backref="loans")
+    loan_date = peewee.DateTimeField(null=False)
+    return_date = peewee.DateTimeField(null=False)
 
 
 db.connect()

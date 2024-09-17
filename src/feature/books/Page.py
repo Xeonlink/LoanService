@@ -1,4 +1,3 @@
-from typing import Any
 import customtkinter as ctk
 import widgets
 import widgets.Table as table
@@ -10,7 +9,7 @@ from feature import books
 class Page(ctk.CTkFrame):
     def _search(self, page: int) -> None:
         filter = self.search_filter_select.get()
-        term = self.search_term_input.get()
+        term = self.search_input.get()
         per_page = self.per_page_select.get()
 
         raw_result: list[Book]
@@ -18,7 +17,7 @@ class Page(ctk.CTkFrame):
             if not term:
                 raw_result = list(Book.select())
             else:
-                raw_result = list(Book.select().where(Book[filter].contains(term)))
+                raw_result = list(Book.select().where(Book[filter] == term))
         except Exception:
             raw_result = []
 
@@ -33,19 +32,20 @@ class Page(ctk.CTkFrame):
         self.page = page
         self.pagination.set_page(page, total_page)
 
-    def __init__(self, master: Any):
+    def __init__(
+        self,
+        master,
+    ):
         super().__init__(master, fg_color="transparent")
         self.page = 1
 
-        search_frame = ctk.CTkFrame(
-            self,
-            fg_color="transparent",
-        )
+        search_frame = ctk.CTkFrame(self, fg_color="transparent")
         search_frame.pack(side="top", fill="x")
 
-        book_add_btn = ctk.CTkButton(
+        book_add_btn = widgets.Button(
             search_frame,
             text="도서 추가 ✚",
+            text_key="books_page_add_book_button",
             width=100,
             height=30,
             command=lambda: books.AddDialog.show(
@@ -54,16 +54,8 @@ class Page(ctk.CTkFrame):
         )
         book_add_btn.pack(side="left")
 
-        search_term_frame = ctk.CTkFrame(
-            search_frame,
-            height=30,
-        )
-        search_term_frame.pack(
-            side="left",
-            fill="x",
-            expand=True,
-            padx=10,
-        )
+        search_term_frame = ctk.CTkFrame(search_frame)
+        search_term_frame.pack(side="left", fill="x", expand=True, padx=10)
 
         self.search_filter_select = widgets.Select(
             search_term_frame,
@@ -71,28 +63,39 @@ class Page(ctk.CTkFrame):
             height=30,
             anchor="center",
             options={
-                "도서명": "title",
-                "저자": "author",
-                "출판사": "publisher",
+                "books_page_search_filter_select_title": "title",
+                "books_page_search_filter_select_author": "author",
+                "books_page_search_filter_select_publisher": "publisher",
             },
         )
-        self.search_filter_select.pack(side="left", ipadx=10)
+        self.search_filter_select.pack(side="left", fill="y")
 
-        self.search_term_input = widgets.Input(
+        self.search_input = widgets.Input(
             search_term_frame,
-            placeholder_text="검색어를 입력하세요",
             height=30,
+            placeholder_text_key="search_input_placeholder",
         )
-        self.search_term_input.pack(side="left", fill="x", expand=True)
+        self.search_input.pack(side="left", fill="both", expand=True)
 
-        search_btn = ctk.CTkButton(
+        self.search_input_erase_button = widgets.Button(
+            search_term_frame,
+            text_key="erase_button",
+            width=80,
+            height=30,
+            fg_color=ctk.ThemeManager.theme["CTkEntry"]["fg_color"],
+            command=self.search_input.clear,
+        )
+        self.search_input_erase_button.pack(side="left")
+
+        search_button = widgets.Button(
             search_frame,
             text="검색 🔍",
+            text_key="search_button",
             width=100,
             height=30,
             command=lambda: self._search(1),
         )
-        search_btn.pack(side="left")
+        search_button.pack(side="left")
 
         # --------------------------------------------
         self._table = table.Table[Book](
@@ -100,6 +103,7 @@ class Page(ctk.CTkFrame):
             column_def=[
                 table.Column(
                     text="제목",
+                    text_key="books_page_table_column_title",
                     width=100,
                     anchor=table.Anchor.W,
                     expand=True,
@@ -107,18 +111,21 @@ class Page(ctk.CTkFrame):
                 ),
                 table.Column(
                     text="저자",
+                    text_key="books_page_table_column_author",
                     width=120,
                     anchor=table.Anchor.W,
                     getter=lambda book: str(book.author),
                 ),
                 table.Column(
                     text="출판사",
+                    text_key="books_page_table_column_publisher",
                     width=120,
                     anchor=table.Anchor.W,
                     getter=lambda book: str(book.publisher),
                 ),
                 table.Column(
                     text="분류번호",
+                    text_key="books_page_table_column_classification_num",
                     width=80,
                     anchor=table.Anchor.W,
                     getter=lambda book: str(book.classification_num),
@@ -126,6 +133,7 @@ class Page(ctk.CTkFrame):
                 table.Column(
                     widget=table.Widget.BUTTON,
                     text="수정",
+                    text_key="books_page_table_column_edit",
                     width=40,
                     anchor=table.Anchor.CENTER,
                     getter=lambda _: "📝",
@@ -137,6 +145,7 @@ class Page(ctk.CTkFrame):
                 table.Column(
                     widget=table.Widget.BUTTON,
                     text="삭제",
+                    text_key="books_page_table_column_delete",
                     width=40,
                     anchor=table.Anchor.CENTER,
                     getter=lambda _: "🗑️",
@@ -159,9 +168,9 @@ class Page(ctk.CTkFrame):
             height=30,
             anchor="center",
             options={
-                "10개씩 보기": 10,
-                "20개씩 보기": 20,
-                "30개씩 보기": 30,
+                "10_per_page": 10,
+                "20_per_page": 20,
+                "30_per_page": 30,
             },
         )
         self.per_page_select.pack(side="left")

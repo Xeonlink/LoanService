@@ -1,4 +1,3 @@
-from .Input import Input
 from .FormField import FormField
 from .FormFieldH import FormFieldH
 from .Pagination import Pagination
@@ -7,3 +6,5 @@ from .SelectButtons import SelectButtons
 from .Div import Div
 from .TextArea import TextArea
 from .Button import Button
+from .Input import Input
+from .Label import Label

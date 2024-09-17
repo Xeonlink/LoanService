@@ -1,4 +1,5 @@
-from typing import Any, Tuple, Literal
+from typing import Literal
+import collections.abc as c
 import customtkinter as ctk
 
 
@@ -6,15 +7,15 @@ class Div:
     @classmethod
     def create(
         cls,
-        master: Any,
+        master,
         width: int = 200,
         height: int = 200,
         corner_radius: int | str | None = None,
         border_width: int | str | None = None,
-        bg_color: str | Tuple[str, str] = "transparent",
-        fg_color: str | Tuple[str, str] | None = None,
-        border_color: str | Tuple[str, str] | None = None,
-        background_corner_colors: Tuple[str | Tuple[str, str]] | None = None,
+        bg_color: str | tuple[str, str] = "transparent",
+        fg_color: str | tuple[str, str] | None = None,
+        border_color: str | tuple[str, str] | None = None,
+        background_corner_colors: tuple[str | tuple[str, str]] | None = None,
         overwrite_preferred_drawing_method: str | None = None,
         #
         side: Literal["top", "bottom", "left", "right"] = "top",

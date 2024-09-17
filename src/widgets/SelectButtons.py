@@ -1,10 +1,8 @@
-from typing import Any, Callable, Tuple, Generic, TypeVar
+import collections.abc as c
 import customtkinter as ctk
 
-T = TypeVar("T")
 
-
-class SelectButtons(ctk.CTkSegmentedButton, Generic[T]):
+class SelectButtons[T](ctk.CTkSegmentedButton):
     """
     SegmentedButton에서 values속성의 기능을 없애고, options속성을 추가한 컴포넌트.
 
@@ -19,25 +17,25 @@ class SelectButtons(ctk.CTkSegmentedButton, Generic[T]):
 
     def __init__(
         self,
-        master: Any,
+        master,
         width: int = 140,
         height: int = 28,
         corner_radius: int | None = None,
         border_width: int = 3,
-        bg_color: str | Tuple[str, str] = "transparent",
-        fg_color: str | Tuple[str, str] | None = None,
-        selected_color: str | Tuple[str, str] | None = None,
-        selected_hover_color: str | Tuple[str, str] | None = None,
-        unselected_color: str | Tuple[str, str] | None = None,
-        unselected_hover_color: str | Tuple[str, str] | None = None,
-        text_color: str | Tuple[str, str] | None = None,
-        text_color_disabled: str | Tuple[str, str] | None = None,
-        background_corner_colors: Tuple[str | Tuple[str, str]] | None = None,
+        bg_color: str | tuple[str, str] = "transparent",
+        fg_color: str | tuple[str, str] | None = None,
+        selected_color: str | tuple[str, str] | None = None,
+        selected_hover_color: str | tuple[str, str] | None = None,
+        unselected_color: str | tuple[str, str] | None = None,
+        unselected_hover_color: str | tuple[str, str] | None = None,
+        text_color: str | tuple[str, str] | None = None,
+        text_color_disabled: str | tuple[str, str] | None = None,
+        background_corner_colors: tuple[str | tuple[str, str]] | None = None,
         font: tuple | ctk.CTkFont | None = None,
         values: list | None = None,
         variable: ctk.Variable | None = None,
         dynamic_resizing: bool = True,
-        command: Callable[[T], Any] | None = None,
+        command: c.Callable[[T], None] | None = None,
         state: str = "normal",
         #
         options: dict[str, T] = {},

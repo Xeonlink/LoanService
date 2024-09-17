@@ -1,6 +1,8 @@
-from typing import Callable, Any, Tuple, Generic, TypeVar
-import customtkinter as ctk
 from enum import Enum, auto
+import collections.abc as c
+import customtkinter as ctk
+import widgets
+import widgets.Label
 
 
 class Widget(Enum):
@@ -14,24 +16,23 @@ class Anchor(Enum):
     CENTER = "center"
 
 
-T = TypeVar("T")
-
-
-class Column(Generic[T]):
+class Column[T]:
     def __init__(
         self,
         widget: Widget = Widget.LABEL,
         text: str = "",
+        text_key: str | None = None,
         width: int = 100,
         height: int = 30,
         anchor: Anchor = Anchor.CENTER,
         expand: bool = False,
-        getter: Callable[[T], str] = lambda _: "-",
-        command: Callable[[T], None] = lambda _: None,
+        getter: c.Callable[[T], str] = lambda _: "-",
+        command: c.Callable[[T], None] = lambda _: None,
         **kwargs,
     ):
         self.widget = widget
         self.text = text
+        self.text_key = text_key
         self.width = width
         self.height = height
         self.anchor = anchor
@@ -41,7 +42,7 @@ class Column(Generic[T]):
         self.kwargs = kwargs
 
 
-class Table(ctk.CTkFrame, Generic[T]):
+class Table[T](ctk.CTkFrame):
     @classmethod
     def _create_label_td(cls, row_frame: ctk.CTkFrame, column: Column[T], data: T):
         td = ctk.CTkLabel(
@@ -75,15 +76,15 @@ class Table(ctk.CTkFrame, Generic[T]):
 
     def __init__(
         self,
-        master: Any,
+        master,
         width: int = 200,
         height: int = 200,
         corner_radius: int | str | None = None,
         border_width: int | str | None = None,
-        bg_color: str | Tuple[str, str] = "transparent",
-        fg_color: str | Tuple[str, str] | None = None,
-        border_color: str | Tuple[str, str] | None = None,
-        background_corner_colors: Tuple[str | Tuple[str, str]] | None = None,
+        bg_color: str | tuple[str, str] = "transparent",
+        fg_color: str | tuple[str, str] | None = None,
+        border_color: str | tuple[str, str] | None = None,
+        background_corner_colors: tuple[str | tuple[str, str]] | None = None,
         overwrite_preferred_drawing_method: str | None = None,
         #
         column_def: list[Column[T]] = [],
@@ -105,24 +106,29 @@ class Table(ctk.CTkFrame, Generic[T]):
 
         self._column_def: list[Column[T]] = column_def
 
+        self._init_columns()
+
+    def _init_columns(self):
         self.thead_frame = ctk.CTkFrame(
             self,
             fg_color=ctk.ThemeManager.theme["CTkEntry"]["fg_color"],
         )
         self.thead_frame.pack(side="top", fill="x")
 
-        index_label = ctk.CTkLabel(
+        index_label = widgets.Label(
             self.thead_frame,
             text="번호",
-            width=40,
+            text_key="table_index",
+            width=50,
             height=30,
         )
         index_label.pack(side="left")
 
         for column_info in self._column_def:
-            label = ctk.CTkLabel(
+            label = widgets.Label(
                 self.thead_frame,
                 text=column_info.text,
+                text_key=column_info.text_key,
                 width=column_info.width,
                 anchor=column_info.anchor.value,
             )
