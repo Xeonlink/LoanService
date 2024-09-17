@@ -1,12 +1,28 @@
-from typing import Any, Callable, Tuple
+from typing import Any, Callable, Tuple, Literal
 import customtkinter as ctk
-import components as cmp
+import widgets
 from db import Book
 import re
 import random
 
 
 class EditDialog(ctk.CTkToplevel):
+    dialog: ctk.CTkToplevel | None = None
+    mode: Literal["recreate", "focus"] = "focus"
+
+    @classmethod
+    def show(cls, book: Book, on_close: Callable[[], Any] | None = None) -> None:
+
+        if cls.dialog is None:
+            cls.dialog = cls(book=book, on_close=on_close)
+            return
+
+        if cls.mode == "recreate":
+            cls.dialog.destroy()
+            cls.dialog = cls(book=book, on_close=on_close)
+        elif cls.mode == "focus":
+            cls.dialog.focus_set()
+
     def reset_all(self) -> None:
         self.barcode_id_field.set(str(self._book.barcode_id))
         self.title_field.set(str(self._book.title))
@@ -117,7 +133,7 @@ class EditDialog(ctk.CTkToplevel):
         ).pack(side="top", fill="x", pady=5)
 
         # --------------------------------------------------
-        self.barcode_id_field = cmp.FormFieldH(
+        self.barcode_id_field = widgets.FormFieldH(
             root_frame,
             title_text="🪪 바코드*",
             sub_text="바코드를 찍어주세요.",
@@ -126,7 +142,7 @@ class EditDialog(ctk.CTkToplevel):
         )
         self.barcode_id_field.pack(side="top", fill="x", pady=5)
 
-        self.title_field = cmp.FormFieldH(
+        self.title_field = widgets.FormFieldH(
             root_frame,
             title_text="🏷️ 제목*",
             sub_text="도서명을 입력하세요",
@@ -135,7 +151,7 @@ class EditDialog(ctk.CTkToplevel):
         )
         self.title_field.pack(side="top", fill="x", pady=5)
 
-        self.author_field = cmp.FormFieldH(
+        self.author_field = widgets.FormFieldH(
             root_frame,
             title_text="👨‍🏫 저자*",
             sub_text="저자명을 입력하세요",
@@ -144,7 +160,7 @@ class EditDialog(ctk.CTkToplevel):
         )
         self.author_field.pack(side="top", fill="x", pady=5)
 
-        self.publisher_field = cmp.FormFieldH(
+        self.publisher_field = widgets.FormFieldH(
             root_frame,
             title_text="🏢 출판사*",
             sub_text="출판사명을 입력하세요",
@@ -153,7 +169,7 @@ class EditDialog(ctk.CTkToplevel):
         )
         self.publisher_field.pack(side="top", fill="x", pady=5)
 
-        self.classification_num_field = cmp.FormFieldH(
+        self.classification_num_field = widgets.FormFieldH(
             root_frame,
             title_text="🔢 분류번호*",
             sub_text="분류번호를 입력하세요",

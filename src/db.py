@@ -44,10 +44,25 @@ class User(BaseModel):
     """A model for a user."""
 
     id = UUIDField(null=False, unique=True, primary_key=True, default=uuid.uuid4)
-    barcode_id = IntegerField(null=False, unique=True)
-    name = CharField(null=False, unique=True)
+    loan_code = IntegerField(null=False, unique=True)
+    name = CharField(null=False)
     contact = CharField(null=False, unique=True)
-    email = CharField(null=False, unique=True)
+
+    @classmethod
+    def is_loan_code_exist(cls, loan_code: str) -> bool:
+        try:
+            User.get(barcode_id=loan_code)
+            return True
+        except:
+            return False
+
+    @classmethod
+    def is_contact_exist(cls, contact: str) -> bool:
+        try:
+            User.get(contact=contact)
+            return True
+        except:
+            return False
 
 
 class Loan(BaseModel):

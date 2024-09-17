@@ -1,82 +1,78 @@
-from typing import Any, Callable, Tuple
+from typing import Any, Callable, Tuple, Literal
 import customtkinter as ctk
-import components as cmp
-from db import Book
+import widgets
+from db import User
 import re
 import random
 
 
 class EditDialog(ctk.CTkToplevel):
+    dialog: ctk.CTkToplevel | None = None
+    mode: Literal["recreate", "focus"] = "recreate"
+
+    @classmethod
+    def show(cls, user: User, on_close: Callable[[], Any] | None = None) -> None:
+
+        if cls.dialog is None:
+            cls.dialog = cls(user=user, on_close=on_close)
+            return
+
+        if cls.mode == "recreate":
+            cls.dialog.destroy()
+            cls.dialog = cls(user=user, on_close=on_close)
+        elif cls.mode == "focus":
+            cls.dialog.focus_set()
+
     def reset_all(self) -> None:
-        self.barcode_id_field.set(str(self._book.barcode_id))
-        self.title_field.set(str(self._book.title))
-        self.author_field.set(str(self._book.author))
-        self.publisher_field.set(str(self._book.publisher))
-        self.classification_num_field.set(str(self._book.classification_num))
+        self.loan_code_field.set(str(self._user.loan_code))
+        self.name_field.set(str(self._user.name))
+        self.contact_field.set(str(self._user.contact))
 
     def _on_update_click(self) -> None:
         self.error_textbox.configure(state="normal")
         self.error_textbox.delete(1.0, "end")
 
         is_fail = False
-        barcode_id = self.barcode_id_field.get()
-        if not barcode_id:
-            self.error_textbox.insert("end", "바코드를 입력하세요.\n")
+        loan_code = self.loan_code_field.get()
+        if not loan_code:
+            self.error_textbox.insert("end", "대출코드를 입력하세요.\n")
             is_fail = True
 
-        title = self.title_field.get()
-        if not title:
-            self.error_textbox.insert("end", "제목을 입력하세요.\n")
+        if User.is_loan_code_exist(loan_code):
+            self.error_textbox.insert("end", "이미 등록된 대출코드입니다.\n")
             is_fail = True
 
-        author = self.author_field.get()
-        if not author:
-            self.error_textbox.insert("end", "저자를 입력하세요.\n")
+        name = self.name_field.get()
+        if not name:
+            self.error_textbox.insert("end", "이름을 입력하세요.\n")
             is_fail = True
 
-        publisher = self.publisher_field.get()
-        if not publisher:
-            self.error_textbox.insert("end", "출판사를 입력하세요.\n")
+        contact = self.contact_field.get()
+        if not contact:
+            self.error_textbox.insert("end", "전화번호를 입력하세요.\n")
             is_fail = True
 
-        classification_num = self.classification_num_field.get()
-        if not classification_num:
-            self.error_textbox.insert("end", "분류번호를 입력하세요.\n")
-            is_fail = True
-
-        elif len(classification_num.split(".")[0]) < 3:
-            self.error_textbox.insert("end", "분류번호는 3자리수 입니다.\n")
-            is_fail = True
-
-        elif re.match(r"\d{3}\.\d\d*|\d{3}", classification_num) is None:
-            self.error_textbox.insert("end", "분류번호는 숫자로 입력하세요.\n")
-            is_fail = True
-
-        elif float(classification_num) < 0 or float(classification_num) > 999.99:
-            self.error_textbox.insert(
-                "end", "분류번호는 0 ~ 999.99 사이로 입력하세요.\n"
-            )
+        elif not re.match(r"\d{3}-\d{3,4}-\d{4}", contact):
+            self.error_textbox.insert("end", "전화번호 형식이 올바르지 않습니다.\n")
             is_fail = True
 
         self.error_textbox.configure(state="disabled")
         if is_fail:
             return
 
-        self._book.barcode_id = barcode_id  # type: ignore
-        self._book.title = title  # type: ignore
-        self._book.author = author  # type: ignore
-        self._book.publisher = publisher  # type: ignore
-        self._book.classification_num = classification_num  # type: ignore
-        self._book.save()
-
+        User.create(
+            loan_code=loan_code,
+            name=name,
+            contact=contact,
+        )
         self.close()
 
     def _debug_fill(self) -> None:
-        self.barcode_id_field.set(str(random.randrange(0, 123456789)))
-        self.title_field.set("해리포터")
-        self.author_field.set("J.K. 롤링")
-        self.publisher_field.set("문학수첩")
-        self.classification_num_field.set("123.45")
+        self.loan_code_field.set(str(random.randrange(100000, 999999)))
+        self.name_field.set(["홍길동", "김철수", "이영희"][random.randrange(0, 3)])
+        self.contact_field.set(
+            f"010-{random.randrange(1000,9999)}-{random.randrange(1000,9999)}"
+        )
 
     def close(self) -> None:
         if self._on_close:
@@ -88,16 +84,16 @@ class EditDialog(ctk.CTkToplevel):
         *args,
         fg_color: str | Tuple[str, str] | None = None,
         #
-        book: Book,
+        user: User,
         on_close: Callable[[], Any] | None = None,
         **kwargs,
     ):
         super().__init__(*args, fg_color=fg_color, **kwargs)
 
         self._on_close = on_close
-        self._book = book
+        self._user = user
 
-        self.title("📚 도서 수정")
+        self.title("👨🏼‍🏫 회원 수정")
         self.resizable(False, False)
         self.protocol("WM_DELETE_WINDOW", self.close)
 
@@ -117,50 +113,32 @@ class EditDialog(ctk.CTkToplevel):
         ).pack(side="top", fill="x", pady=5)
 
         # --------------------------------------------------
-        self.barcode_id_field = cmp.FormFieldH(
+        self.loan_code_field = widgets.FormFieldH(
             root_frame,
-            title_text="🪪 바코드*",
-            sub_text="바코드를 찍어주세요.",
-            placeholder_text="ex) |l||i|ll||i|l|",
-            text=str(book.barcode_id),
+            title_text="🪪 대출코드*",
+            sub_text="대출코드를 설정해주세요.",
+            placeholder_text="ex) 123456",
+            text=str(user.loan_code),
         )
-        self.barcode_id_field.pack(side="top", fill="x", pady=5)
+        self.loan_code_field.pack(side="top", fill="x", pady=5)
 
-        self.title_field = cmp.FormFieldH(
+        self.name_field = widgets.FormFieldH(
             root_frame,
-            title_text="🏷️ 제목*",
-            sub_text="도서명을 입력하세요",
-            placeholder_text="ex) 해리포터",
-            text=str(book.title),
+            title_text="㊔ 이름*",
+            sub_text="이름을 입력하세요",
+            placeholder_text="ex) 홍길동",
+            text=str(user.name),
         )
-        self.title_field.pack(side="top", fill="x", pady=5)
+        self.name_field.pack(side="top", fill="x", pady=5)
 
-        self.author_field = cmp.FormFieldH(
+        self.contact_field = widgets.FormFieldH(
             root_frame,
-            title_text="👨‍🏫 저자*",
-            sub_text="저자명을 입력하세요",
-            placeholder_text="ex) J.K. 롤링",
-            text=str(book.author),
+            title_text="☎ 연락처*",
+            sub_text="전화번호를 입력하세요.",
+            placeholder_text="ex) 010-1234-5678",
+            text=str(user.contact),
         )
-        self.author_field.pack(side="top", fill="x", pady=5)
-
-        self.publisher_field = cmp.FormFieldH(
-            root_frame,
-            title_text="🏢 출판사*",
-            sub_text="출판사명을 입력하세요",
-            placeholder_text="ex) 문학수첩",
-            text=str(book.publisher),
-        )
-        self.publisher_field.pack(side="top", fill="x", pady=5)
-
-        self.classification_num_field = cmp.FormFieldH(
-            root_frame,
-            title_text="🔢 분류번호*",
-            sub_text="분류번호를 입력하세요",
-            placeholder_text="ex) 123.45",
-            text=str(book.classification_num),
-        )
-        self.classification_num_field.pack(side="top", fill="x", pady=5)
+        self.contact_field.pack(side="top", fill="x", pady=5)
 
         # --------------------------------------------------
         self.error_textbox = ctk.CTkTextbox(

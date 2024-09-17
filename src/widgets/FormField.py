@@ -1,9 +1,11 @@
 from typing import Any, Tuple
 import customtkinter as ctk
-from components.Input import Input
+from widgets.Input import Input
 
 
-class FormFieldH(ctk.CTkFrame):
+class FormField(ctk.CTkFrame):
+    """내부 요소들이 세로방향으로 배치되는 FormField 컴포넌트"""
+
     def __init__(
         self,
         master: Any,
@@ -21,8 +23,6 @@ class FormFieldH(ctk.CTkFrame):
         sub_text: str | None = None,
         placeholder_text: str = "",
         input_height: int = 30,
-        lable_width: int = 100,
-        text: str | None = None,
         **kwargs
     ):
         super().__init__(
@@ -39,30 +39,31 @@ class FormFieldH(ctk.CTkFrame):
             **kwargs
         )
 
-        title_label = ctk.CTkLabel(
+        self._title_label = ctk.CTkLabel(
             self,
             fg_color="transparent",
             text=title_text,
-            font=("Arial", 14),
+            font=("Arial", 14, "bold"),
             anchor="w",
-            width=lable_width,
         )
-        title_label.pack(side="left", fill="x")
+        self._title_label.pack(side="top", fill="x", padx=2)
 
         self._input = Input(
             self,
             fg_color="transparent",
             placeholder_text=placeholder_text,
             height=input_height,
-            text=text,
         )
-        self._input.pack(side="top", fill="x", expand=True)
+        self._input.pack(side="top", fill="x")
 
-    def clear(self):
-        self._input.clear()
-
-    def get(self):
-        return self._input.get()
-
-    def set(self, value: str):
-        self._input.set(value)
+        if sub_text:
+            self._sub_label = ctk.CTkLabel(
+                self,
+                fg_color="transparent",
+                height=20,
+                text=sub_text,
+                text_color="gray",
+                anchor="w",
+                font=("Arial", 12),
+            )
+            self._sub_label.pack(side="top", fill="x", padx=2)

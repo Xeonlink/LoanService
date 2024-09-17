@@ -1,10 +1,26 @@
-from typing import Any, Callable, Tuple
+from typing import Any, Callable, Tuple, Literal
 from typing import Tuple
 import customtkinter as ctk
 from db import Book
 
 
 class DeleteDialog(ctk.CTkToplevel):
+    dialog: ctk.CTkToplevel | None = None
+    mode: Literal["recreate", "focus"] = "focus"
+
+    @classmethod
+    def show(cls, book: Book, on_close: Callable[[], Any] | None = None) -> None:
+
+        if cls.dialog is None:
+            cls.dialog = cls(book=book, on_close=on_close)
+            return
+
+        if cls.mode == "recreate":
+            cls.dialog.destroy()
+            cls.dialog = cls(book=book, on_close=on_close)
+        elif cls.mode == "focus":
+            cls.dialog.focus_set()
+
     def _delete(self) -> None:
         self._book.delete_instance()
         self.close()

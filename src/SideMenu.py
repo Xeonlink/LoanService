@@ -1,5 +1,6 @@
 import customtkinter as ctk
 from typing import Any, Callable, Tuple
+import widgets
 
 
 class SideMenu(ctk.CTkFrame):
@@ -17,11 +18,13 @@ class SideMenu(ctk.CTkFrame):
     def add_btn(
         self,
         text: str = "",
+        text_key: str | None = None,
         on_click: Callable[[], None] = lambda: None,
     ) -> ctk.CTkButton:
-        btn = ctk.CTkButton(
+        btn = widgets.Button(
             self.center_frame,
             text=text,
+            text_key=text_key,
             height=50,
             text_color=("#111111", "gray98"),  # TODO: 테마에 맞게 나중에 일괄수정 필요
             font=("Arial", 14),

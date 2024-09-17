@@ -1,12 +1,28 @@
-from typing import Any, Callable, Tuple
+from typing import Any, Callable, Tuple, Literal
 from typing import Tuple
 import customtkinter as ctk
-from db import Book
+from db import User
 
 
 class DeleteDialog(ctk.CTkToplevel):
+    dialog: ctk.CTkToplevel | None = None
+    mode: Literal["recreate", "focus"] = "recreate"
+
+    @classmethod
+    def show(cls, user: User, on_close: Callable[[], Any] | None = None) -> None:
+
+        if cls.dialog is None:
+            cls.dialog = cls(user=user, on_close=on_close)
+            return
+
+        if cls.mode == "recreate":
+            cls.dialog.destroy()
+            cls.dialog = cls(user=user, on_close=on_close)
+        elif cls.mode == "focus":
+            cls.dialog.focus_set()
+
     def _delete(self) -> None:
-        self._book.delete_instance()
+        self._user.delete_instance()
         self.close()
 
     def close(self) -> None:
@@ -19,16 +35,16 @@ class DeleteDialog(ctk.CTkToplevel):
         *args,
         fg_color: str | Tuple[str, str] | None = None,
         #
-        book: Book,
+        user: User,
         on_close: Callable[[], Any] | None = None,
         **kwargs,
     ):
         super().__init__(*args, fg_color=fg_color, **kwargs)
 
-        self._book = book
+        self._user = user
         self._on_close = on_close
 
-        self.title("📚 도서 삭제")
+        self.title("👨🏼‍🏫 회원 삭제")
 
         root_frame = ctk.CTkFrame(
             self,
