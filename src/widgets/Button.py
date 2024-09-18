@@ -1,4 +1,4 @@
-from utils import LangManager
+from utils import I18n
 import collections.abc as c
 import customtkinter as ctk
 
@@ -10,6 +10,24 @@ class Button(ctk.CTkButton):
     :param text_key: 텍스트를 설정할 때 사용할 키값. 해당 키값에 따라서 text가 번역된다.
     :param text: text_key가 설정되어 있지 않다면, 이 값을 텍스트로 사용한다. 그렇지 않다면 해당 키값에 따라서 text가 설정된다.
     """
+
+    def set_text_key(self, text_key: str):
+        """텍스트를 설정할 때 사용할 키값을 설정한다."""
+        if self._text_key == text_key:
+            return
+
+        if self._text_unsubscriber is not None:
+            self._text_unsubscriber()
+
+        self._text_key = text_key
+        if self._text_key is not None:
+            self._text_unsubscriber = I18n.subscribe(
+                key=self._text_key,
+                callback=lambda text: self.configure(text=text),
+            )
+            self.configure(text=I18n.get_text(self._text_key))
+        else:
+            self._text_unsubscriber = None
 
     def __init__(
         self,
@@ -57,7 +75,7 @@ class Button(ctk.CTkButton):
             background_corner_colors=background_corner_colors,
             round_width_to_even_numbers=round_width_to_even_numbers,
             round_height_to_even_numbers=round_height_to_even_numbers,
-            text=LangManager.get_text(text_key) if text_key is not None else text,
+            text=text,
             font=font,
             textvariable=textvariable,
             image=image,
@@ -69,11 +87,13 @@ class Button(ctk.CTkButton):
             **kwargs
         )
 
-        if text_key is not None:
-            self._text_unsubscriber = LangManager.subscribe(
-                key=text_key,
+        self._text_key = text_key
+        if self._text_key is not None:
+            self._text_unsubscriber = I18n.subscribe(
+                key=self._text_key,
                 callback=lambda text: self.configure(text=text),
             )
+            self.configure(text=I18n.get_text(self._text_key))
         else:
             self._text_unsubscriber = None
 

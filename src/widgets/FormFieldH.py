@@ -16,12 +16,10 @@ class FormFieldH(ctk.CTkFrame):
         background_corner_colors: tuple[str | tuple[str, str]] | None = None,
         overwrite_preferred_drawing_method: str | None = None,
         #
-        title_text: str = "",
-        sub_text: str | None = None,
-        placeholder_text: str = "",
-        input_height: int = 30,
-        lable_width: int = 100,
-        text: str | None = None,
+        title_text_key: str = "",
+        placeholder_text_key: str = "",
+        lable_width: int = 110,
+        default_text: str | None = None,
         **kwargs
     ):
         super().__init__(
@@ -38,10 +36,10 @@ class FormFieldH(ctk.CTkFrame):
             **kwargs
         )
 
-        title_label = ctk.CTkLabel(
+        title_label = widgets.Label(
             self,
             fg_color="transparent",
-            text=title_text,
+            text_key=title_text_key,
             font=("Arial", 14),
             anchor="w",
             width=lable_width,
@@ -50,7 +48,8 @@ class FormFieldH(ctk.CTkFrame):
 
         self._input = widgets.Input(
             self,
-            placeholder_text=placeholder_text,
+            placeholder_text_key=placeholder_text_key,
+            default_text=default_text,
         )
         self._input.pack(side="left", fill="both", expand=True)
 

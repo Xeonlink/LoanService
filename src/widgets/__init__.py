@@ -8,3 +8,4 @@ from .TextArea import TextArea
 from .Button import Button
 from .Input import Input
 from .Label import Label
+from .Dialog import Dialog

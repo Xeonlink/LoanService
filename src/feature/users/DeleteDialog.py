@@ -1,81 +1,70 @@
-from typing import Literal
 from db import User
 import collections.abc as c
 import customtkinter as ctk
+import widgets
 
 
-class DeleteDialog(ctk.CTkToplevel):
-    dialog: ctk.CTkToplevel | None = None
-    mode: Literal["recreate", "focus"] = "recreate"
+class DeleteDialog(widgets.Dialog):
+    _dialog: widgets.Dialog | None = None
 
     @classmethod
-    def show(cls, user: User, on_close: c.Callable[[], None] | None = None) -> None:
+    def show(cls, user: User, on_destroy: c.Callable[[], None] | None = None) -> None:
+        if cls._dialog is not None:
+            cls._dialog.destroy()
 
-        if cls.dialog is None:
-            cls.dialog = cls(user=user, on_close=on_close)
-            return
-
-        if cls.mode == "recreate":
-            cls.dialog.destroy()
-            cls.dialog = cls(user=user, on_close=on_close)
-        elif cls.mode == "focus":
-            cls.dialog.focus_set()
+        cls._dialog = cls(user, on_destroy)
+        cls._dialog.lift()
+        cls._dialog.focus_set()
 
     def _delete(self) -> None:
         self._user.delete_instance()
-        self.close()
-
-    def close(self) -> None:
-        if self._on_close:
-            self._on_close()
         self.destroy()
 
-    def __init__(
-        self,
-        *args,
-        fg_color: str | tuple[str, str] | None = None,
-        #
-        user: User,
-        on_close: c.Callable[[], None] | None = None,
-        **kwargs,
-    ):
-        super().__init__(*args, fg_color=fg_color, **kwargs)
-
-        self._user = user
-        self._on_close = on_close
-
-        self.title("👨🏼‍🏫 회원 삭제")
-
-        root_frame = ctk.CTkFrame(
-            self,
-            fg_color="transparent",
-            width=300,
+    def __init__(self, user: User, on_destroy: c.Callable[[], None] | None = None):
+        super().__init__(
+            title_key="dialog_delete_title",
+            resizable=(False, False),
+            on_destroy=on_destroy,
+            pad=(10, 5),
         )
-        root_frame.pack(padx=10, pady=5, fill="both", expand=True)
+        self._user = user
 
         # --------------------------------------------------
         ctk.CTkLabel(
-            root_frame,
+            self.root_frame,
             text="정말 삭제하시겠습니까?",
             font=("Arial", 14, "bold"),
             anchor="w",
         ).pack(side="top", fill="x", pady=5)
 
         # --------------------------------------------------
-        action_frame = ctk.CTkFrame(root_frame)
+        self.error_textbox = ctk.CTkTextbox(
+            self.root_frame,
+            height=150,
+            fg_color=ctk.ThemeManager.theme["CTkFrame"]["fg_color"],
+            state="disabled",
+        )
+        self.error_textbox.pack(side="top", fill="x", pady=5, expand=True)
+
+        # --------------------------------------------------
+        action_frame = ctk.CTkFrame(self.root_frame)
         action_frame.pack(side="top", fill="x", pady=5)
 
-        ctk.CTkButton(
+        widgets.Button(
             action_frame,
-            text="취소",
+            text_key="dialog_close_button",
             border_width=0,
             fg_color="transparent",
-            command=self.close,
+            command=self.destroy,
         ).pack(side="left", fill="x", expand=True)
 
-        ctk.CTkButton(
+        widgets.Button(
             action_frame,
-            text="삭제",
+            text_key="dialog_delete_button",
             border_width=0,
             command=self._delete,
         ).pack(side="left", fill="x", expand=True)
+
+    def destroy(self) -> None:
+        DeleteDialog._dialog = None
+        return super().destroy()

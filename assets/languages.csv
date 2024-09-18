@@ -1,6 +1,5 @@
 key,ko,en
 sidemenu_home_button,🏠 홈,🏠 Home
-settings_language_label,🌐 언어 설정,🌐 Language
 sidemenu_users_button,🧔‍♂️ 회원관리,🧔‍♂️ Users
 sidemenu_books_button,📗 도서관리,📗 Books
 sidemenu_settings_button,⚙️ 설정,⚙️ Setting
@@ -14,6 +13,24 @@ users_page_table_column_contact,연락처,Contact
 users_page_table_column_edit,수정,Edit
 users_page_table_column_delete,삭제,Delete
 ,,
+user_dialog_loan_code_label,🪪 대출코드*,🪪 Loan Code*
+user_dialog_loan_code_placeholder,ex) 123456,ex) 123456
+user_dialog_name_label,👤 이름*,👤 Name*
+user_dialog_name_placeholder,ex) 홍길동,ex) Hong Gil-dong
+user_dialog_contact_label,📞 연락처*,📞 Contact*
+user_dialog_contact_placeholder,ex) 010-1234-5678,ex) 010-1234-5678
+user_dialog_loan_code_required,대출코드를 입력해주세요.\n,Please enter the loan code.\n
+user_dialog_loan_code_exist,이미 존재하는 대출코드입니다.\n,The loan code already exists.\n
+user_dialog_name_required,이름을 입력해주세요.\n,Please enter the name.\n
+user_dialog_contact_required,연락처를 입력해주세요.\n,Please enter the contact.\n
+user_dialog_contact_invalid,올바른 연락처 형식이 아닙니다.\n,The contact is not in the correct format.\n
+,,
+user_add_dialog_title,👨🏼‍🏫 회원 추가,👨🏼‍🏫 Add User
+,,
+user_edit_dialog_title,👨🏼‍🏫 회원 수정,👨🏼‍🏫 Edit User
+,,
+user_delete_dialog_title,👨🏼‍🏫 회원 삭제,👨🏼‍🏫 Delete User
+,,
 books_page_add_book_button,도서 추가 ✚,Add Book ✚
 books_page_search_filter_select_title,제목,Title
 books_page_search_filter_select_author,저자,Author
@@ -25,6 +42,56 @@ books_page_table_column_classification_num,분류번호,Code
 books_page_table_column_edit,수정,Edit
 books_page_table_column_delete,삭제,Delete
 ,,
+book_dialog_barcode_label,🪧 바코드*,🪧 Barcode*
+book_dialog_barcode_placeholder,ex) |l||i|ll||i|l|,ex) |l||i|ll||i|l|
+book_dialog_title_label,🏷️ 제목*,🏷️ Title*
+book_dialog_title_placeholder,ex) 해리포터,ex) Harry Potter
+book_dialog_author_label,👨🏼‍🏫 저자*,👨🏼‍🏫 Author*
+book_dialog_author_placeholder,ex) J.K. 롤링,ex) J.K. Rowling
+book_dialog_publisher_label,🏢 출판사*,🏢 Publisher*
+book_dialog_publisher_placeholder,ex) 문학동네,ex) Munhakdongne
+book_dialog_classification_num_label,🔢 분류번호*,🔢 Code*
+book_dialog_classification_num_placeholder,ex) 123.45,ex) 123.45
+book_dialog_barcode_required,바코드를 입력해주세요.\n,Please enter the barcode.\n
+book_dialog_barcode_exist,이미 존재하는 바코드입니다.\n,The barcode already exists.\n
+book_dialog_title_required,제목을 입력해주세요.\n,Please enter the title.\n
+book_dialog_author_required,저자를 입력해주세요.\n,Please enter the author.\n
+book_dialog_publisher_required,출판사를 입력해주세요.\n,Please enter the publisher.\n
+book_dialog_classification_num_required,분류번호를 입력해주세요.\n,Please enter the classification code.\n
+book_dialog_classification_num_length,분류번호는 3자리수 입니다.\n,The classification code is 3 digits.\n
+book_dialog_classification_num_numeric,분류번호는 숫자로 입력해주세요.\n,Please enter the classification code in numbers.\n
+book_dialog_classification_num_range,분류번호는 0~999.99 사이의 수로 입력해주세요.\n,Please enter the classification code between 0 and 999.99.\n
+,,
+book_add_dialog_title,📚 도서 추가,📚 Add Book
+,,
+book_edit_dialog_title,📚 도서 수정,📚 Edit Book
+,,
+book_delete_dialog_title,📚 도서 삭제,📚 Delete Book
+,,
+settings_page_theme_mode,🌓 테마 모드,🌓 Theme Mode
+settings_page_theme_mode_light,라이트,Light
+settings_page_theme_mode_dark,다크,Dark
+settings_page_theme_mode_system,시스템,System
+settings_page_theme_color,🎨 테마 색상,🎨 Theme Color
+settings_page_theme_color_blue,파랑 (준비중),Blue (Preparing)
+settings_page_theme_color_green,초록,Green
+settings_page_language,🌐 언어 설정,🌐 Language
+settings_page_language_korean,🇰🇷 한국어,🇰🇷 Korean
+settings_page_language_english,🔠 영어,🔠 English
+settings_page_open_source,📜 오픈소스 라이센스,📜 Open Source License
+settings_page_terms_of_service,📝 이용약관,📝 Terms of Service
+settings_page_privacy_policy,📃 개인정보 처리방침,📃 Privacy Policy
+settings_page_backup,백업,Backup
+settings_page_backup_create,백업 파일 생성 (준비중),Save Backup File (Preparing)
+settings_page_restore,복원,Restore
+settings_page_restore_do,백업 파일 복원 (준비중),Restore Backup File (Preparing)
+settings_page_init_language,언어 리로드,Reload Language File
+settings_page_init_language_do,언어 파일을 다시 불러오기,Reload Language File
+settings_page_factory_reset,초기화,Factory Reset
+settings_page_factory_reset_all_data,모든 데이터 초기화 (준비중),Reset All Data (Preparing)
+settings_page_update,🔄 업데이트,🔄 Update
+settings_page_update_check,업데이트 확인 (준비중),Check Update (Preparing)
+,,
 search_input_placeholder,검색어를 입력하세요.,Enter your searh term
 erase_button,지우기 ⌫,Clear ⌫
 search_button,검색 🔍,Search 🔍
@@ -34,3 +101,12 @@ search_button,검색 🔍,Search 🔍
 table_index,번호,Index
 pagination_prev,◀ 이전,◀ Prev
 pagination_next,다음 ▶,Next ▶
+view_detail_open,자세히 보기 ◀︎,View Detail ◀︎
+view_detail_close,자세히 보기 ▼,View Detail ▼
+dialog_close_button,닫기 ⛌,Close ⛌
+dialog_clear_all_button,모두 지우기 ⌫,Clear All ⌫
+dialog_revert_all_button,되돌리기 ↩,Revert ↩
+dialog_add_button,추가하기 ✚,Add ✚
+dialog_update_button,수정하기 📝,Save 📝
+dialog_cancel_button,취소,Cancel
+dialog_delete_button,삭제,Delete

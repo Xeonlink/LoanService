@@ -47,7 +47,7 @@ class Page(ctk.CTkFrame):
             width=100,
             height=30,
             command=lambda: users.AddDialog.show(
-                on_close=lambda: self._search(self.page)
+                on_destroy=lambda: self._search(self.page)
             ),
         )
         book_add_btn.pack(side="left")
@@ -128,7 +128,7 @@ class Page(ctk.CTkFrame):
                     getter=lambda _: "📝",
                     command=lambda user: users.EditDialog.show(
                         user=user,
-                        on_close=lambda: self._search(self.page),
+                        on_destroy=lambda: self._search(self.page),
                     ),
                 ),
                 table.Column(
@@ -139,7 +139,7 @@ class Page(ctk.CTkFrame):
                     getter=lambda _: "🗑️",
                     command=lambda user: users.DeleteDialog.show(
                         user=user,
-                        on_close=lambda: self._search(self.page),
+                        on_destroy=lambda: self._search(self.page),
                     ),
                 ),
             ],
@@ -161,6 +161,7 @@ class Page(ctk.CTkFrame):
                 "20_per_page": 20,
                 "30_per_page": 30,
             },
+            default_option_key="10_per_page",
         )
         self.per_page_select.pack(side="left")
 

@@ -1,4 +1,4 @@
-from utils import LangManager
+from utils import I18n
 import customtkinter as ctk
 
 
@@ -39,7 +39,7 @@ class Label(ctk.CTkLabel):
             fg_color=fg_color,
             text_color=text_color,
             text_color_disabled=text_color_disabled,
-            text=LangManager.get_text(text_key) if text_key is not None else text,
+            text=I18n.get_text(text_key) if text_key is not None else text,
             font=font,
             image=image,
             compound=compound,
@@ -49,7 +49,7 @@ class Label(ctk.CTkLabel):
         )
 
         if text_key is not None:
-            self._text_unsubscriber = LangManager.subscribe(
+            self._text_unsubscriber = I18n.subscribe(
                 key=text_key,
                 callback=lambda text: self.configure(text=text),
             )

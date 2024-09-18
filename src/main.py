@@ -2,9 +2,9 @@ import customtkinter as ctk
 import tkinter as tk
 from SideMenu import SideMenu
 from feature import books, users, settings, home
-from utils import LangManager
+from utils import I18n
 
-LangManager.init("assets/languages.csv")
+I18n.init("assets/languages.csv")
 ctk.set_appearance_mode("system")
 ctk.set_default_color_theme("assets/themes/green.json")
 
@@ -88,5 +88,5 @@ settings_button = side_menu.add_btn(
 )
 
 if __name__ == "__main__":
-    LangManager.set_language("ko")
+    I18n.set_language("ko")
     app.mainloop()

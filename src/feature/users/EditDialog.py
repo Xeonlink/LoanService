@@ -1,4 +1,4 @@
-from typing import Literal
+from utils import I18n
 from db import User
 import collections.abc as c
 import customtkinter as ctk
@@ -7,24 +7,19 @@ import re
 import random
 
 
-class EditDialog(ctk.CTkToplevel):
-    dialog: ctk.CTkToplevel | None = None
-    mode: Literal["recreate", "focus"] = "recreate"
+class EditDialog(widgets.Dialog):
+    _dialog: widgets.Dialog | None = None
 
     @classmethod
-    def show(cls, user: User, on_close: c.Callable[[], None] | None = None) -> None:
+    def show(cls, user: User, on_destroy: c.Callable[[], None] | None = None) -> None:
+        if cls._dialog is not None:
+            cls._dialog.destroy()
 
-        if cls.dialog is None:
-            cls.dialog = cls(user=user, on_close=on_close)
-            return
+        cls._dialog = cls(user, on_destroy)
+        cls._dialog.lift()
+        cls._dialog.focus_set()
 
-        if cls.mode == "recreate":
-            cls.dialog.destroy()
-            cls.dialog = cls(user=user, on_close=on_close)
-        elif cls.mode == "focus":
-            cls.dialog.focus_set()
-
-    def reset_all(self) -> None:
+    def _reset_all(self) -> None:
         self.loan_code_field.set(str(self._user.loan_code))
         self.name_field.set(str(self._user.name))
         self.contact_field.set(str(self._user.contact))
@@ -36,37 +31,41 @@ class EditDialog(ctk.CTkToplevel):
         is_fail = False
         loan_code = self.loan_code_field.get()
         if not loan_code:
-            self.error_textbox.insert("end", "대출코드를 입력하세요.\n")
+            text = I18n.get_text("user_dialog_loan_code_required")
+            self.error_textbox.insert("end", text)
             is_fail = True
 
         if User.is_loan_code_exist(loan_code):
-            self.error_textbox.insert("end", "이미 등록된 대출코드입니다.\n")
+            text = I18n.get_text("user_dialog_loan_code_exist")
+            self.error_textbox.insert("end", text)
             is_fail = True
 
         name = self.name_field.get()
         if not name:
-            self.error_textbox.insert("end", "이름을 입력하세요.\n")
+            text = I18n.get_text("user_dialog_name_required")
+            self.error_textbox.insert("end", text)
             is_fail = True
 
         contact = self.contact_field.get()
         if not contact:
-            self.error_textbox.insert("end", "전화번호를 입력하세요.\n")
+            text = I18n.get_text("user_dialog_contact_required")
+            self.error_textbox.insert("end", text)
             is_fail = True
 
         elif not re.match(r"\d{3}-\d{3,4}-\d{4}", contact):
-            self.error_textbox.insert("end", "전화번호 형식이 올바르지 않습니다.\n")
+            text = I18n.get_text("user_dialog_contact_invalid")
+            self.error_textbox.insert("end", text)
             is_fail = True
 
         self.error_textbox.configure(state="disabled")
         if is_fail:
             return
 
-        User.create(
-            loan_code=loan_code,
-            name=name,
-            contact=contact,
-        )
-        self.close()
+        self._user.loan_code = loan_code  # type: ignore
+        self._user.name = name  # type: ignore
+        self._user.contact = contact  # type: ignore
+        self._user.save()
+        self.destroy()
 
     def _debug_fill(self) -> None:
         self.loan_code_field.set(str(random.randrange(100000, 999999)))
@@ -75,39 +74,18 @@ class EditDialog(ctk.CTkToplevel):
             f"010-{random.randrange(1000,9999)}-{random.randrange(1000,9999)}"
         )
 
-    def close(self) -> None:
-        if self._on_close:
-            self._on_close()
-        self.destroy()
-
-    def __init__(
-        self,
-        *args,
-        fg_color: str | tuple[str, str] | None = None,
-        #
-        user: User,
-        on_close: c.Callable[[], None] | None = None,
-        **kwargs,
-    ):
-        super().__init__(*args, fg_color=fg_color, **kwargs)
-
-        self._on_close = on_close
-        self._user = user
-
-        self.title("👨🏼‍🏫 회원 수정")
-        self.resizable(False, False)
-        self.protocol("WM_DELETE_WINDOW", self.close)
-
-        root_frame = ctk.CTkFrame(
-            self,
-            fg_color="transparent",
-            width=500,
+    def __init__(self, user: User, on_destroy: c.Callable[[], None] | None = None):
+        super().__init__(
+            title_key="user_edit_dialog_title",
+            resizable=(False, False),
+            on_destroy=on_destroy,
+            pad=(10, 5),
         )
-        root_frame.pack(padx=10, pady=5, fill="both", expand=True)
+        self._user = user
 
         # --------------------------------------------------
         ctk.CTkButton(
-            root_frame,
+            self.root_frame,
             text="🔥 테스트용으로 채우기",
             border_width=0,
             command=self._debug_fill,
@@ -115,35 +93,32 @@ class EditDialog(ctk.CTkToplevel):
 
         # --------------------------------------------------
         self.loan_code_field = widgets.FormFieldH(
-            root_frame,
-            title_text="🪪 대출코드*",
-            sub_text="대출코드를 설정해주세요.",
-            placeholder_text="ex) 123456",
-            text=str(user.loan_code),
+            self.root_frame,
+            title_text_key="user_dialog_loan_code_label",
+            placeholder_text_key="user_dialog_loan_code_placeholder",
+            default_text=str(user.loan_code),
         )
         self.loan_code_field.pack(side="top", fill="x", pady=5)
 
         self.name_field = widgets.FormFieldH(
-            root_frame,
-            title_text="㊔ 이름*",
-            sub_text="이름을 입력하세요",
-            placeholder_text="ex) 홍길동",
-            text=str(user.name),
+            self.root_frame,
+            title_text_key="user_dialog_name_label",
+            placeholder_text_key="user_dialog_name_placeholder",
+            default_text=str(user.name),
         )
         self.name_field.pack(side="top", fill="x", pady=5)
 
         self.contact_field = widgets.FormFieldH(
-            root_frame,
-            title_text="☎ 연락처*",
-            sub_text="전화번호를 입력하세요.",
-            placeholder_text="ex) 010-1234-5678",
-            text=str(user.contact),
+            self.root_frame,
+            title_text_key="user_dialog_contact_label",
+            placeholder_text_key="user_dialog_contact_placeholder",
+            default_text=str(user.contact),
         )
         self.contact_field.pack(side="top", fill="x", pady=5)
 
         # --------------------------------------------------
         self.error_textbox = ctk.CTkTextbox(
-            root_frame,
+            self.root_frame,
             height=150,
             fg_color=ctk.ThemeManager.theme["CTkFrame"]["fg_color"],
             state="disabled",
@@ -151,34 +126,35 @@ class EditDialog(ctk.CTkToplevel):
         self.error_textbox.pack(side="top", fill="x", pady=5, expand=True)
 
         # --------------------------------------------------
-        action_frame = ctk.CTkFrame(root_frame)
+        action_frame = ctk.CTkFrame(self.root_frame)
         action_frame.pack(side="top", fill="x", pady=5)
 
-        close_btn = ctk.CTkButton(
+        widgets.Button(
             action_frame,
-            text="닫기 ⛌",
+            text_key="dialog_close_button",
             border_width=0,
-            command=self.close,
+            command=self.destroy,
             fg_color="transparent",
             width=120,
-        )
-        close_btn.pack(side="left", fill="x", expand=True)
+        ).pack(side="left", fill="x", expand=True)
 
-        clear_btn = ctk.CTkButton(
+        widgets.Button(
             action_frame,
-            text="되돌리기 ⌫",
+            text_key="dialog_revert_all_button",
             border_width=0,
-            command=self.reset_all,
+            command=self._reset_all,
             fg_color="transparent",
             width=120,
-        )
-        clear_btn.pack(side="left", fill="x", expand=True)
+        ).pack(side="left", fill="x", expand=True)
 
-        add_btn = ctk.CTkButton(
+        widgets.Button(
             action_frame,
-            text="수정하기 📝",
+            text_key="dialog_update_button",
             border_width=0,
             command=self._on_update_click,
             width=120,
-        )
-        add_btn.pack(side="left", fill="x", expand=True)
+        ).pack(side="left", fill="x", expand=True)
+
+    def destroy(self) -> None:
+        EditDialog._dialog = None
+        return super().destroy()

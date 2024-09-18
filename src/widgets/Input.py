@@ -1,9 +1,9 @@
-from utils import LangManager
-import tkinter
+from utils import I18n
 import customtkinter as ctk
 
 
 class Input(ctk.CTkEntry):
+
     def __init__(
         self,
         master,
@@ -19,9 +19,10 @@ class Input(ctk.CTkEntry):
         textvariable: ctk.Variable | None = None,
         placeholder_text: str | None = None,
         font: tuple | ctk.CTkFont | None = None,
-        state: str = tkinter.NORMAL,
+        state: str = "normal",
         #
         placeholder_text_key: str | None = None,
+        default_text: str | None = None,
         **kwargs
     ):
         super().__init__(
@@ -43,20 +44,26 @@ class Input(ctk.CTkEntry):
         )
 
         if placeholder_text_key is not None:
-            self._placeholder_text_unsubscriber = LangManager.subscribe(
+            self._placeholder_text_unsubscriber = I18n.subscribe(
                 key=placeholder_text_key,
                 callback=lambda value: self.configure(placeholder_text=value),
             )
-            self.configure(placeholder_text=LangManager.get_text(placeholder_text_key))
+            self.configure(placeholder_text=I18n.get_text(placeholder_text_key))
         else:
             self._placeholder_text_unsubscriber = None
 
+        if default_text is not None:
+            self.insert(0, default_text)
+
+    def blur(self) -> None:
+        """Input의 포커스를 해제함"""
+        self.winfo_toplevel().focus_set()
+
     def clear(self) -> None:
-        """
-        Input의 내용을 없앰, 단 내용이 없어진 자리에 placeholder_text가 다시 나타나지는 않음.
-        다시 나타나게 하려면, 포커스를 줬다가 뺏으면 placeholder_text가 나타남.
-        """
-        self.delete(0, tkinter.END)
+        """Input의 내용을 지움"""
+        self.blur()
+        self._entry_focus_out()
+        self.delete(0, "end")
 
     def get(self) -> str:
         """Input의 내용을 가져옴"""
@@ -64,8 +71,12 @@ class Input(ctk.CTkEntry):
 
     def set(self, value: str) -> None:
         """Input의 내용을 설정"""
-        self._entry.delete(0, len(self._entry.get()))
-        self._entry.insert(0, value)
+        if len(value) == 0:
+            self.clear()
+            return
+
+        self.delete(0, "end")
+        self.insert(0, value)
 
     def destroy(self):
         if self._placeholder_text_unsubscriber is not None:

@@ -1,4 +1,4 @@
-from utils import LangManager
+from utils import I18n
 import collections.abc as c
 import customtkinter as ctk
 import tkinter
@@ -16,6 +16,19 @@ class Select[T](ctk.CTkOptionMenu):
         text = super().get()
         value = self._options_map[text]
         return value
+
+    def get_key(self) -> str:
+        """현재 선택된 옵션의 키를 반환한다."""
+        value = self.get()
+        for k, v in self._raw_options_map.items():
+            if v == value:
+                return k
+        raise ValueError(f"Value {value} not found in options")
+
+    def set_by_key(self, key: str):
+        """옵션의 키를 통해 값을 설정한다."""
+        value = I18n.get_text(key)
+        return super().set(value)
 
     def __init__(
         self,
@@ -43,9 +56,10 @@ class Select[T](ctk.CTkOptionMenu):
         anchor: str = "w",
         #
         options: dict[str, T] = {},
+        default_option_key: str | None = None,
         **kwargs,
     ):
-        values_from_options = list(map(LangManager.get_text, list(options.keys())))
+        values_from_options = list(map(I18n.get_text, list(options.keys())))
         super().__init__(
             master,
             width=width,
@@ -75,18 +89,29 @@ class Select[T](ctk.CTkOptionMenu):
         self._raw_options_map = options
 
         if options is not None:
-            self._options_unsubscriber = LangManager.subscribe(
+            self._options_unsubscriber = I18n.subscribe(
                 key="lang_changed",
                 callback=lambda _: self._on_language_change(),
             )
             self._options_map = {
-                LangManager.get_text(k): v for k, v in self._raw_options_map.items()
+                I18n.get_text(k): v for k, v in self._raw_options_map.items()
             }
+        else:
+            self._options_unsubscriber = None
+            self._options_map = {}
+
+        if default_option_key is not None:
+            self.set(I18n.get_text(default_option_key))
 
     def _on_language_change(self):
-        self.configure(
-            values=list(map(LangManager.get_text, list(self._options_map.keys())))
-        )
+        key = self.get_key()
+        self.configure(values=list(map(I18n.get_text, list(self._options_map.keys()))))
         self._options_map = {
-            LangManager.get_text(k): v for k, v in self._raw_options_map.items()
+            I18n.get_text(k): v for k, v in self._raw_options_map.items()
         }
+        self.set_by_key(key)
+
+    def destroy(self) -> None:
+        if self._options_unsubscriber is not None:
+            self._options_unsubscriber()
+        super().destroy()

@@ -1,5 +1,5 @@
 import os
-from .LangManager import LangManager
+from .I18n import I18n
 
 
 class Utils:
