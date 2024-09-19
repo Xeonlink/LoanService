@@ -1,28 +1,25 @@
-from typing import Any, Tuple
 import customtkinter as ctk
-from components.Input import Input
+import widgets
 
 
 class FormFieldH(ctk.CTkFrame):
     def __init__(
         self,
-        master: Any,
+        master,
         width: int = 200,
         height: int = 200,
         corner_radius: int | str | None = None,
         border_width: int | str | None = None,
-        bg_color: str | Tuple[str, str] = "transparent",
-        fg_color: str | Tuple[str, str] = "transparent",
-        border_color: str | Tuple[str, str] | None = None,
-        background_corner_colors: Tuple[str | Tuple[str, str]] | None = None,
+        bg_color: str | tuple[str, str] = "transparent",
+        fg_color: str | tuple[str, str] = "transparent",
+        border_color: str | tuple[str, str] | None = None,
+        background_corner_colors: tuple[str | tuple[str, str]] | None = None,
         overwrite_preferred_drawing_method: str | None = None,
         #
-        title_text: str = "",
-        sub_text: str | None = None,
-        placeholder_text: str = "",
-        input_height: int = 30,
-        lable_width: int = 100,
-        text: str | None = None,
+        title_text_key: str = "",
+        placeholder_text_key: str = "",
+        lable_width: int = 110,
+        default_text: str | None = None,
         **kwargs
     ):
         super().__init__(
@@ -39,24 +36,32 @@ class FormFieldH(ctk.CTkFrame):
             **kwargs
         )
 
-        title_label = ctk.CTkLabel(
+        title_label = widgets.Label(
             self,
             fg_color="transparent",
-            text=title_text,
+            text_key=title_text_key,
             font=("Arial", 14),
             anchor="w",
             width=lable_width,
         )
         title_label.pack(side="left", fill="x")
 
-        self._input = Input(
+        self._input = widgets.Input(
             self,
-            fg_color="transparent",
-            placeholder_text=placeholder_text,
-            height=input_height,
-            text=text,
+            placeholder_text_key=placeholder_text_key,
+            default_text=default_text,
         )
-        self._input.pack(side="top", fill="x", expand=True)
+        self._input.pack(side="left", fill="both", expand=True)
+
+        self._erase_button = widgets.Button(
+            self,
+            text="지우기 ⌫",
+            text_key="erase_button",
+            width=80,
+            fg_color=ctk.ThemeManager.theme["CTkEntry"]["fg_color"],
+            command=self._input.clear,
+        )
+        self._erase_button.pack(side="left", fill="y")
 
     def clear(self):
         self._input.clear()
