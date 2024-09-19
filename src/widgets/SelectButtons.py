@@ -1,6 +1,6 @@
-from utils import I18n
-import collections.abc as c
+from collections.abc import Callable
 import customtkinter as ctk
+from utils.I18n import I18n
 
 
 class SelectButtons[T](ctk.CTkSegmentedButton):
@@ -49,7 +49,7 @@ class SelectButtons[T](ctk.CTkSegmentedButton):
         values: list | None = None,
         variable: ctk.Variable | None = None,
         dynamic_resizing: bool = True,
-        command: c.Callable[[T], None] | None = None,
+        command: Callable[[T], None] | None = None,
         state: str = "normal",
         #
         options: dict[str, T] = {},

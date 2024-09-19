@@ -1,9 +1,9 @@
+from db import Book
+from feature import books
 import customtkinter as ctk
 import widgets
 import widgets.Table as table
-from db import Book
 import math
-from feature import books
 
 
 class Page(ctk.CTkFrame):
@@ -12,17 +12,10 @@ class Page(ctk.CTkFrame):
         term = self.search_input.get()
         per_page = self.per_page_select.get()
 
-        raw_result: list[Book]
-        try:
-            if not term:
-                raw_result = list(Book.select())
-            else:
-                raw_result = list(Book.select().where(Book[filter] == term))
-        except Exception:
-            raw_result = []
-
-        result: list[Book] = raw_result[(page - 1) * per_page : page * per_page]
-        total_count: int = len(raw_result)
+        result = Book.select_safe()
+        result = [book for book in result if term in getattr(book, filter)]
+        result = result[(page - 1) * per_page : page * per_page]
+        total_count: int = len(result)
         total_page: int = math.ceil(total_count / per_page) if total_count > 0 else 1
 
         self._table.clear()
@@ -32,10 +25,7 @@ class Page(ctk.CTkFrame):
         self.page = page
         self.pagination.set_page(page, total_page)
 
-    def __init__(
-        self,
-        master,
-    ):
+    def __init__(self, master):
         super().__init__(master, fg_color="transparent")
         self.page = 1
 
@@ -68,14 +58,14 @@ class Page(ctk.CTkFrame):
                 "books_page_search_filter_select_publisher": "publisher",
             },
         )
-        self.search_filter_select.pack(side="left", fill="y")
+        self.search_filter_select.pack(side="left")
 
         self.search_input = widgets.Input(
             search_term_frame,
             height=30,
             placeholder_text_key="search_input_placeholder",
         )
-        self.search_input.pack(side="left", fill="both", expand=True)
+        self.search_input.pack(side="left", fill="x", expand=True)
 
         self.search_input_erase_button = widgets.Button(
             search_term_frame,
@@ -89,7 +79,6 @@ class Page(ctk.CTkFrame):
 
         search_button = widgets.Button(
             search_frame,
-            text="검색 🔍",
             text_key="search_button",
             width=100,
             height=30,
@@ -167,6 +156,7 @@ class Page(ctk.CTkFrame):
             width=120,
             height=30,
             anchor="center",
+            command=lambda _: self._search(self.page),
             options={
                 "10_per_page": 10,
                 "20_per_page": 20,

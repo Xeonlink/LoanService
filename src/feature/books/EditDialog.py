@@ -1,17 +1,17 @@
-from utils import I18n
 from db import Book
-import collections.abc as c
+from collections.abc import Callable
 import customtkinter as ctk
 import widgets
 import re
 import random
+from utils.I18n import I18n
 
 
 class EditDialog(widgets.Dialog):
     _dialog: widgets.Dialog | None = None
 
     @classmethod
-    def show(cls, book: Book, on_destroy: c.Callable[[], None] | None = None) -> None:
+    def show(cls, book: Book, on_destroy: Callable[[], None] | None = None) -> None:
         if cls._dialog is not None:
             cls._dialog.destroy()
 
@@ -99,7 +99,7 @@ class EditDialog(widgets.Dialog):
         self.publisher_field.set("문학수첩")
         self.classification_num_field.set("123.45")
 
-    def __init__(self, book: Book, on_close: c.Callable[[], None] | None = None):
+    def __init__(self, book: Book, on_close: Callable[[], None] | None = None):
         super().__init__(
             title_key="book_edit_dialog_title",
             resizable=(False, False),

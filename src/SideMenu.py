@@ -1,4 +1,4 @@
-import collections.abc as c
+from collections.abc import Callable
 import customtkinter as ctk
 import widgets
 
@@ -19,7 +19,7 @@ class SideMenu(ctk.CTkFrame):
         self,
         text: str = "",
         text_key: str | None = None,
-        on_click: c.Callable[[], None] = lambda: None,
+        on_click: Callable[[], None] = lambda: None,
     ) -> ctk.CTkButton:
         btn = widgets.Button(
             self.center_frame,

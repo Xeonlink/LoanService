@@ -1,8 +1,8 @@
+from db import User
+from feature import users
 import customtkinter as ctk
 import widgets
 import widgets.Table as table
-from feature import users
-from db import User
 import math
 
 
@@ -12,23 +12,15 @@ class Page(ctk.CTkFrame):
         term = self.search_input.get()
         per_page = self.per_page_select.get()
 
-        raw_result: list[User]
-        try:
-            raw_result = [
-                user for user in User.select() if term in getattr(user, filter)
-            ]
-
-        except Exception as e:
-            raw_result = []
-
-        result: list[User] = raw_result[(page - 1) * per_page : page * per_page]
-        total_count: int = len(raw_result)
+        result = User.select_safe()
+        result = [user for user in result if term in getattr(user, filter)]
+        result = result[(page - 1) * per_page : page * per_page]
+        total_count: int = len(result)
         total_page: int = math.ceil(total_count / per_page) if total_count > 0 else 1
 
         self._table.clear()
-        for i in range(len(result)):
-            user: User = result[i]
-            self._table.append(i + per_page * (page - 1), user)
+        for i, user in enumerate(result, per_page * (page - 1)):
+            self._table.append(i, user)
 
         self.page = page
         self.pagination.set_page(page, total_page)
@@ -81,6 +73,7 @@ class Page(ctk.CTkFrame):
             width=80,
             height=30,
             fg_color=ctk.ThemeManager.theme["CTkEntry"]["fg_color"],
+            command=self.search_input.clear,
         )
         self.search_input_erase_button.pack(side="left")
 

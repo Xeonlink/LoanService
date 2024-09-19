@@ -23,6 +23,14 @@ class Book(BaseModel):
     classification_num = peewee.CharField(null=False)
 
     @classmethod
+    def select_safe(cls):
+        try:
+            return list[Book](Book.select())
+        except:
+            result: list[Book] = []
+            return result
+
+    @classmethod
     def is_barcode_exist(cls, barcode_id: str) -> bool:
         try:
             Book.get(barcode_id=barcode_id)
@@ -38,6 +46,14 @@ class User(BaseModel):
     loan_code = peewee.IntegerField(null=False, unique=True)
     name = peewee.CharField(null=False)
     contact = peewee.CharField(null=False, unique=True)
+
+    @classmethod
+    def select_safe(cls):
+        try:
+            return list[User](User.select())
+        except:
+            result: list[User] = []
+            return result
 
     @classmethod
     def is_loan_code_exist(cls, loan_code: str) -> bool:
@@ -66,8 +82,6 @@ class Loan(BaseModel):
     return_date = peewee.DateTimeField(null=False)
 
 
-db.connect()
-db.create_tables([Book, User], safe=True)
-
-if __name__ == "__main__":
-    Book.create(barcode_id=123, title="The Great Gatsby", author="F. Scott Fitzgerald")
+def init():
+    db.connect()
+    db.create_tables([Book, User, Loan])

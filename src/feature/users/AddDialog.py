@@ -1,18 +1,18 @@
 from db import User
-from utils import I18n
-import collections.abc as c
+from collections.abc import Callable
 import customtkinter as ctk
 import widgets
 import re
 import random
 import widgets
+from utils.I18n import I18n
 
 
 class AddDialog(widgets.Dialog):
     _dialog: widgets.Dialog | None = None
 
     @classmethod
-    def show(cls, on_destroy: c.Callable[[], None] | None = None):
+    def show(cls, on_destroy: Callable[[], None] | None = None):
         if cls._dialog is None:
             cls._dialog = cls(on_destroy)
             return
@@ -75,7 +75,7 @@ class AddDialog(widgets.Dialog):
         )
         self.destroy()
 
-    def __init__(self, on_destroy: c.Callable[[], None] | None = None):
+    def __init__(self, on_destroy: Callable[[], None] | None = None):
         super().__init__(
             title_key="user_add_dialog_title",
             resizable=(False, False),

@@ -1,5 +1,5 @@
 from db import Book
-import collections.abc as c
+from collections.abc import Callable
 import customtkinter as ctk
 import widgets
 
@@ -8,7 +8,7 @@ class DeleteDialog(widgets.Dialog):
     _dialog: widgets.Dialog | None = None
 
     @classmethod
-    def show(cls, book: Book, on_destroy: c.Callable[[], None] | None = None) -> None:
+    def show(cls, book: Book, on_destroy: Callable[[], None] | None = None) -> None:
         if cls._dialog is not None:
             cls._dialog.destroy()
 
@@ -20,7 +20,7 @@ class DeleteDialog(widgets.Dialog):
         self._book.delete_instance()
         self.destroy()
 
-    def __init__(self, book: Book, on_destroy: c.Callable[[], None] | None = None):
+    def __init__(self, book: Book, on_destroy: Callable[[], None] | None = None):
         super().__init__(
             title_key="dialog_delete_title",
             resizable=(False, False),
@@ -30,7 +30,7 @@ class DeleteDialog(widgets.Dialog):
         self._book = book
 
         # --------------------------------------------------
-        ctk.CTkLabel(
+        widgets.Label(
             self.root_frame,
             text="정말 삭제하시겠습니까?",
             font=("Arial", 14, "bold"),

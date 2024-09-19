@@ -1,6 +1,7 @@
+from utils.I18n import I18n
 import customtkinter as ctk
 import widgets
-from utils import Utils, I18n
+import utils
 
 
 class Page(ctk.CTkFrame):
@@ -98,7 +99,7 @@ class Page(ctk.CTkFrame):
         self._init_section2(root_frame)
         self._init_section3(root_frame)
 
-        copyright_label = ctk.CTkLabel(
+        copyright_label = widgets.Label(
             root_frame,
             text="© 2021-2022, All rights reserved.",
             font=("Arial", 12),
@@ -109,10 +110,12 @@ class Page(ctk.CTkFrame):
         copyright_label.pack(side="top", fill="x", expand=True, pady=5)
 
     def _init_section1(self, root_frame: ctk.CTkFrame):
-        section_div = widgets.Div.create(root_frame, side="top", my=5, px=10, py=5)
+        section_frame = widgets.Frame(root_frame).pack(
+            fill="x", expand=True, pady=5, ipadx=10, ipady=5
+        )
 
         # ---------------------------------------------------------------
-        theme_mode_frame = ctk.CTkFrame(section_div, fg_color="transparent")
+        theme_mode_frame = ctk.CTkFrame(section_frame, fg_color="transparent")
         theme_mode_frame.pack(side="top", fill="x", pady=5)
 
         widgets.Label(
@@ -124,22 +127,26 @@ class Page(ctk.CTkFrame):
             width=170,
         ).pack(side="left", fill="x", expand=True, padx=2)
 
+        appearance_mode_options = {
+            "settings_page_theme_mode_light": "light",
+            "settings_page_theme_mode_dark": "dark",
+            "settings_page_theme_mode_system": "system",
+        }
         widgets.SelectButtons(
             theme_mode_frame,
             width=240,
-            options={
-                "settings_page_theme_mode_light": "light",
-                "settings_page_theme_mode_dark": "dark",
-                "settings_page_theme_mode_system": "system",
-            },
+            options=appearance_mode_options,
             command=ctk.set_appearance_mode,
             dynamic_resizing=False,
             border_width=0,
-            default_option_key="settings_page_theme_mode_system",
+            default_option_key=utils.swapkv(appearance_mode_options).get(
+                ctk.get_appearance_mode().lower(),
+                "settings_page_theme_mode_system",
+            ),
         ).pack(side="left")
 
         # ---------------------------------------------------------------
-        theme_frame = ctk.CTkFrame(section_div, fg_color="transparent")
+        theme_frame = ctk.CTkFrame(section_frame, fg_color="transparent")
         theme_frame.pack(side="top", fill="x", pady=5)
 
         widgets.Label(
@@ -167,7 +174,7 @@ class Page(ctk.CTkFrame):
         theme_buttons.pack(side="left")
 
         # ---------------------------------------------------------------
-        language_frame = ctk.CTkFrame(section_div, fg_color="transparent")
+        language_frame = ctk.CTkFrame(section_frame, fg_color="transparent")
         language_frame.pack(side="top", fill="x", pady=5)
 
         widgets.Label(
@@ -179,24 +186,30 @@ class Page(ctk.CTkFrame):
             width=170,
         ).pack(side="left", fill="x", expand=True, padx=2)
 
+        language_options = {
+            "settings_page_language_korean": "ko",
+            "settings_page_language_english": "en",
+        }
         widgets.SelectButtons(
             language_frame,
             width=240,
-            options={
-                "settings_page_language_korean": "ko",
-                "settings_page_language_english": "en",
-            },
+            options=language_options,
             command=I18n.set_language,
             dynamic_resizing=False,
             border_width=0,
-            default_option_key="settings_page_language_korean",
+            default_option_key=utils.swapkv(language_options).get(
+                I18n.lang,
+                "settings_page_language_korean",
+            ),
         ).pack(side="left")
 
     def _init_section2(self, root_frame: ctk.CTkFrame):
-        section_div = widgets.Div.create(root_frame, side="top", my=5, px=10, py=5)
+        section_frame = widgets.Frame(root_frame).pack(
+            fill="x", expand=True, pady=5, ipadx=10, ipady=5
+        )
 
         # ---------------------------------------------------------------
-        self.license_frame = ctk.CTkFrame(section_div, fg_color="transparent")
+        self.license_frame = ctk.CTkFrame(section_frame, fg_color="transparent")
         self.license_frame.pack(side="top", fill="x", pady=5)
 
         widgets.Label(
@@ -220,14 +233,16 @@ class Page(ctk.CTkFrame):
         self.license_button.pack(side="left", fill="x", expand=True)
 
         self.license_textbox = widgets.TextArea(
-            section_div,
+            section_frame,
             wrap="word",
-            default_text=Utils.readlines("assets", "라이센스.txt"),
+            default_text=utils.readlines("assets", "라이센스.txt"),
             state="disabled",
         )
 
         # ---------------------------------------------------------------
-        self.terms_of_service_frame = ctk.CTkFrame(section_div, fg_color="transparent")
+        self.terms_of_service_frame = ctk.CTkFrame(
+            section_frame, fg_color="transparent"
+        )
         self.terms_of_service_frame.pack(side="top", fill="x", pady=5)
 
         widgets.Label(
@@ -250,14 +265,14 @@ class Page(ctk.CTkFrame):
         self.terms_of_service_button.pack(side="left", fill="x", expand=True)
 
         self.terms_of_service_textbox = widgets.TextArea(
-            section_div,
+            section_frame,
             wrap="word",
-            default_text=Utils.readlines("assets", "이용약관.txt"),
+            default_text=utils.readlines("assets", "이용약관.txt"),
             state="disabled",
         )
 
         # ---------------------------------------------------------------
-        self.privacy_policy_frame = ctk.CTkFrame(section_div, fg_color="transparent")
+        self.privacy_policy_frame = ctk.CTkFrame(section_frame, fg_color="transparent")
         self.privacy_policy_frame.pack(side="top", fill="x", pady=5)
 
         widgets.Label(
@@ -280,17 +295,19 @@ class Page(ctk.CTkFrame):
         self.privacy_policy_button.pack(side="left", fill="x", expand=True)
 
         self.privacy_policy_textbox = widgets.TextArea(
-            section_div,
+            section_frame,
             wrap="word",
-            default_text=Utils.readlines("assets", "개인정보처리방침.txt"),
+            default_text=utils.readlines("assets", "개인정보처리방침.txt"),
             state="disabled",
         )
 
     def _init_section3(self, root_frame: ctk.CTkFrame):
-        section_div = widgets.Div.create(root_frame, side="top", my=5, px=10, py=5)
+        section_frame = widgets.Frame(root_frame).pack(
+            fill="x", expand=True, pady=5, ipadx=10, ipady=5
+        )
 
         # ---------------------------------------------------------------
-        self.update_frame = ctk.CTkFrame(section_div, fg_color="transparent")
+        self.update_frame = ctk.CTkFrame(section_frame, fg_color="transparent")
         self.update_frame.pack(side="top", fill="x", pady=5)
 
         widgets.Label(
@@ -313,7 +330,7 @@ class Page(ctk.CTkFrame):
         ).pack(side="left", fill="x", expand=True)
 
         # ---------------------------------------------------------------
-        self.backup_frame = ctk.CTkFrame(section_div, fg_color="transparent")
+        self.backup_frame = ctk.CTkFrame(section_frame, fg_color="transparent")
         self.backup_frame.pack(side="top", fill="x", pady=5)
 
         widgets.Label(
@@ -336,7 +353,7 @@ class Page(ctk.CTkFrame):
         ).pack(side="left", fill="x", expand=True)
 
         # ---------------------------------------------------------------
-        self.restore_frame = ctk.CTkFrame(section_div, fg_color="transparent")
+        self.restore_frame = ctk.CTkFrame(section_frame, fg_color="transparent")
         self.restore_frame.pack(side="top", fill="x", pady=5)
 
         widgets.Label(
@@ -359,7 +376,7 @@ class Page(ctk.CTkFrame):
         ).pack(side="left", fill="x", expand=True)
 
         # ---------------------------------------------------------------
-        self.init_language_frame = ctk.CTkFrame(section_div, fg_color="transparent")
+        self.init_language_frame = ctk.CTkFrame(section_frame, fg_color="transparent")
         self.init_language_frame.pack(side="top", fill="x", pady=5)
 
         widgets.Label(
@@ -383,7 +400,7 @@ class Page(ctk.CTkFrame):
         ).pack(side="left", fill="x", expand=True)
 
         # ---------------------------------------------------------------
-        self.reset_frame = ctk.CTkFrame(section_div, fg_color="transparent")
+        self.reset_frame = ctk.CTkFrame(section_frame, fg_color="transparent")
         self.reset_frame.pack(side="top", fill="x", pady=5)
 
         widgets.Label(

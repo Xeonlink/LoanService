@@ -1,17 +1,17 @@
-from utils import I18n
 from db import User
-import collections.abc as c
+from collections.abc import Callable
 import customtkinter as ctk
 import widgets
 import re
 import random
+from utils.I18n import I18n
 
 
 class EditDialog(widgets.Dialog):
     _dialog: widgets.Dialog | None = None
 
     @classmethod
-    def show(cls, user: User, on_destroy: c.Callable[[], None] | None = None) -> None:
+    def show(cls, user: User, on_destroy: Callable[[], None] | None = None) -> None:
         if cls._dialog is not None:
             cls._dialog.destroy()
 
@@ -74,7 +74,7 @@ class EditDialog(widgets.Dialog):
             f"010-{random.randrange(1000,9999)}-{random.randrange(1000,9999)}"
         )
 
-    def __init__(self, user: User, on_destroy: c.Callable[[], None] | None = None):
+    def __init__(self, user: User, on_destroy: Callable[[], None] | None = None):
         super().__init__(
             title_key="user_edit_dialog_title",
             resizable=(False, False),

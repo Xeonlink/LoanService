@@ -38,7 +38,7 @@ class Page(ctk.CTkFrame):
         )
         header_frame.pack(side="top", fill="x")
 
-        ctk.CTkLabel(
+        widgets.Label(
             header_frame,
             text="대출코드 🪪",
             width=100,

@@ -1,4 +1,4 @@
-import collections.abc as c
+from collections.abc import Callable
 import customtkinter as ctk
 import widgets
 
@@ -33,8 +33,8 @@ class Pagination(ctk.CTkFrame):
         button_width: int = 70,
         default_page: int = 1,
         default_total_page: int = 1,
-        on_prev_click: c.Callable[[], None] | None = None,
-        on_next_click: c.Callable[[], None] | None = None,
+        on_prev_click: Callable[[], None] | None = None,
+        on_next_click: Callable[[], None] | None = None,
         **kwargs,
     ):
         super().__init__(
@@ -63,7 +63,7 @@ class Pagination(ctk.CTkFrame):
         )
         self.prev_btn.pack(side="left")
 
-        self.page_label = ctk.CTkLabel(
+        self.page_label = widgets.Label(
             self,
             text=f"{default_page} / {default_total_page}",
             width=label_width,

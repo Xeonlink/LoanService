@@ -1,8 +1,7 @@
-from typing import Literal
-from utils import I18n
 from enum import Enum
-import collections.abc as c
+from collections.abc import Callable
 import customtkinter as ctk
+from utils.I18n import I18n
 
 
 class Mode(Enum):
@@ -21,7 +20,7 @@ class Dialog(ctk.CTkToplevel):
         title: str = "",
         title_key: str | None = None,
         resizable: tuple[bool, bool] = (False, False),
-        on_destroy: c.Callable[[], None] | None = None,
+        on_destroy: Callable[[], None] | None = None,
         pad: tuple[int, int] = (0, 0),
         **kwargs,
     ):

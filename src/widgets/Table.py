@@ -1,5 +1,5 @@
 from enum import Enum, auto
-import collections.abc as c
+from collections.abc import Callable
 import customtkinter as ctk
 import widgets
 import widgets.Label
@@ -26,8 +26,8 @@ class Column[T]:
         height: int = 30,
         anchor: Anchor = Anchor.CENTER,
         expand: bool = False,
-        getter: c.Callable[[T], str] = lambda _: "-",
-        command: c.Callable[[T], None] = lambda _: None,
+        getter: Callable[[T], str] = lambda _: "-",
+        command: Callable[[T], None] = lambda _: None,
         **kwargs,
     ):
         self.widget = widget
@@ -45,7 +45,7 @@ class Column[T]:
 class Table[T](ctk.CTkFrame):
     @classmethod
     def _create_label_td(cls, row_frame: ctk.CTkFrame, column: Column[T], data: T):
-        td = ctk.CTkLabel(
+        td = widgets.Label(
             row_frame,
             text=column.getter(data),
             width=column.width,
@@ -137,7 +137,7 @@ class Table[T](ctk.CTkFrame):
             else:
                 label.pack(side="left")
 
-        scrollbar_label = ctk.CTkLabel(
+        scrollbar_label = widgets.Label(
             self.thead_frame,
             text="",
             width=15,
@@ -162,7 +162,7 @@ class Table[T](ctk.CTkFrame):
         )
         row_frame.pack(side="top", fill="x")
 
-        index_label = ctk.CTkLabel(
+        index_label = widgets.Label(
             row_frame,
             text=str(index + 1),
             width=40,

@@ -1,8 +1,14 @@
 key,ko,en
 sidemenu_home_button,🏠 홈,🏠 Home
+sidemenu_loan_return_button,📚 대출/반납,📚 Loan/Return
 sidemenu_users_button,🧔‍♂️ 회원관리,🧔‍♂️ Users
 sidemenu_books_button,📗 도서관리,📗 Books
 sidemenu_settings_button,⚙️ 설정,⚙️ Setting
+,,
+loan_return_page_loan_code_label,🪪 대출코드 / 🪧 바코드,🪪 Loan Code / 🪧 Barcode
+loan_return_page_loan_code_placeholder,ex) 123456 / |l||i|ll||i|l|,ex) 123456 / |l||i|ll||i|l|
+loan_return_page_barcode_label,🪧 바코드,🪧 Barcode
+loan_return_page_barcode_placeholder,ex) |l||i|ll||i|l|,ex) |l||i|ll||i|l|
 ,,
 users_page_add_user_button,회원 추가 ✚,Add User ✚
 users_page_search_filter_select_name,이름,Name

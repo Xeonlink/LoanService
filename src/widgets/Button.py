@@ -1,6 +1,6 @@
-from utils import I18n
-import collections.abc as c
+from collections.abc import Callable
 import customtkinter as ctk
+from utils.I18n import I18n
 
 
 class Button(ctk.CTkButton):
@@ -52,7 +52,7 @@ class Button(ctk.CTkButton):
         image: ctk.CTkImage | None = None,
         state: str = "normal",
         hover: bool = True,
-        command: c.Callable[[], None] | None = None,
+        command: Callable[[], None] | None = None,
         compound: str = "left",
         anchor: str = "center",
         #

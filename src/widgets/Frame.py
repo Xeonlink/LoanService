@@ -1,12 +1,10 @@
 from typing import Literal
-import collections.abc as c
 import customtkinter as ctk
 
 
-class Div:
-    @classmethod
-    def create(
-        cls,
+class Frame(ctk.CTkFrame):
+    def __init__(
+        self,
         master,
         width: int = 200,
         height: int = 200,
@@ -17,17 +15,9 @@ class Div:
         border_color: str | tuple[str, str] | None = None,
         background_corner_colors: tuple[str | tuple[str, str]] | None = None,
         overwrite_preferred_drawing_method: str | None = None,
-        #
-        side: Literal["top", "bottom", "left", "right"] = "top",
-        fill: Literal["x", "y", "both", "none"] = "none",
-        expand: bool = False,
-        mx: int = 0,
-        my: int = 0,
-        px: int = 0,
-        py: int = 0,
         **kwargs
     ):
-        div = ctk.CTkFrame(
+        super().__init__(
             master,
             width,
             height,
@@ -40,16 +30,32 @@ class Div:
             overwrite_preferred_drawing_method,
             **kwargs
         )
-        div.pack_configure(side=side, fill=fill, expand=expand, padx=mx, pady=my)
 
-        if px < 0:
-            return div
-        if py < 0:
-            return div
+    def pack(
+        self,
+        side: Literal["top", "bottom", "left", "right"] = "top",
+        anchor: Literal[
+            "n", "ne", "e", "se", "s", "sw", "w", "nw", "center"
+        ] = "center",
+        fill: Literal["x", "y", "both", "none"] = "none",
+        expand: bool = False,
+        padx: int = 0,
+        pady: int = 0,
+        ipadx: int = 0,
+        ipady: int = 0,
+    ) -> ctk.CTkFrame:
+        super().pack(
+            side=side,
+            anchor=anchor,
+            fill=fill,
+            expand=expand,
+            padx=padx,
+            pady=pady,
+        )
 
-        if px == 0 and py == 0:
-            return div
+        if ipadx == 0 and ipady == 0:
+            return self
 
-        frame = ctk.CTkFrame(div, fg_color="transparent")
-        frame.pack_configure(fill="both", expand=True, padx=px, pady=py)
+        frame = ctk.CTkFrame(self, fg_color="transparent")
+        frame.pack(side="top", fill="both", expand=True, padx=ipadx, pady=ipady)
         return frame

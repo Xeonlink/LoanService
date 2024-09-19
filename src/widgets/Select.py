@@ -1,7 +1,7 @@
-from utils import I18n
-import collections.abc as c
+from collections.abc import Callable
 import customtkinter as ctk
 import tkinter
+from utils.I18n import I18n
 
 
 class Select[T](ctk.CTkOptionMenu):
@@ -51,7 +51,7 @@ class Select[T](ctk.CTkOptionMenu):
         variable: tkinter.Variable | None = None,
         state: str = tkinter.NORMAL,
         hover: bool = True,
-        command: c.Callable[[T], None] | None = None,
+        command: Callable[[T], None] | None = None,
         dynamic_resizing: bool = True,
         anchor: str = "w",
         #

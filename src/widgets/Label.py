@@ -1,5 +1,5 @@
-from utils import I18n
 import customtkinter as ctk
+from utils.I18n import I18n
 
 
 class Label(ctk.CTkLabel):
