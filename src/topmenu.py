@@ -3,11 +3,19 @@ import customtkinter as ctk
 import widgets
 
 
-class SideMenu(ctk.CTkFrame):
+class ButtonDef:
+    def __init__(
+        self,
+        text: str = "",
+        text_key: str | None = None,
+        on_click: Callable[[], None] | None = None,
+    ):
+        self.text = text
+        self.text_key = text_key
+        self.on_click = on_click
 
-    def select_initial(self, btn: ctk.CTkButton):
-        btn.configure(fg_color=ctk.ThemeManager.theme["CTkButton"]["fg_color"])
-        self.last_selected_btn = btn
+
+class TopMenu(ctk.CTkFrame):
 
     def _select_btn(self, btn: ctk.CTkButton):
         if self.last_selected_btn:
@@ -15,27 +23,22 @@ class SideMenu(ctk.CTkFrame):
         self.last_selected_btn = btn
         btn.configure(fg_color=ctk.ThemeManager.theme["CTkButton"]["fg_color"])
 
-    def add_btn(
-        self,
-        text: str = "",
-        text_key: str | None = None,
-        on_click: Callable[[], None] = lambda: None,
-    ) -> ctk.CTkButton:
+    def _create_btn(self, button_def: ButtonDef) -> ctk.CTkButton:
+        def command():
+            self._select_btn(btn)
+            if button_def.on_click is not None:
+                button_def.on_click()
+
         btn = widgets.Button(
             self.center_frame,
-            text=text,
-            text_key=text_key,
+            text=button_def.text,
+            text_key=button_def.text_key,
             height=50,
             text_color=("#111111", "gray98"),  # TODO: 테마에 맞게 나중에 일괄수정 필요
             font=("Arial", 14),
             fg_color="transparent",
+            command=command,
         )
-
-        def command():
-            self._select_btn(btn)
-            on_click()
-
-        btn.configure(command=command)
         btn.pack(side="left")
         return btn
 
@@ -51,6 +54,8 @@ class SideMenu(ctk.CTkFrame):
         border_color: str | tuple[str, str] | None = None,
         background_corner_colors: tuple[str | tuple[str, str]] | None = None,
         overwrite_preferred_drawing_method: str | None = None,
+        #
+        button_defs: list[ButtonDef] | None = None,
         **kwargs
     ):
         super().__init__(
@@ -74,3 +79,10 @@ class SideMenu(ctk.CTkFrame):
             fg_color="transparent",
         )
         self.center_frame.pack(side="left", expand=True)
+
+        if button_defs is not None:
+            self.buttons: list[ctk.CTkButton] = []
+            for button_def in button_defs:
+                self.buttons.append(self._create_btn(button_def))
+        else:
+            self.buttons: list[ctk.CTkButton] = []
