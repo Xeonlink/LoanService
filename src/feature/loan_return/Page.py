@@ -2,6 +2,7 @@ from db import Book, Loan, User
 from datetime import datetime
 import customtkinter as ctk
 import widgets
+import widgets.Alert
 import widgets.Table as table
 import utils
 
@@ -40,6 +41,13 @@ class Page(ctk.CTkFrame):
         if self._user is not None:
             book = Book.safe_get(barcode_id=search_text)
             if (book is not None) and (not book.is_reading):
+
+                if self._user.has_overdue():
+                    widgets.Alert(
+                        message="대출불가.\n연체된 도서가 있어 대출할 수 없습니다."
+                    )
+                    return
+
                 book_ids: list[int] = []
                 for loan in self._user.get_loans():  # type: ignore
                     if loan.return_at is None:

@@ -124,3 +124,5 @@ dialog_add_button,추가하기 ✚,Add ✚
 dialog_update_button,수정하기 📝,Save 📝
 dialog_cancel_button,취소,Cancel
 dialog_delete_button,삭제,Delete
+dialog_warning_title,경고,Warning
+dialog_keepgoing_button,계속하기 →,Continue →

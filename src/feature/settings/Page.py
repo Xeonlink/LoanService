@@ -8,6 +8,7 @@ from constants import (
     LICENSE_PATH,
     TERMS_OF_SERVICE_PATH,
     PRIVACY_POLICY_PATH,
+    DEBUG,
 )
 import customtkinter as ctk
 import widgets
@@ -109,6 +110,8 @@ class Page(ctk.CTkFrame):
         self._init_section1(root_frame)
         self._init_section2(root_frame)
         self._init_section3(root_frame)
+        if DEBUG:
+            self._debug_section(root_frame)
 
         copyright_label = widgets.Label(
             root_frame,
@@ -318,11 +321,11 @@ class Page(ctk.CTkFrame):
         )
 
         # ---------------------------------------------------------------
-        self.update_frame = ctk.CTkFrame(section_frame, fg_color="transparent")
-        self.update_frame.pack(side="top", fill="x", pady=5)
+        self.warning_test_frame = ctk.CTkFrame(section_frame, fg_color="transparent")
+        self.warning_test_frame.pack(side="top", fill="x", pady=5)
 
         widgets.Label(
-            self.update_frame,
+            self.warning_test_frame,
             text_key="settings_page_update",
             font=("Arial", 14),
             width=170,
@@ -330,7 +333,7 @@ class Page(ctk.CTkFrame):
         ).pack(side="left", padx=2)
 
         widgets.Button(
-            self.update_frame,
+            self.warning_test_frame,
             text_key="settings_page_update_check",
             width=240,
             height=30,
@@ -442,4 +445,57 @@ class Page(ctk.CTkFrame):
             height=30,
             fg_color=ctk.ThemeManager.theme["CTkTextbox"]["fg_color"],
             # command=Utils.reset,
+        ).pack(side="left", fill="x", expand=True)
+
+    def _debug_section(self, root_frame: ctk.CTkFrame):
+        section_frame = widgets.Frame(root_frame).pack(
+            fill="x", expand=True, pady=5, ipadx=10, ipady=5
+        )
+
+        # ---------------------------------------------------------------
+        self.warning_test_frame = ctk.CTkFrame(section_frame, fg_color="transparent")
+        self.warning_test_frame.pack(side="top", fill="x", pady=5)
+
+        widgets.Label(
+            self.warning_test_frame,
+            text="⚠️ 경고 테스트",
+            font=("Arial", 14),
+            width=170,
+            anchor="w",
+        ).pack(side="left", padx=2)
+
+        def show_warning():
+            widgets.Warning(message="경고 메시지 내용입니다.")
+
+        widgets.Button(
+            self.warning_test_frame,
+            text="경고 메시지",
+            width=240,
+            height=30,
+            fg_color=ctk.ThemeManager.theme["CTkTextbox"]["fg_color"],
+            command=show_warning,
+        ).pack(side="left", fill="x", expand=True)
+
+        # ---------------------------------------------------------------
+        self.alert_test_frame = ctk.CTkFrame(section_frame, fg_color="transparent")
+        self.alert_test_frame.pack(side="top", fill="x", pady=5)
+
+        widgets.Label(
+            self.alert_test_frame,
+            text="🔔 알림 테스트",
+            font=("Arial", 14),
+            width=170,
+            anchor="w",
+        ).pack(side="left", padx=2)
+
+        def show_alert():
+            widgets.Alert(message="대출불가.\n연체된 도서가 있어 대출할 수 없습니다.")
+
+        widgets.Button(
+            self.alert_test_frame,
+            text="알림 메시지",
+            width=240,
+            height=30,
+            fg_color=ctk.ThemeManager.theme["CTkTextbox"]["fg_color"],
+            command=show_alert,
         ).pack(side="left", fill="x", expand=True)

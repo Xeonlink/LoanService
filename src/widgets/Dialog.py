@@ -16,7 +16,6 @@ class Dialog(ctk.CTkToplevel):
         *args,
         fg_color: str | tuple[str, str] | None = None,
         #
-        # policy: tuple[str, Mode] | None = None,
         title: str = "",
         title_key: str | None = None,
         resizable: tuple[bool, bool] = (False, False),

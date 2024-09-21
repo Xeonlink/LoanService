@@ -85,6 +85,10 @@ class User(BaseModel):
     def get_loans(self):
         return self.loans  # type: ignore
 
+    def has_overdue(self) -> bool:
+        loans: list[Loan] = list(self.loans)  # type: ignore
+        return any(loan.return_at is not None and loan.is_overdue() for loan in loans)
+
     @classmethod
     def safe_get(cls, *query, **filters):
         try:
