@@ -36,7 +36,7 @@ class SideMenu(ctk.CTkFrame):
             on_click()
 
         btn.configure(command=command)
-        btn.pack()
+        btn.pack(side="left")
         return btn
 
     def __init__(
@@ -73,4 +73,4 @@ class SideMenu(ctk.CTkFrame):
             self,
             fg_color="transparent",
         )
-        self.center_frame.pack(side="left", fill="x")
+        self.center_frame.pack(side="left", expand=True)

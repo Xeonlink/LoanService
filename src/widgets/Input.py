@@ -1,5 +1,7 @@
-import customtkinter as ctk
+from collections.abc import Callable
 from utils.I18n import I18n
+import customtkinter as ctk
+import tkinter as tk
 
 
 class Input(ctk.CTkEntry):
@@ -23,6 +25,7 @@ class Input(ctk.CTkEntry):
         #
         placeholder_text_key: str | None = None,
         default_text: str | None = None,
+        on_enter: Callable[[tk.Event], None] | None = None,
         **kwargs
     ):
         super().__init__(
@@ -42,6 +45,10 @@ class Input(ctk.CTkEntry):
             state=state,
             **kwargs
         )
+
+        self._on_enter = on_enter
+        if self._on_enter is not None:
+            self.bind("<Return>", self._on_enter)
 
         if placeholder_text_key is not None:
             self._placeholder_text_unsubscriber = I18n.subscribe(
@@ -63,7 +70,10 @@ class Input(ctk.CTkEntry):
         """Input의 내용을 지움"""
         self.blur()
         self._entry_focus_out()
+        state = self._state
+        self.configure(state="normal")
         self.delete(0, "end")
+        self.configure(state=state)
 
     def get(self) -> str:
         """Input의 내용을 가져옴"""
@@ -72,11 +82,17 @@ class Input(ctk.CTkEntry):
     def set(self, value: str) -> None:
         """Input의 내용을 설정"""
         if len(value) == 0:
+            state = self._state
+            self.configure(state="normal")
             self.clear()
+            self.configure(state=state)
             return
 
+        state = self._state
+        self.configure(state="normal")
         self.delete(0, "end")
         self.insert(0, value)
+        self.configure(state=state)
 
     def destroy(self):
         if self._placeholder_text_unsubscriber is not None:

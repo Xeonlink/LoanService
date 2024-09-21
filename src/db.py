@@ -1,12 +1,29 @@
-import peewee
-import uuid
+from peewee import (
+    SqliteDatabase,
+    Model,
+    CharField,
+    ForeignKeyField,
+    DateTimeField,
+    IntegerField,
+    AutoField,
+    BooleanField,
+)
+from datetime import datetime, timedelta
 
 
-db = peewee.SqliteDatabase("./data/data.db")
+db = SqliteDatabase("./data/data.db")
 
 
-class BaseModel(peewee.Model):
+class BaseModel(Model):
     """A base model that will use our Sqlite database."""
+
+    id = AutoField(null=False, unique=True, primary_key=True)
+    created_at = DateTimeField(null=False, default=datetime.now)
+    updated_at = DateTimeField(null=False, default=datetime.now)
+
+    def save(self, force_insert: bool = False, only=None):
+        self.updated_at = datetime.now()
+        return super().save(force_insert, only)
 
     class Meta:
         database = db
@@ -15,12 +32,22 @@ class BaseModel(peewee.Model):
 class Book(BaseModel):
     """A model for a book."""
 
-    id = peewee.UUIDField(null=False, unique=True, primary_key=True, default=uuid.uuid4)
-    barcode_id = peewee.CharField(null=False, unique=True)
-    title = peewee.CharField(null=False)
-    author = peewee.CharField(null=False)
-    publisher = peewee.CharField(null=False)
-    classification_num = peewee.CharField(null=False)
+    barcode_id = CharField(null=False, unique=True)
+    title = CharField(null=False)
+    author = CharField(null=False)
+    publisher = CharField(null=False)
+    classification_num = CharField(null=False)
+    is_reading = BooleanField(null=False, default=lambda: False)
+
+    def get_loan(self):
+        return self.loan  # type: ignore
+
+    @classmethod
+    def safe_get(cls, *query, **filters):
+        try:
+            return Book.get(*query, **filters)
+        except:
+            return None
 
     @classmethod
     def select_safe(cls):
@@ -42,10 +69,27 @@ class Book(BaseModel):
 class User(BaseModel):
     """A model for a user."""
 
-    id = peewee.UUIDField(null=False, unique=True, primary_key=True, default=uuid.uuid4)
-    loan_code = peewee.IntegerField(null=False, unique=True)
-    name = peewee.CharField(null=False)
-    contact = peewee.CharField(null=False, unique=True)
+    loan_code = IntegerField(null=False, unique=True)
+    name = CharField(null=False)
+    contact = CharField(null=False, unique=True)
+
+    def save(self, force_insert: bool = False, only=None):
+        self.updated_at = datetime.now()
+        return super().save(force_insert, only)
+
+    def can_loan(self) -> bool:
+        loans: list[Loan] = list(self.loans)  # type: ignore
+        return len(loans) < 5 and all(not loan.is_overdue() for loan in loans)
+
+    def get_loans(self):
+        return self.loans  # type: ignore
+
+    @classmethod
+    def safe_get(cls, *query, **filters):
+        try:
+            return User.get(*query, **filters)
+        except Exception as e:
+            return None
 
     @classmethod
     def select_safe(cls):
@@ -75,11 +119,32 @@ class User(BaseModel):
 class Loan(BaseModel):
     """A model for a loan."""
 
-    id = peewee.UUIDField(null=False, unique=True, primary_key=True)
-    book_id = peewee.ForeignKeyField(Book, backref="loans")
-    user_id = peewee.ForeignKeyField(User, backref="loans")
-    loan_date = peewee.DateTimeField(null=False)
-    return_date = peewee.DateTimeField(null=False)
+    book = ForeignKeyField(Book, backref="loan")
+    user = ForeignKeyField(User, backref="loans")
+    loan_at = DateTimeField(null=False, default=datetime.now)
+    return_at = DateTimeField(null=True)
+
+    @classmethod
+    def safe_get(cls, *query, **filters):
+        try:
+            return User.get(*query, **filters)
+        except Exception as e:
+            print(e)
+            return None
+
+    @classmethod
+    def select_safe(cls):
+        try:
+            return list[Loan](Loan.select())
+        except:
+            result: list[Loan] = []
+            return result
+
+    def due_date(self) -> datetime:
+        return self.loan_at + timedelta(days=7)  # type: ignore
+
+    def is_overdue(self) -> bool:
+        return self.due_date() < datetime.now()
 
 
 def init():

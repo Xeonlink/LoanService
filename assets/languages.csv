@@ -1,6 +1,6 @@
 key,ko,en
 sidemenu_home_button,🏠 홈,🏠 Home
-sidemenu_loan_return_button,📚 대출/반납,📚 Loan/Return
+sidemenu_loan_return_button,📚 대출 / 반납,📚 Loan / Return
 sidemenu_users_button,🧔‍♂️ 회원관리,🧔‍♂️ Users
 sidemenu_books_button,📗 도서관리,📗 Books
 sidemenu_settings_button,⚙️ 설정,⚙️ Setting
@@ -9,6 +9,12 @@ loan_return_page_loan_code_label,🪪 대출코드 / 🪧 바코드,🪪 Loan Co
 loan_return_page_loan_code_placeholder,ex) 123456 / |l||i|ll||i|l|,ex) 123456 / |l||i|ll||i|l|
 loan_return_page_barcode_label,🪧 바코드,🪧 Barcode
 loan_return_page_barcode_placeholder,ex) |l||i|ll||i|l|,ex) |l||i|ll||i|l|
+loan_return_page_table_column_title,제목,Title
+loan_return_page_table_column_author,저자,Author
+loan_return_page_table_column_publisher,출판사,Publisher
+loan_return_page_table_column_classification_num,분류번호,Code
+loan_return_page_table_column_loan_date_range,대출기간,Loan Duration
+loan_return_page_table_column_overdue,연체,Overdue
 ,,
 users_page_add_user_button,회원 추가 ✚,Add User ✚
 users_page_search_filter_select_name,이름,Name
@@ -101,6 +107,7 @@ settings_page_update_check,업데이트 확인 (준비중),Check Update (Prepari
 search_input_placeholder,검색어를 입력하세요.,Enter your searh term
 erase_button,지우기 ⌫,Clear ⌫
 search_button,검색 🔍,Search 🔍
+enter_button,입력 ↩,Enter ↩
 10_per_page,10개씩 보기,10 per page
 20_per_page,20개씩 보기,20 per page
 30_per_page,30개씩 보기,30 per page

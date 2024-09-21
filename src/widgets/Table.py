@@ -87,6 +87,7 @@ class Table[T](ctk.CTkFrame):
         background_corner_colors: tuple[str | tuple[str, str]] | None = None,
         overwrite_preferred_drawing_method: str | None = None,
         #
+        scrollable: bool = True,
         column_def: list[Column[T]] = [],
         **kwargs,
     ):
@@ -104,6 +105,7 @@ class Table[T](ctk.CTkFrame):
             **kwargs,
         )
 
+        self._scrollable = scrollable
         self._column_def: list[Column[T]] = column_def
 
         self._init_columns()
@@ -137,19 +139,20 @@ class Table[T](ctk.CTkFrame):
             else:
                 label.pack(side="left")
 
-        scrollbar_label = widgets.Label(
-            self.thead_frame,
-            text="",
-            width=15,
-            height=30,
-        )
-        scrollbar_label.pack(side="left")
+        if self._scrollable:
+            scrollbar_label = widgets.Label(
+                self.thead_frame,
+                text="",
+                width=15,
+                height=30,
+            )
+            scrollbar_label.pack(side="left")
 
-        self.tbody_frame = ctk.CTkScrollableFrame(
-            self,
-            fg_color="transparent",
-        )
-        self.tbody_frame.pack(side="top", fill="both", expand=True)
+            self.tbody_frame = ctk.CTkScrollableFrame(self, fg_color="transparent")
+            self.tbody_frame.pack(side="top", fill="both", expand=True)
+        else:
+            self.tbody_frame = ctk.CTkFrame(self, fg_color="transparent")
+            self.tbody_frame.pack(side="top", fill="both", expand=True)
 
     def clear(self):
         for widget in self.tbody_frame.winfo_children():
