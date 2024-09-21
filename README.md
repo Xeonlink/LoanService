@@ -130,11 +130,48 @@
     pip install -r requirement.txt
     ```
 
-### 빌드 명령어
+# 빌드 과정
+
+### 빌드과정
+
+1. constants.py에서 DEBUG를 False로, 변경
+
+   ```python
+   DEBUG=False
+   ```
+
+2. pyinstaller가 설치되어 있지 않다면, 설치
+
+   설치되어 있다면, 다음 단계로 넘어감.
+   ```pwsh
+   pip install -r requirement.txt
+   또는
+   pip install pyinstaller
+   ```
+
+3. 터미널에 다음의 명령어를 입력하여, 빌드
 
    ```pwsh
    pyinstaller -w -F --add-data "./assets/*:assets" --add-data "./assets/themes/*:assets/themes" --add-data "./data:data" ./src/main.py
    ```
+   -w : 빌드결과를 실행했을 때, 터미널창이 실행되지 않고 윈도우창만 나오도록 함
+
+   -F : 빌드결과가 디렉토리 + .exe 형태가 아닌, 하나의 .exe파일로 나오도록 함
+
+   --add-data "{src}:{des}" : {src}에 해당하는 파일을 빌드결과 {des}에 옮기도록 함. 수행하지 않을 경우 빌드결과물을 실행했을 때, 해당 리소스를 찾을 수 없다며 에러를 일으킴.
+
+### 주의사항
+
+1. data.db 파일의 제거 또는 초기화
+
+   테스트할 때 사용했던 db파일이 그대로 빌드결과에 들어가기 때문에, 이를 방지하기 위해서 db파일을 삭제하거나 백업한 후에 빌드를 하는 것이 좋음.
+
+2. DEBUG=False
+
+   변경하지 않을 경우, AddDialog와 EditDialog에서 🔥 테스트용으로 채우기가 빌드결과에 반영됨.
+
+   DEBUG=False 를 하는 것만으로도 🔥 테스트용으로 채우기 가 사라지도록 코드를 짜두었기 때문에 수동으로 제거할 필요 없음.
+
 
 # Tips
 
