@@ -1,7 +1,7 @@
 from utils.I18n import I18n
 from tkinter.filedialog import askdirectory
 from shutil import copyfile
-from constants import DB_PATH, BACKUP_FILE_NAME
+from constants import DB_PATH, BACKUP_FILE_NAME_SQLITE, BACKUP_FILE_NAME_EXCEL
 import customtkinter as ctk
 import widgets
 import utils
@@ -343,18 +343,33 @@ class Page(ctk.CTkFrame):
             anchor="w",
         ).pack(side="left", padx=2)
 
-        def backup():
-            des = os.path.join(askdirectory(), BACKUP_FILE_NAME)
+        def backup_sqlite():
+            des = os.path.join(askdirectory(), BACKUP_FILE_NAME_SQLITE)
             copyfile(DB_PATH, des)
 
         widgets.Button(
             self.backup_frame,
-            text_key="settings_page_backup_create",
-            width=240,
+            text_key="settings_page_backup_sqlite",
+            width=120,
             height=30,
             fg_color=ctk.ThemeManager.theme["CTkTextbox"]["fg_color"],
-            command=backup,
-        ).pack(side="left", fill="x", expand=True)
+            command=backup_sqlite,
+        ).pack(side="left")
+
+        ctk.CTkFrame(self.backup_frame, width=10, height=10).pack(side="left")
+
+        def backup_excel():
+            des = os.path.join(askdirectory(), BACKUP_FILE_NAME_EXCEL)
+            utils.sqlite_to_excel(DB_PATH, des)
+
+        widgets.Button(
+            self.backup_frame,
+            text_key="settings_page_backup_excel",
+            width=120,
+            height=30,
+            fg_color=ctk.ThemeManager.theme["CTkTextbox"]["fg_color"],
+            command=backup_excel,
+        ).pack(side="left")
 
         # ---------------------------------------------------------------
         self.restore_frame = ctk.CTkFrame(section_frame, fg_color="transparent")

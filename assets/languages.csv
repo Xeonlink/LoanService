@@ -94,7 +94,8 @@ settings_page_open_source,📜 오픈소스 라이센스,📜 Open Source Licens
 settings_page_terms_of_service,📝 이용약관,📝 Terms of Service
 settings_page_privacy_policy,📃 개인정보 처리방침,📃 Privacy Policy
 settings_page_backup,백업,Backup
-settings_page_backup_create,백업 파일 생성 (준비중),Save Backup File (Preparing)
+settings_page_backup_sqlite,Sqlite(db),Sqlite(db)
+settings_page_backup_excel,엑셀(xlsx),Excel(xlsx)
 settings_page_restore,복원,Restore
 settings_page_restore_do,백업 파일 복원 (준비중),Restore Backup File (Preparing)
 settings_page_init_language,언어 리로드,Reload Language File
