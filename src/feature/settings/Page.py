@@ -1,7 +1,14 @@
 from utils.I18n import I18n
 from tkinter.filedialog import askdirectory
 from shutil import copyfile
-from constants import DB_PATH, BACKUP_FILE_NAME_SQLITE, BACKUP_FILE_NAME_EXCEL
+from constants import (
+    DB_PATH,
+    BACKUP_FILE_NAME_SQLITE,
+    BACKUP_FILE_NAME_EXCEL,
+    LICENSE_PATH,
+    TERMS_OF_SERVICE_PATH,
+    PRIVACY_POLICY_PATH,
+)
 import customtkinter as ctk
 import widgets
 import utils
@@ -239,7 +246,7 @@ class Page(ctk.CTkFrame):
         self.license_textbox = widgets.TextArea(
             section_frame,
             wrap="word",
-            default_text=utils.readlines("assets", "라이센스.txt"),
+            default_text=utils.readall(LICENSE_PATH),
             state="disabled",
         )
 
@@ -271,7 +278,7 @@ class Page(ctk.CTkFrame):
         self.terms_of_service_textbox = widgets.TextArea(
             section_frame,
             wrap="word",
-            default_text=utils.readlines("assets", "이용약관.txt"),
+            default_text=utils.readall(TERMS_OF_SERVICE_PATH),
             state="disabled",
         )
 
@@ -301,7 +308,7 @@ class Page(ctk.CTkFrame):
         self.privacy_policy_textbox = widgets.TextArea(
             section_frame,
             wrap="word",
-            default_text=utils.readlines("assets", "개인정보처리방침.txt"),
+            default_text=utils.readall(PRIVACY_POLICY_PATH),
             state="disabled",
         )
 
@@ -360,7 +367,7 @@ class Page(ctk.CTkFrame):
 
         def backup_excel():
             des = os.path.join(askdirectory(), BACKUP_FILE_NAME_EXCEL)
-            utils.sqlite_to_excel(DB_PATH, des)
+            utils.sqlite2excel(DB_PATH, des)
 
         widgets.Button(
             self.backup_frame,

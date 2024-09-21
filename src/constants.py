@@ -1,14 +1,22 @@
 import utils
+import os
 
 
-ICON_PATH = utils.resource_path("assets/favicon_sm.png")
-DB_PATH = utils.resource_path("data/data.db")
-LANGUAGE_FILE_PATH = utils.resource_path("assets/languages.csv")
 BACKUP_FILE_NAME_SQLITE = "backup.db"
 BACKUP_FILE_NAME_EXCEL = "backup.xlsx"
 
+# Paths
+ICON_PATH = utils.resource_path(os.path.join("assets", "favicon_sm.png"))
+DB_PATH = utils.resource_path(os.path.join("data", "data.db"))
+LANGUAGE_PATH = utils.resource_path(os.path.join("assets", "languages.csv"))
+LICENSE_PATH = utils.resource_path(os.path.join("assets", "licenses.txt"))
+TERMS_OF_SERVICE_PATH = utils.resource_path(
+    os.path.join("assets", "terms_of_service.txt")
+)
+PRIVACY_POLICY_PATH = utils.resource_path(os.path.join("assets", "privacy_policy.txt"))
+
 # Theme
-GREEN_THEME_PATH = utils.resource_path("assets/themes/green.json")
+GREEN_THEME_PATH = utils.resource_path(os.path.join("assets", "themes", "green.json"))
 
 # Debug
 DEBUG = True

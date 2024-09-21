@@ -130,9 +130,15 @@
     pip install -r requirement.txt
     ```
 
+### 빌드 명령어
+
+   ```pwsh
+   pyinstaller -w -F --add-data "./assets/*:assets" --add-data "./assets/themes/*:assets/themes" --add-data "./data:data" ./src/main.py
+   ```
+
 # Tips
 
-### 필요한 아이콘을 가져오는 방법
+### 필요한 아이콘을 가져오는 방법 (deprecated : 해봤는데 아이콘 깨짐)
 
 1. https://fontawesome.com/ 사이트로 이동한다.
 

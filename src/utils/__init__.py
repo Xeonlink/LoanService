@@ -10,8 +10,8 @@ def swapkv(d: dict):
     return {v: k for k, v in d.items()}
 
 
-def readlines(*path):
-    with open(os.path.join(*path), "r") as f:
+def readall(path: str):
+    with open(path, "r") as f:
         return "".join(f.readlines())
 
 
@@ -38,13 +38,7 @@ def resource_path(relative_path: str) -> str:
     return os.path.join(base_path, relative_path)
 
 
-def sanitize_sheet_name(name):
-    # Excel 워크시트 이름으로 사용 가능한 문자열로 변환
-    name = re.sub(r"[\\/*?:\[\]]", "_", name)
-    return name[:31]  # 최대 길이 31자 제한
-
-
-def sqlite_to_excel(db_path: str, excel_path: str):
+def sqlite2excel(db_path: str, excel_path: str):
     """
     SQLite 데이터베이스의 각 테이블을 Excel 워크시트로 내보냅니다.
 

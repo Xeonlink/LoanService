@@ -1,14 +1,14 @@
 from feature import books, users, settings, home, loan_return
 from tkinter import PhotoImage
 from utils.I18n import I18n
-from constants import LANGUAGE_FILE_PATH, GREEN_THEME_PATH, ICON_PATH
+from constants import LANGUAGE_PATH, GREEN_THEME_PATH, ICON_PATH
 import topmenu
 import customtkinter as ctk
 import db
 
 
 db.init()
-I18n.init(LANGUAGE_FILE_PATH)
+I18n.init(LANGUAGE_PATH)
 I18n.lang = "ko"
 ctk.set_appearance_mode("system")
 ctk.set_default_color_theme(GREEN_THEME_PATH)

@@ -1,6 +1,10 @@
+build
+dist
 lib
 include
 venv
 .venv
+
+*.spec
 
 __pycache__/
