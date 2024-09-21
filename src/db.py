@@ -9,9 +9,10 @@ from peewee import (
     BooleanField,
 )
 from datetime import datetime, timedelta
+from constants import DB_PATH
 
 
-db = SqliteDatabase("./data/data.db")
+db = SqliteDatabase(DB_PATH)
 
 
 class BaseModel(Model):

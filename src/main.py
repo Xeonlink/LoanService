@@ -1,28 +1,26 @@
 from SideMenu import SideMenu
 from feature import books, users, settings, home, loan_return
 from tkinter import PhotoImage
-import db
-import customtkinter as ctk
 from utils.I18n import I18n
+from constants import LANGUAGE_FILE_PATH, GREEN_THEME_PATH, ICON_PATH
+import customtkinter as ctk
+import db
 
 
 db.init()
-I18n.init("assets/languages.csv")
+I18n.init(LANGUAGE_FILE_PATH)
 ctk.set_appearance_mode("system")
-ctk.set_default_color_theme("assets/themes/green.json")
+ctk.set_default_color_theme(GREEN_THEME_PATH)
 
 app = ctk.CTk()
 app.title("남원2리 마을도서관")
 app.geometry("800x600")
-app.iconphoto(True, PhotoImage(file="assets/favicon_sm.png"))
+app.iconphoto(True, PhotoImage(file=ICON_PATH))
 # app.attributes("-fullscreen", True)
 
 last_page: ctk.CTkFrame | None = None
 side_menu = SideMenu(app)
 side_menu.pack(side="top", fill="x")
-
-# gap_frame = ctk.CTkFrame(app, fg_color="transparent", height=10)
-# gap_frame.pack(side="top", fill="x")
 
 
 def destroy_create(key: str):

@@ -1,10 +1,11 @@
 from db import User
 from collections.abc import Callable
+from utils.I18n import I18n
+from constants import DEBUG
 import customtkinter as ctk
 import widgets
 import re
 import random
-from utils.I18n import I18n
 
 
 class EditDialog(widgets.Dialog):
@@ -67,13 +68,6 @@ class EditDialog(widgets.Dialog):
         self._user.save()
         self.destroy()
 
-    def _debug_fill(self) -> None:
-        self.loan_code_field.set(str(random.randrange(100000, 999999)))
-        self.name_field.set(["홍길동", "김철수", "이영희"][random.randrange(0, 3)])
-        self.contact_field.set(
-            f"010-{random.randrange(1000,9999)}-{random.randrange(1000,9999)}"
-        )
-
     def __init__(self, user: User, on_destroy: Callable[[], None] | None = None):
         super().__init__(
             title_key="user_edit_dialog_title",
@@ -84,12 +78,23 @@ class EditDialog(widgets.Dialog):
         self._user = user
 
         # --------------------------------------------------
-        ctk.CTkButton(
-            self.root_frame,
-            text="🔥 테스트용으로 채우기",
-            border_width=0,
-            command=self._debug_fill,
-        ).pack(side="top", fill="x", pady=5)
+        if DEBUG:
+
+            def _debug_fill() -> None:
+                self.loan_code_field.set(str(random.randrange(100000, 999999)))
+                self.name_field.set(
+                    ["홍길동", "김철수", "이영희"][random.randrange(0, 3)]
+                )
+                self.contact_field.set(
+                    f"010-{random.randrange(1000,9999)}-{random.randrange(1000,9999)}"
+                )
+
+            ctk.CTkButton(
+                self.root_frame,
+                text="🔥 테스트용으로 채우기",
+                border_width=0,
+                command=_debug_fill,
+            ).pack(side="top", fill="x", pady=5)
 
         # --------------------------------------------------
         self.loan_code_field = widgets.FormFieldH(

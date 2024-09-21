@@ -1,7 +1,11 @@
 from utils.I18n import I18n
+from tkinter.filedialog import askdirectory
+from shutil import copyfile
+from constants import DB_PATH, BACKUP_FILE_NAME
 import customtkinter as ctk
 import widgets
 import utils
+import os
 
 
 class Page(ctk.CTkFrame):
@@ -157,21 +161,21 @@ class Page(ctk.CTkFrame):
             width=170,
         ).pack(side="left", fill="x", expand=True, padx=2)
 
-        theme_buttons = widgets.SelectButtons(
+        self.theme_buttons = widgets.SelectButtons(
             theme_frame,
             width=240,
             options={
                 "settings_page_theme_color_blue": "blue",
                 "settings_page_theme_color_green": "green",
             },
-            command=lambda _: theme_buttons.set(
+            command=lambda _: self.theme_buttons.set(
                 I18n.get_text("settings_page_theme_color_green")
             ),
             dynamic_resizing=False,
             border_width=0,
             default_option_key="settings_page_theme_color_green",
         )
-        theme_buttons.pack(side="left")
+        self.theme_buttons.pack(side="left")
 
         # ---------------------------------------------------------------
         language_frame = ctk.CTkFrame(section_frame, fg_color="transparent")
@@ -312,7 +316,6 @@ class Page(ctk.CTkFrame):
 
         widgets.Label(
             self.update_frame,
-            text="🔄 업데이트",
             text_key="settings_page_update",
             font=("Arial", 14),
             width=170,
@@ -321,7 +324,6 @@ class Page(ctk.CTkFrame):
 
         widgets.Button(
             self.update_frame,
-            text="업데이트 확인",
             text_key="settings_page_update_check",
             width=240,
             height=30,
@@ -335,21 +337,23 @@ class Page(ctk.CTkFrame):
 
         widgets.Label(
             self.backup_frame,
-            text="💾 백업",
             text_key="settings_page_backup",
             font=("Arial", 14),
             width=170,
             anchor="w",
         ).pack(side="left", padx=2)
 
+        def backup():
+            des = os.path.join(askdirectory(), BACKUP_FILE_NAME)
+            copyfile(DB_PATH, des)
+
         widgets.Button(
             self.backup_frame,
-            text="백업 파일 생성",
             text_key="settings_page_backup_create",
             width=240,
             height=30,
             fg_color=ctk.ThemeManager.theme["CTkTextbox"]["fg_color"],
-            # command=Utils.backup,
+            command=backup,
         ).pack(side="left", fill="x", expand=True)
 
         # ---------------------------------------------------------------
@@ -358,7 +362,6 @@ class Page(ctk.CTkFrame):
 
         widgets.Label(
             self.restore_frame,
-            text="🔄 복원",
             text_key="settings_page_restore",
             font=("Arial", 14),
             width=170,
@@ -367,7 +370,6 @@ class Page(ctk.CTkFrame):
 
         widgets.Button(
             self.restore_frame,
-            text="백업 파일 복원",
             text_key="settings_page_restore_do",
             width=240,
             height=30,
@@ -405,7 +407,6 @@ class Page(ctk.CTkFrame):
 
         widgets.Label(
             self.reset_frame,
-            text="🔨 초기화",
             text_key="settings_page_factory_reset",
             font=("Arial", 14),
             width=170,
@@ -414,7 +415,6 @@ class Page(ctk.CTkFrame):
 
         widgets.Button(
             self.reset_frame,
-            text="모든 데이터 초기화",
             text_key="settings_page_factory_reset_all_data",
             width=240,
             height=30,

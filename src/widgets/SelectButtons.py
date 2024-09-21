@@ -56,6 +56,11 @@ class SelectButtons[T](ctk.CTkSegmentedButton):
         default_option_key: str | None = None,
     ):
         values_from_options = list(map(I18n.get_text, list(options.keys())))
+
+        def new_command(text):
+            if command is not None:
+                command(self._options_map[text])
+
         super().__init__(
             master=master,
             width=width,
@@ -75,7 +80,7 @@ class SelectButtons[T](ctk.CTkSegmentedButton):
             values=values_from_options,
             variable=variable,
             dynamic_resizing=dynamic_resizing,
-            command=lambda text: command(self._options_map[text]) if command else None,
+            command=new_command,
             state=state,
         )
 
@@ -107,7 +112,7 @@ class SelectButtons[T](ctk.CTkSegmentedButton):
         }
         self.set_by_key(key)
 
-    def destory(self) -> None:
+    def destroy(self) -> None:
         if self._options_unsubscriber is not None:
             self._options_unsubscriber()
         super().destroy()

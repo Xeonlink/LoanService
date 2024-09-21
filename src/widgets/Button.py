@@ -1,6 +1,6 @@
 from collections.abc import Callable
-import customtkinter as ctk
 from utils.I18n import I18n
+import customtkinter as ctk
 
 
 class Button(ctk.CTkButton):

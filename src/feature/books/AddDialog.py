@@ -1,10 +1,11 @@
 from db import Book
 from collections.abc import Callable
+from utils.I18n import I18n
+from constants import DEBUG
 import customtkinter as ctk
 import widgets
 import re
 import random
-from utils.I18n import I18n
 
 
 class AddDialog(widgets.Dialog):
@@ -93,13 +94,6 @@ class AddDialog(widgets.Dialog):
         )
         self.destroy()
 
-    def _debug_fill(self) -> None:
-        self.barcode_id_field.set(str(random.randrange(0, 123456789)))
-        self.title_field.set("해리포터")
-        self.author_field.set("J.K. 롤링")
-        self.publisher_field.set("문학수첩")
-        self.classification_num_field.set("123.45")
-
     def __init__(self, on_destroy: Callable[[], None] | None = None):
         super().__init__(
             title_key="book_add_dialog_title",
@@ -109,12 +103,21 @@ class AddDialog(widgets.Dialog):
         )
 
         # --------------------------------------------------
-        ctk.CTkButton(
-            self.root_frame,
-            text="🔥 테스트용으로 채우기",
-            border_width=0,
-            command=self._debug_fill,
-        ).pack(side="top", fill="x", pady=5)
+        if DEBUG:
+
+            def _debug_fill() -> None:
+                self.barcode_id_field.set(str(random.randrange(0, 123456789)))
+                self.title_field.set("해리포터")
+                self.author_field.set("J.K. 롤링")
+                self.publisher_field.set("문학수첩")
+                self.classification_num_field.set("123.45")
+
+            ctk.CTkButton(
+                self.root_frame,
+                text="🔥 테스트용으로 채우기",
+                border_width=0,
+                command=_debug_fill,
+            ).pack(side="top", fill="x", pady=5)
 
         # --------------------------------------------------
         self.barcode_id_field = widgets.FormFieldH(

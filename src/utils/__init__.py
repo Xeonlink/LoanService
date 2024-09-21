@@ -1,7 +1,6 @@
 from datetime import datetime
-from collections.abc import Callable
-from typing import Any
 import os
+import sys
 
 
 def swapkv(d: dict):
@@ -26,8 +25,16 @@ def format_loan_duration(start: datetime, end: datetime):
         return f"{start.strftime('%Y.%m.%d')} ~ {end.strftime('%Y.%m.%d')}"
 
 
-def find[T](getter: Callable[[T], Any], list: list[T]):
-    for item in list:
-        if getter(item):
-            return item
-    return None
+def resource_path(relative_path: str) -> str:
+    """Get absolute path to resource, works for dev and for PyInstaller"""
+    try:
+        base_path = sys._MEIPASS  # type: ignore
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
+
+def _(_):
+    """리턴값을 전달하지 않는 함수, lambda에서 return을 생략하기 위해 사용됨"""
+    return
