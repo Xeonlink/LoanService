@@ -11,7 +11,7 @@ def swapkv(d: dict):
 
 
 def readall(path: str):
-    with open(path, "r") as f:
+    with open(path, "r", encoding="utf-8") as f:
         return "".join(f.readlines())
 
 

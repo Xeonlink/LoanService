@@ -41,7 +41,7 @@ class I18n:
             return (False, "Path is not set")
 
         try:
-            with open(path, "r") as f:
+            with open(path, "r", encoding="utf-8") as f:
                 reader = csv.DictReader(f)
                 for row in reader:
                     key = row.pop("key")
@@ -49,6 +49,7 @@ class I18n:
             cls._language_file_path = path
             return (True, None)
         except Exception as e:
+            print(e)
             return (False, str(e))
 
     @classmethod

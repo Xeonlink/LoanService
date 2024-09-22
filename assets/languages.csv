@@ -81,7 +81,7 @@ book_add_dialog_title,📚 도서 추가,📚 Add Book
 book_edit_dialog_title,📚 도서 수정,📚 Edit Book
 ,,
 book_delete_dialog_title,📚 도서 삭제,📚 Delete Book
-book_delete_dialog_message,삭제되면 복구하기 어렵습니다.\n정말로 삭제하시겠습니까?
+book_delete_dialog_message,삭제되면 복구하기 어렵습니다.\n정말로 삭제하시겠습니까?,It is difficult to recover once deleted.\nAre you sure you want to delete?
 ,,
 settings_page_theme_mode,🌓 테마 모드,🌓 Theme Mode
 settings_page_theme_mode_light,라이트,Light
