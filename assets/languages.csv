@@ -43,6 +43,7 @@ user_add_dialog_title,👨🏼‍🏫 회원 추가,👨🏼‍🏫 Add User
 user_edit_dialog_title,👨🏼‍🏫 회원 수정,👨🏼‍🏫 Edit User
 ,,
 user_delete_dialog_title,👨🏼‍🏫 회원 삭제,👨🏼‍🏫 Delete User
+user_delete_dialog_message,이 회원의 이전 대출이력이 모두 삭제됩니다.\n복구할 수 없습니다.\n정말로 삭제하시겠습니까?,All previous loan history of this user will be deleted.\nIt cannot be recovered.\nAre you sure you want to delete?
 ,,
 books_page_add_book_button,도서 추가 ✚,Add Book ✚
 books_page_search_filter_select_title,제목,Title
@@ -80,6 +81,7 @@ book_add_dialog_title,📚 도서 추가,📚 Add Book
 book_edit_dialog_title,📚 도서 수정,📚 Edit Book
 ,,
 book_delete_dialog_title,📚 도서 삭제,📚 Delete Book
+book_delete_dialog_message,삭제되면 복구하기 어렵습니다.\n정말로 삭제하시겠습니까?
 ,,
 settings_page_theme_mode,🌓 테마 모드,🌓 Theme Mode
 settings_page_theme_mode_light,라이트,Light
@@ -133,3 +135,4 @@ dialog_cancel_button,취소,Cancel
 dialog_delete_button,삭제,Delete
 dialog_warning_title,경고,Warning
 dialog_keepgoing_button,계속하기 →,Continue →
+dialog_delete_confirm,정말로 삭제하시겠습니까?,Are you sure you want to delete?

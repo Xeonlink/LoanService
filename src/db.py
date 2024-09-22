@@ -81,15 +81,15 @@ class User(BaseModel):
 
     @property
     def can_loan(self) -> bool:
-        loans: list[Loan] = list(self.loans)  # type: ignore
+        loans = self.get_loans()
         return len(loans) < 5 and all(not loan.is_overdue for loan in loans)
 
     def get_loans(self):
-        return self.loans  # type: ignore
+        return list[Loan](self.loans)  # type: ignore
 
     @property
     def has_overdue(self) -> bool:
-        loans: list[Loan] = list(self.loans)  # type: ignore
+        loans = self.get_loans()
         return any(loan.return_at is not None and loan.is_overdue for loan in loans)
 
     @classmethod
