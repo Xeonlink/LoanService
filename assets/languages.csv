@@ -15,6 +15,7 @@ loan_return_page_table_column_publisher,출판사,Publisher
 loan_return_page_table_column_classification_num,분류번호,Code
 loan_return_page_table_column_loan_date_range,대출기간,Loan Duration
 loan_return_page_table_column_overdue,연체,Overdue
+loan_return_page_warning_has_overdue,대출불가.\n연체된 도서가 있어 대출할 수 없습니다.\n연체된 도서를 반납해주세요.,You cannot loan.\nYou cannot loan because there are overdue books.\nPlease return the overdue books.
 ,,
 users_page_add_user_button,회원 추가 ✚,Add User ✚
 users_page_search_filter_select_name,이름,Name
@@ -90,6 +91,7 @@ settings_page_theme_color_green,초록,Green
 settings_page_language,🌐 언어 설정,🌐 Language
 settings_page_language_korean,🇰🇷 한국어,🇰🇷 Korean
 settings_page_language_english,🔠 영어,🔠 English
+settings_page_loan_days,📅 대출기간,📅 Loan Duration
 settings_page_open_source,📜 오픈소스 라이센스,📜 Open Source License
 settings_page_terms_of_service,📝 이용약관,📝 Terms of Service
 settings_page_privacy_policy,📃 개인정보 처리방침,📃 Privacy Policy
@@ -112,6 +114,11 @@ enter_button,입력 ↩,Enter ↩
 10_per_page,10개씩 보기,10 per page
 20_per_page,20개씩 보기,20 per page
 30_per_page,30개씩 보기,30 per page
+preparing,준비중,Preparing
+1day,1일,1 day
+3days,3일,3 days
+5days,5일,5 days
+7days,7일,7 days
 table_index,번호,Index
 pagination_prev,◀ 이전,◀ Prev
 pagination_next,다음 ▶,Next ▶

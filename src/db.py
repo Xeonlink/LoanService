@@ -78,16 +78,18 @@ class User(BaseModel):
         self.updated_at = datetime.now()
         return super().save(force_insert, only)
 
+    @property
     def can_loan(self) -> bool:
         loans: list[Loan] = list(self.loans)  # type: ignore
-        return len(loans) < 5 and all(not loan.is_overdue() for loan in loans)
+        return len(loans) < 5 and all(not loan.is_overdue for loan in loans)
 
     def get_loans(self):
         return self.loans  # type: ignore
 
+    @property
     def has_overdue(self) -> bool:
         loans: list[Loan] = list(self.loans)  # type: ignore
-        return any(loan.return_at is not None and loan.is_overdue() for loan in loans)
+        return any(loan.return_at is not None and loan.is_overdue for loan in loans)
 
     @classmethod
     def safe_get(cls, *query, **filters):
@@ -127,6 +129,7 @@ class Loan(BaseModel):
     book = ForeignKeyField(Book, backref="loan")
     user = ForeignKeyField(User, backref="loans")
     loan_at = DateTimeField(null=False, default=datetime.now)
+    due_at = DateTimeField(null=False)
     return_at = DateTimeField(null=True)
 
     @classmethod
@@ -145,11 +148,9 @@ class Loan(BaseModel):
             result: list[Loan] = []
             return result
 
-    def due_date(self) -> datetime:
-        return self.loan_at + timedelta(days=7)  # type: ignore
-
+    @property
     def is_overdue(self) -> bool:
-        return self.due_date() < datetime.now()
+        return self.due_at < datetime.now()  # type: ignore
 
 
 def init():

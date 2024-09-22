@@ -4,6 +4,7 @@ import os
 
 BACKUP_FILE_NAME_SQLITE = "backup.db"
 BACKUP_FILE_NAME_EXCEL = "backup.xlsx"
+LOAN_DAYS = 7
 
 # Paths
 ICON_PATH = utils.resource_path(os.path.join("assets", "favicon_sm.png"))

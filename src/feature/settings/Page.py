@@ -217,6 +217,31 @@ class Page(ctk.CTkFrame):
             ),
         ).pack(side="left")
 
+        # ---------------------------------------------------------------
+        loan_days_frame = ctk.CTkFrame(section_frame, fg_color="transparent")
+        loan_days_frame.pack(side="top", fill="x", pady=5)
+
+        widgets.Label(
+            loan_days_frame,
+            text_key="settings_page_loan_days",
+            font=("Arial", 14),
+            anchor="w",
+            width=170,
+        ).pack(side="left", fill="x", expand=True, padx=2)
+
+        loan_days_options = {
+            "preparing": 0,
+            "7days": 7,
+        }
+        widgets.Select(
+            loan_days_frame,
+            width=240,
+            options=loan_days_options,
+            default_option_key="7days",
+            anchor="center",
+            fg_color=ctk.ThemeManager.theme["CTkTextbox"]["fg_color"],
+        ).pack(side="left")
+
     def _init_section2(self, root_frame: ctk.CTkFrame):
         section_frame = widgets.Frame(root_frame).pack(
             fill="x", expand=True, pady=5, ipadx=10, ipady=5
@@ -489,7 +514,9 @@ class Page(ctk.CTkFrame):
         ).pack(side="left", padx=2)
 
         def show_alert():
-            widgets.Alert(message="대출불가.\n연체된 도서가 있어 대출할 수 없습니다.")
+            widgets.Alert(
+                message=I18n.get_text("loan_return_page_warning_has_overdue"),
+            )
 
         widgets.Button(
             self.alert_test_frame,

@@ -1,3 +1,5 @@
+from typing import Any
+from overrides import overrides
 import customtkinter as ctk
 
 
@@ -50,9 +52,7 @@ class TextArea(ctk.CTkTextbox):
         )
 
         state = kwargs.get("state", "normal")
-        if state == "disabled":
-            self.configure(state="normal")
-            self.insert("1.0", default_text)
-            self.configure(state="disabled")
-        else:
-            self.insert("1.0", default_text)
+        self._state = state
+        self.configure(state="normal")
+        self.insert("1.0", default_text)
+        self.configure(state=state)
