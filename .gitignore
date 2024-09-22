@@ -4,6 +4,7 @@ lib
 include
 venv
 .venv
+.DS_Store
 
 *.spec
 
