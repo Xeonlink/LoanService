@@ -15,6 +15,7 @@ loan_return_page_table_column_publisher,출판사,Publisher
 loan_return_page_table_column_classification_num,분류번호,Code
 loan_return_page_table_column_loan_date_range,대출기간,Loan Duration
 loan_return_page_table_column_overdue,연체,Overdue
+loan_return_page_warning_has_overdue,대출불가.\n연체된 도서가 있어 대출할 수 없습니다.\n연체된 도서를 반납해주세요.,You cannot loan.\nYou cannot loan because there are overdue books.\nPlease return the overdue books.
 ,,
 users_page_add_user_button,회원 추가 ✚,Add User ✚
 users_page_search_filter_select_name,이름,Name
@@ -42,6 +43,7 @@ user_add_dialog_title,👨🏼‍🏫 회원 추가,👨🏼‍🏫 Add User
 user_edit_dialog_title,👨🏼‍🏫 회원 수정,👨🏼‍🏫 Edit User
 ,,
 user_delete_dialog_title,👨🏼‍🏫 회원 삭제,👨🏼‍🏫 Delete User
+user_delete_dialog_message,이 회원의 이전 대출이력이 모두 삭제됩니다.\n복구할 수 없습니다.\n정말로 삭제하시겠습니까?,All previous loan history of this user will be deleted.\nIt cannot be recovered.\nAre you sure you want to delete?
 ,,
 books_page_add_book_button,도서 추가 ✚,Add Book ✚
 books_page_search_filter_select_title,제목,Title
@@ -79,6 +81,7 @@ book_add_dialog_title,📚 도서 추가,📚 Add Book
 book_edit_dialog_title,📚 도서 수정,📚 Edit Book
 ,,
 book_delete_dialog_title,📚 도서 삭제,📚 Delete Book
+book_delete_dialog_message,삭제되면 복구하기 어렵습니다.\n정말로 삭제하시겠습니까?
 ,,
 settings_page_theme_mode,🌓 테마 모드,🌓 Theme Mode
 settings_page_theme_mode_light,라이트,Light
@@ -90,6 +93,7 @@ settings_page_theme_color_green,초록,Green
 settings_page_language,🌐 언어 설정,🌐 Language
 settings_page_language_korean,🇰🇷 한국어,🇰🇷 Korean
 settings_page_language_english,🔠 영어,🔠 English
+settings_page_loan_days,📅 대출기간,📅 Loan Duration
 settings_page_open_source,📜 오픈소스 라이센스,📜 Open Source License
 settings_page_terms_of_service,📝 이용약관,📝 Terms of Service
 settings_page_privacy_policy,📃 개인정보 처리방침,📃 Privacy Policy
@@ -97,11 +101,11 @@ settings_page_backup,백업,Backup
 settings_page_backup_sqlite,Sqlite(db),Sqlite(db)
 settings_page_backup_excel,엑셀(xlsx),Excel(xlsx)
 settings_page_restore,복원,Restore
-settings_page_restore_do,백업 파일 복원 (준비중),Restore Backup File (Preparing)
-settings_page_init_language,언어 리로드,Reload Language File
-settings_page_init_language_do,언어 파일을 다시 불러오기,Reload Language File
+settings_page_restore_do,백업 파일 복원 (db),Restore Backup File (db)
+settings_page_restore_warning,복원하면 기존 데이터가 모두 삭제됩니다.\n복원이 완료되면 프로그램이 종료됩니다.\n정말로 복원하시겠습니까?,All existing data will be deleted when restored.\nAfter the restoration is complete the program will be terminated.\nAre you sure you want to restore?
 settings_page_factory_reset,초기화,Factory Reset
-settings_page_factory_reset_all_data,모든 데이터 초기화 (준비중),Reset All Data (Preparing)
+settings_page_factory_reset_all_data,모든 데이터 초기화,Reset All Data
+settings_page_factory_reset_warning,모든 데이터가 삭제됩니다.\n초기화가 완료되면 프로그램이 종료됩니다.\n복구하기 어렵습니다.,All data will be deleted.\nAfter the reset is complete the program will be terminated.\nIt is difficult to recover.
 settings_page_update,🔄 업데이트,🔄 Update
 settings_page_update_check,업데이트 확인 (준비중),Check Update (Preparing)
 ,,
@@ -112,6 +116,11 @@ enter_button,입력 ↩,Enter ↩
 10_per_page,10개씩 보기,10 per page
 20_per_page,20개씩 보기,20 per page
 30_per_page,30개씩 보기,30 per page
+preparing,준비중,Preparing
+1day,1일,1 day
+3days,3일,3 days
+5days,5일,5 days
+7days,7일,7 days
 table_index,번호,Index
 pagination_prev,◀ 이전,◀ Prev
 pagination_next,다음 ▶,Next ▶
@@ -124,3 +133,6 @@ dialog_add_button,추가하기 ✚,Add ✚
 dialog_update_button,수정하기 📝,Save 📝
 dialog_cancel_button,취소,Cancel
 dialog_delete_button,삭제,Delete
+dialog_warning_title,경고,Warning
+dialog_keepgoing_button,계속하기 →,Continue →
+dialog_delete_confirm,정말로 삭제하시겠습니까?,Are you sure you want to delete?

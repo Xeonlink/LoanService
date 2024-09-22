@@ -1,8 +1,10 @@
+from datetime import datetime, timedelta
+from utils.I18n import I18n
 from db import Book, Loan, User
-from datetime import datetime
+from constants import LOAN_DAYS
+import widgets.Table as table
 import customtkinter as ctk
 import widgets
-import widgets.Table as table
 import utils
 
 
@@ -39,7 +41,14 @@ class Page(ctk.CTkFrame):
         # search_text로 도서를 검색
         if self._user is not None:
             book = Book.safe_get(barcode_id=search_text)
-            if (book is not None) and (not book.is_reading):
+            if (book is not None) and (not book.is_reading) and (not book.is_deleted):
+
+                if self._user.has_overdue:
+                    widgets.Alert(
+                        message=I18n.get_text("loan_return_page_warning_has_overdue"),
+                    )
+                    return
+
                 book_ids: list[int] = []
                 for loan in self._user.get_loans():  # type: ignore
                     if loan.return_at is None:
@@ -52,6 +61,9 @@ class Page(ctk.CTkFrame):
                     Loan.create(
                         book=book.id,
                         user=self._user.id,
+                        loan_at=datetime.now(),
+                        due_at=datetime.now() + timedelta(days=LOAN_DAYS),
+                        return_at=None,
                     )
                     self._update_ui_by_user(self._user)
             else:
@@ -200,15 +212,14 @@ class Page(ctk.CTkFrame):
                     text_key="loan_return_page_table_column_loan_date_range",
                     width=200,
                     anchor=table.Anchor.CENTER,
-                    # getter=lambda loan: f"{loan.loan_at} ~ {loan.due_date()}",
-                    getter=lambda loan: utils.format_loan_duration(loan.loan_at, loan.due_date()),  # type: ignore
+                    getter=lambda loan: utils.format_loan_duration(loan.loan_at, loan.due_at),  # type: ignore
                 ),
                 table.Column(
                     text="",
                     text_key="loan_return_page_table_column_overdue",
                     width=50,
                     anchor=table.Anchor.CENTER,
-                    getter=lambda loan: "⏺" if loan.is_overdue() else "⛌",
+                    getter=lambda loan: "⏺" if loan.is_overdue else "⛌",
                 ),
             ],
         )

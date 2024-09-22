@@ -1,5 +1,6 @@
-from db import Book
 from collections.abc import Callable
+from utils.I18n import I18n
+from db import Book
 import customtkinter as ctk
 import widgets
 
@@ -17,12 +18,13 @@ class DeleteDialog(widgets.Dialog):
         cls._dialog.focus_set()
 
     def _delete(self) -> None:
-        self._book.delete_instance()
+        self._book.is_deleted = True  # type: ignore
+        self._book.save()
         self.destroy()
 
     def __init__(self, book: Book, on_destroy: Callable[[], None] | None = None):
         super().__init__(
-            title_key="dialog_delete_title",
+            title_key="book_delete_dialog_title",
             resizable=(False, False),
             on_destroy=on_destroy,
             pad=(10, 5),
@@ -32,19 +34,19 @@ class DeleteDialog(widgets.Dialog):
         # --------------------------------------------------
         widgets.Label(
             self.root_frame,
-            text="정말 삭제하시겠습니까?",
+            text_key="book_delete_dialog_title",
             font=("Arial", 14, "bold"),
             anchor="w",
         ).pack(side="top", fill="x", pady=5)
 
         # --------------------------------------------------
-        self.error_textbox = ctk.CTkTextbox(
+        widgets.TextArea(
             self.root_frame,
-            height=150,
+            height=100,
             fg_color=ctk.ThemeManager.theme["CTkFrame"]["fg_color"],
+            default_text=I18n.get_text("book_delete_dialog_message"),
             state="disabled",
-        )
-        self.error_textbox.pack(side="top", fill="x", pady=5, expand=True)
+        ).pack(side="top", fill="x", pady=5, expand=True)
 
         # --------------------------------------------------
         action_frame = ctk.CTkFrame(self.root_frame)

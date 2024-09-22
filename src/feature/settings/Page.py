@@ -1,5 +1,5 @@
 from utils.I18n import I18n
-from tkinter.filedialog import askdirectory
+from tkinter.filedialog import askdirectory, askopenfilename
 from shutil import copyfile
 from constants import (
     DB_PATH,
@@ -8,6 +8,8 @@ from constants import (
     LICENSE_PATH,
     TERMS_OF_SERVICE_PATH,
     PRIVACY_POLICY_PATH,
+    DB_BACKUP_PATH,
+    DEBUG,
 )
 import customtkinter as ctk
 import widgets
@@ -109,6 +111,8 @@ class Page(ctk.CTkFrame):
         self._init_section1(root_frame)
         self._init_section2(root_frame)
         self._init_section3(root_frame)
+        if DEBUG:
+            self._debug_section(root_frame)
 
         copyright_label = widgets.Label(
             root_frame,
@@ -212,6 +216,31 @@ class Page(ctk.CTkFrame):
                 I18n.lang,
                 "settings_page_language_korean",
             ),
+        ).pack(side="left")
+
+        # ---------------------------------------------------------------
+        loan_days_frame = ctk.CTkFrame(section_frame, fg_color="transparent")
+        loan_days_frame.pack(side="top", fill="x", pady=5)
+
+        widgets.Label(
+            loan_days_frame,
+            text_key="settings_page_loan_days",
+            font=("Arial", 14),
+            anchor="w",
+            width=170,
+        ).pack(side="left", fill="x", expand=True, padx=2)
+
+        loan_days_options = {
+            "preparing": 0,
+            "7days": 7,
+        }
+        widgets.Select(
+            loan_days_frame,
+            width=240,
+            options=loan_days_options,
+            default_option_key="7days",
+            anchor="center",
+            fg_color=ctk.ThemeManager.theme["CTkTextbox"]["fg_color"],
         ).pack(side="left")
 
     def _init_section2(self, root_frame: ctk.CTkFrame):
@@ -318,11 +347,11 @@ class Page(ctk.CTkFrame):
         )
 
         # ---------------------------------------------------------------
-        self.update_frame = ctk.CTkFrame(section_frame, fg_color="transparent")
-        self.update_frame.pack(side="top", fill="x", pady=5)
+        self.warning_test_frame = ctk.CTkFrame(section_frame, fg_color="transparent")
+        self.warning_test_frame.pack(side="top", fill="x", pady=5)
 
         widgets.Label(
-            self.update_frame,
+            self.warning_test_frame,
             text_key="settings_page_update",
             font=("Arial", 14),
             width=170,
@@ -330,7 +359,7 @@ class Page(ctk.CTkFrame):
         ).pack(side="left", padx=2)
 
         widgets.Button(
-            self.update_frame,
+            self.warning_test_frame,
             text_key="settings_page_update_check",
             width=240,
             height=30,
@@ -390,37 +419,25 @@ class Page(ctk.CTkFrame):
             anchor="w",
         ).pack(side="left", padx=2)
 
+        def restore(src: str):
+            os.rename(DB_PATH, DB_BACKUP_PATH)
+            copyfile(src, DB_PATH)
+            exit()
+
+        def on_resore_click():
+            src = askopenfilename(filetypes=[("SQLite file", "*.db")])
+            widgets.Warning(
+                message=I18n.get_text("settings_page_restore_warning"),
+                on_confirm=lambda: restore(src),
+            )
+
         widgets.Button(
             self.restore_frame,
             text_key="settings_page_restore_do",
             width=240,
             height=30,
             fg_color=ctk.ThemeManager.theme["CTkTextbox"]["fg_color"],
-            # command=Utils.restore,
-        ).pack(side="left", fill="x", expand=True)
-
-        # ---------------------------------------------------------------
-        self.init_language_frame = ctk.CTkFrame(section_frame, fg_color="transparent")
-        self.init_language_frame.pack(side="top", fill="x", pady=5)
-
-        widgets.Label(
-            self.init_language_frame,
-            text_key="settings_page_init_language",
-            font=("Arial", 14),
-            width=170,
-            anchor="w",
-        ).pack(side="left", padx=2)
-
-        def reload_language():
-            I18n.init()
-
-        widgets.Button(
-            self.init_language_frame,
-            text_key="settings_page_init_language_do",
-            width=240,
-            height=30,
-            fg_color=ctk.ThemeManager.theme["CTkTextbox"]["fg_color"],
-            command=reload_language,
+            command=on_resore_click,
         ).pack(side="left", fill="x", expand=True)
 
         # ---------------------------------------------------------------
@@ -435,11 +452,100 @@ class Page(ctk.CTkFrame):
             anchor="w",
         ).pack(side="left", padx=2)
 
+        def factory_reset():
+            os.remove(DB_PATH)
+            exit()
+
+        def on_factory_reset_click():
+            widgets.Warning(
+                message=I18n.get_text("settings_page_factory_reset_warning"),
+                on_confirm=factory_reset,
+            )
+
         widgets.Button(
             self.reset_frame,
             text_key="settings_page_factory_reset_all_data",
             width=240,
             height=30,
             fg_color=ctk.ThemeManager.theme["CTkTextbox"]["fg_color"],
-            # command=Utils.reset,
+            command=on_factory_reset_click,
+        ).pack(side="left", fill="x", expand=True)
+
+    def _debug_section(self, root_frame: ctk.CTkFrame):
+        section_frame = widgets.Frame(root_frame).pack(
+            fill="x", expand=True, pady=5, ipadx=10, ipady=5
+        )
+
+        # ---------------------------------------------------------------
+        self.warning_test_frame = ctk.CTkFrame(section_frame, fg_color="transparent")
+        self.warning_test_frame.pack(side="top", fill="x", pady=5)
+
+        widgets.Label(
+            self.warning_test_frame,
+            text="⚠️ 경고 테스트",
+            font=("Arial", 14),
+            width=170,
+            anchor="w",
+        ).pack(side="left", padx=2)
+
+        def show_warning():
+            widgets.Warning(message="경고 메시지 내용입니다.")
+
+        widgets.Button(
+            self.warning_test_frame,
+            text="경고 메시지",
+            width=240,
+            height=30,
+            fg_color=ctk.ThemeManager.theme["CTkTextbox"]["fg_color"],
+            command=show_warning,
+        ).pack(side="left", fill="x", expand=True)
+
+        # ---------------------------------------------------------------
+        self.alert_test_frame = ctk.CTkFrame(section_frame, fg_color="transparent")
+        self.alert_test_frame.pack(side="top", fill="x", pady=5)
+
+        widgets.Label(
+            self.alert_test_frame,
+            text="🔔 알림 테스트",
+            font=("Arial", 14),
+            width=170,
+            anchor="w",
+        ).pack(side="left", padx=2)
+
+        def show_alert():
+            widgets.Alert(
+                message=I18n.get_text("loan_return_page_warning_has_overdue"),
+            )
+
+        widgets.Button(
+            self.alert_test_frame,
+            text="알림 메시지",
+            width=240,
+            height=30,
+            fg_color=ctk.ThemeManager.theme["CTkTextbox"]["fg_color"],
+            command=show_alert,
+        ).pack(side="left", fill="x", expand=True)
+
+        # ---------------------------------------------------------------
+        self.init_language_frame = ctk.CTkFrame(section_frame, fg_color="transparent")
+        self.init_language_frame.pack(side="top", fill="x", pady=5)
+
+        widgets.Label(
+            self.init_language_frame,
+            text="언어 리로드",
+            font=("Arial", 14),
+            width=170,
+            anchor="w",
+        ).pack(side="left", padx=2)
+
+        def reload_language():
+            I18n.init()
+
+        widgets.Button(
+            self.init_language_frame,
+            text="언어 파일을 다시 불러오기",
+            width=240,
+            height=30,
+            fg_color=ctk.ThemeManager.theme["CTkTextbox"]["fg_color"],
+            command=reload_language,
         ).pack(side="left", fill="x", expand=True)

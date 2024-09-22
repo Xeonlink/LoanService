@@ -90,3 +90,6 @@ def sqlite2excel(db_path: str, excel_path: str):
 
         # Excel 파일을 저장합니다
         workbook.save(excel_path)
+
+def restart():
+    os.execl(sys.executable, *sys.orig_argv)

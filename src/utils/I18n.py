@@ -23,7 +23,8 @@ class I18n:
         elif cls.lang not in cls._data[key]:
             return "Lang not found"
         else:
-            return cls._data[key][cls.lang]
+            text = cls._data[key][cls.lang]
+            return "\n".join(text.split("\\n"))
 
     @classmethod
     def init(cls, path: str | None = None) -> tuple[bool, str | None]:
