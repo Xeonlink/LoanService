@@ -9,6 +9,7 @@ LOAN_DAYS = 7
 # Paths
 ICON_PATH = utils.resource_path(os.path.join("assets", "favicon_sm.png"))
 DB_PATH = utils.resource_path(os.path.join("data", "data.db"))
+DB_BACKUP_PATH = DB_PATH + ".bak"
 LANGUAGE_PATH = utils.resource_path(os.path.join("assets", "languages.csv"))
 LICENSE_PATH = utils.resource_path(os.path.join("assets", "licenses.txt"))
 TERMS_OF_SERVICE_PATH = utils.resource_path(

@@ -101,11 +101,11 @@ settings_page_backup,백업,Backup
 settings_page_backup_sqlite,Sqlite(db),Sqlite(db)
 settings_page_backup_excel,엑셀(xlsx),Excel(xlsx)
 settings_page_restore,복원,Restore
-settings_page_restore_do,백업 파일 복원 (준비중),Restore Backup File (Preparing)
-settings_page_init_language,언어 리로드,Reload Language File
-settings_page_init_language_do,언어 파일을 다시 불러오기,Reload Language File
+settings_page_restore_do,백업 파일 복원 (db),Restore Backup File (db)
+settings_page_restore_warning,복원하면 기존 데이터가 모두 삭제됩니다.\n복원이 완료되면 프로그램이 종료됩니다.\n정말로 복원하시겠습니까?,All existing data will be deleted when restored.\nAfter the restoration is complete the program will be terminated.\nAre you sure you want to restore?
 settings_page_factory_reset,초기화,Factory Reset
-settings_page_factory_reset_all_data,모든 데이터 초기화 (준비중),Reset All Data (Preparing)
+settings_page_factory_reset_all_data,모든 데이터 초기화,Reset All Data
+settings_page_factory_reset_warning,모든 데이터가 삭제됩니다.\n초기화가 완료되면 프로그램이 종료됩니다.\n복구하기 어렵습니다.,All data will be deleted.\nAfter the reset is complete the program will be terminated.\nIt is difficult to recover.
 settings_page_update,🔄 업데이트,🔄 Update
 settings_page_update_check,업데이트 확인 (준비중),Check Update (Preparing)
 ,,

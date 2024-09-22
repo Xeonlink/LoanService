@@ -152,7 +152,7 @@
 3. 터미널에 다음의 명령어를 입력하여, 빌드
 
    ```pwsh
-   pyinstaller -w --add-data "./assets/*:assets" --add-data "./assets/themes/*:assets/themes" --add-data "./data:data" ./src/main.py
+   pyinstaller -w --add-data "./assets/*:assets" --add-data "./assets/themes/*:assets/themes" --add-data "./data/*:data" ./src/main.py
    ```
    -w : 빌드결과를 실행했을 때, 터미널창이 실행되지 않고 윈도우창만 나오도록 함
 
@@ -160,9 +160,11 @@
 
 ### 주의사항
 
-1. data.db 파일의 제거 또는 초기화
+1. data.db 파일의 초기화
 
-   테스트할 때 사용했던 db파일이 그대로 빌드결과에 들어가기 때문에, 이를 방지하기 위해서 db파일을 삭제하거나 백업한 후에 빌드를 하는 것이 좋음.
+   테스트할 때 사용했던 db파일이 그대로 빌드결과에 들어가기 때문에, 이를 방지하기 위해서 db파일을 포기화한 후에 빌드를 하는 것이 좋음.
+   
+   db파일을 삭제한 후에 빌드해 보았으나, 삭제한 경우에는 빌드결과에 /data 폴더도 만들어지지 않아서 경로오류를 일으키며 실행이 안됨.
 
 2. DEBUG=False
 
