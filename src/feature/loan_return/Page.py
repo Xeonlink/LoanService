@@ -41,7 +41,7 @@ class Page(ctk.CTkFrame):
         # search_text로 도서를 검색
         if self._user is not None:
             book = Book.safe_get(barcode_id=search_text)
-            if (book is not None) and (not book.is_reading):
+            if (book is not None) and (not book.is_reading) and (not book.is_deleted):
 
                 if self._user.has_overdue:
                     widgets.Alert(

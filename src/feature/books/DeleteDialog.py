@@ -17,7 +17,8 @@ class DeleteDialog(widgets.Dialog):
         cls._dialog.focus_set()
 
     def _delete(self) -> None:
-        self._book.delete_instance()
+        self._book.is_deleted = True  # type: ignore
+        self._book.save()
         self.destroy()
 
     def __init__(self, book: Book, on_destroy: Callable[[], None] | None = None):

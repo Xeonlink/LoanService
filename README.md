@@ -152,11 +152,9 @@
 3. 터미널에 다음의 명령어를 입력하여, 빌드
 
    ```pwsh
-   pyinstaller -w -F --add-data "./assets/*:assets" --add-data "./assets/themes/*:assets/themes" --add-data "./data:data" ./src/main.py
+   pyinstaller -w --add-data "./assets/*:assets" --add-data "./assets/themes/*:assets/themes" --add-data "./data:data" ./src/main.py
    ```
    -w : 빌드결과를 실행했을 때, 터미널창이 실행되지 않고 윈도우창만 나오도록 함
-
-   -F : 빌드결과가 디렉토리 + .exe 형태가 아닌, 하나의 .exe파일로 나오도록 함
 
    --add-data "{src}:{des}" : {src}에 해당하는 파일을 빌드결과 {des}에 옮기도록 함. 수행하지 않을 경우 빌드결과물을 실행했을 때, 해당 리소스를 찾을 수 없다며 에러를 일으킴.
 

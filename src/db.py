@@ -39,6 +39,7 @@ class Book(BaseModel):
     publisher = CharField(null=False)
     classification_num = CharField(null=False)
     is_reading = BooleanField(null=False, default=lambda: False)
+    is_deleted = BooleanField(null=False, default=lambda: False)
 
     def get_loan(self):
         return self.loan  # type: ignore
@@ -53,7 +54,7 @@ class Book(BaseModel):
     @classmethod
     def select_safe(cls):
         try:
-            return list[Book](Book.select())
+            return list[Book](Book.select().where(Book.is_deleted == False))
         except:
             result: list[Book] = []
             return result
