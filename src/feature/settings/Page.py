@@ -9,10 +9,9 @@ from constants import (
     TERMS_OF_SERVICE_PATH,
     PRIVACY_POLICY_PATH,
     DB_BACKUP_PATH,
-    DEBUG,
 )
 import customtkinter as ctk
-import widgets
+import widgets as widgets
 import utils
 import os
 
@@ -86,7 +85,7 @@ class Page(ctk.CTkFrame):
         border_color: str | tuple[str, str] | None = None,
         background_corner_colors: tuple[str | tuple[str, str]] | None = None,
         overwrite_preferred_drawing_method: str | None = None,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(
             master,
@@ -99,7 +98,7 @@ class Page(ctk.CTkFrame):
             border_color,
             background_corner_colors,
             overwrite_preferred_drawing_method,
-            **kwargs
+            **kwargs,
         )
 
         root_of_root_frame = ctk.CTkScrollableFrame(self, fg_color="transparent")
@@ -111,7 +110,7 @@ class Page(ctk.CTkFrame):
         self._init_section1(root_frame)
         self._init_section2(root_frame)
         self._init_section3(root_frame)
-        if DEBUG:
+        if utils.is_frozen():
             self._debug_section(root_frame)
 
         copyright_label = widgets.Label(
@@ -125,9 +124,7 @@ class Page(ctk.CTkFrame):
         copyright_label.pack(side="top", fill="x", expand=True, pady=5)
 
     def _init_section1(self, root_frame: ctk.CTkFrame):
-        section_frame = widgets.Frame(root_frame).pack(
-            fill="x", expand=True, pady=5, ipadx=10, ipady=5
-        )
+        section_frame = widgets.Frame(root_frame).pack(fill="x", expand=True, pady=5, ipadx=10, ipady=5)
 
         # ---------------------------------------------------------------
         theme_mode_frame = ctk.CTkFrame(section_frame, fg_color="transparent")
@@ -179,9 +176,7 @@ class Page(ctk.CTkFrame):
                 "settings_page_theme_color_blue": "blue",
                 "settings_page_theme_color_green": "green",
             },
-            command=lambda _: self.theme_buttons.set(
-                I18n.get_text("settings_page_theme_color_green")
-            ),
+            command=lambda _: self.theme_buttons.set(I18n.get_text("settings_page_theme_color_green")),
             dynamic_resizing=False,
             border_width=0,
             default_option_key="settings_page_theme_color_green",
@@ -244,9 +239,7 @@ class Page(ctk.CTkFrame):
         ).pack(side="left")
 
     def _init_section2(self, root_frame: ctk.CTkFrame):
-        section_frame = widgets.Frame(root_frame).pack(
-            fill="x", expand=True, pady=5, ipadx=10, ipady=5
-        )
+        section_frame = widgets.Frame(root_frame).pack(fill="x", expand=True, pady=5, ipadx=10, ipady=5)
 
         # ---------------------------------------------------------------
         self.license_frame = ctk.CTkFrame(section_frame, fg_color="transparent")
@@ -280,9 +273,7 @@ class Page(ctk.CTkFrame):
         )
 
         # ---------------------------------------------------------------
-        self.terms_of_service_frame = ctk.CTkFrame(
-            section_frame, fg_color="transparent"
-        )
+        self.terms_of_service_frame = ctk.CTkFrame(section_frame, fg_color="transparent")
         self.terms_of_service_frame.pack(side="top", fill="x", pady=5)
 
         widgets.Label(
@@ -342,9 +333,7 @@ class Page(ctk.CTkFrame):
         )
 
     def _init_section3(self, root_frame: ctk.CTkFrame):
-        section_frame = widgets.Frame(root_frame).pack(
-            fill="x", expand=True, pady=5, ipadx=10, ipady=5
-        )
+        section_frame = widgets.Frame(root_frame).pack(fill="x", expand=True, pady=5, ipadx=10, ipady=5)
 
         # ---------------------------------------------------------------
         self.warning_test_frame = ctk.CTkFrame(section_frame, fg_color="transparent")
@@ -472,9 +461,7 @@ class Page(ctk.CTkFrame):
         ).pack(side="left", fill="x", expand=True)
 
     def _debug_section(self, root_frame: ctk.CTkFrame):
-        section_frame = widgets.Frame(root_frame).pack(
-            fill="x", expand=True, pady=5, ipadx=10, ipady=5
-        )
+        section_frame = widgets.Frame(root_frame).pack(fill="x", expand=True, pady=5, ipadx=10, ipady=5)
 
         # ---------------------------------------------------------------
         self.warning_test_frame = ctk.CTkFrame(section_frame, fg_color="transparent")

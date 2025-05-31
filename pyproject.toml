@@ -1,0 +1,12 @@
+[project]
+name = "loanservice"
+version = "0.2.0"
+description = "Loan Service"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "customtkinter>=5.2.2",
+    "openpyxl>=3.1.5",
+    "peewee>=3.18.1",
+    "pyinstaller>=6.13.0",
+]

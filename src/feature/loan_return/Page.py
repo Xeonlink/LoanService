@@ -4,8 +4,8 @@ from db import Book, Loan, User
 from constants import LOAN_DAYS
 import widgets.Table as table
 import customtkinter as ctk
-import widgets
-import utils
+import widgets as widgets
+from utils import format_loan_duration
 
 
 class Page(ctk.CTkFrame):
@@ -212,7 +212,7 @@ class Page(ctk.CTkFrame):
                     text_key="loan_return_page_table_column_loan_date_range",
                     width=200,
                     anchor=table.Anchor.CENTER,
-                    getter=lambda loan: utils.format_loan_duration(loan.loan_at, loan.due_at),  # type: ignore
+                    getter=lambda loan: format_loan_duration(loan.loan_at, loan.due_at),  # type: ignore
                 ),
                 table.Column(
                     text="",

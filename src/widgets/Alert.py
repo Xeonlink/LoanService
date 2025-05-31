@@ -1,6 +1,6 @@
 from collections.abc import Callable
 import customtkinter as ctk
-import widgets
+import widgets as widgets
 
 
 class Alert(widgets.Dialog):

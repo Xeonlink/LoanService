@@ -28,11 +28,17 @@ def format_loan_duration(start: datetime, end: datetime):
         return f"{start.strftime('%Y.%m.%d')} ~ {end.strftime('%Y.%m.%d')}"
 
 
+def is_frozen():
+    """패키징된 환경인지 확인합니다."""
+    return getattr(sys, "frozen", False)
+
+
 def resource_path(relative_path: str) -> str:
-    """Get absolute path to resource, works for dev and for PyInstaller"""
-    try:
+    """패키징 유무에 따라 리소스 경로를 반환합니다."""
+
+    if is_frozen():
         base_path = sys._MEIPASS  # type: ignore
-    except Exception:
+    else:
         base_path = os.path.abspath(".")
 
     return os.path.join(base_path, relative_path)
@@ -56,8 +62,8 @@ def sqlite2excel(db_path: str, excel_path: str):
         workbook = Workbook()
 
         # 기본 시트를 제거합니다 (시트 이름이 'Sheet'인 경우)
-        if 'Sheet' in workbook.sheetnames:
-            default_sheet = workbook['Sheet']
+        if "Sheet" in workbook.sheetnames:
+            default_sheet = workbook["Sheet"]
             workbook.remove(default_sheet)
 
         for table_name in tables:
@@ -76,7 +82,7 @@ def sqlite2excel(db_path: str, excel_path: str):
             columns = [info[1] for info in cursor.fetchall()]
 
             # 워크시트 이름을 정제합니다 (특수 문자 제거 및 길이 제한)
-            sheet_name = re.sub(r'[\\/*?:\[\]]', '_', table_name)[:31]
+            sheet_name = re.sub(r"[\\/*?:\[\]]", "_", table_name)[:31]
 
             # 새로운 워크시트를 추가합니다
             worksheet = workbook.create_sheet(title=sheet_name)
@@ -90,6 +96,7 @@ def sqlite2excel(db_path: str, excel_path: str):
 
         # Excel 파일을 저장합니다
         workbook.save(excel_path)
+
 
 def restart():
     os.execl(sys.executable, *sys.orig_argv)

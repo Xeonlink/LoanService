@@ -57,7 +57,7 @@ class Button(ctk.CTkButton):
         anchor: str = "center",
         #
         text_key: str | None = None,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(
             master=master,
@@ -84,7 +84,7 @@ class Button(ctk.CTkButton):
             command=command,
             compound=compound,
             anchor=anchor,
-            **kwargs
+            **kwargs,
         )
 
         self._text_key = text_key

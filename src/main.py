@@ -67,9 +67,7 @@ class App(ctk.CTk):
                 ),
                 topmenu.ButtonDef(
                     text_key="sidemenu_settings_button",
-                    on_click=lambda: self._destroy_create("settings").pack(
-                        side="left", fill="both", expand=True
-                    ),
+                    on_click=lambda: self._destroy_create("settings").pack(side="left", fill="both", expand=True),
                 ),
             ],
         )

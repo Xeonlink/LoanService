@@ -1,5 +1,3 @@
-from typing import Any
-from overrides import overrides
 import customtkinter as ctk
 
 
@@ -31,7 +29,7 @@ class TextArea(ctk.CTkTextbox):
         activate_scrollbars: bool = True,
         #
         default_text: str = "",
-        **kwargs
+        **kwargs,
     ):
         super().__init__(
             master,
@@ -48,7 +46,7 @@ class TextArea(ctk.CTkTextbox):
             scrollbar_button_hover_color,
             font,
             activate_scrollbars,
-            **kwargs
+            **kwargs,
         )
 
         state = kwargs.get("state", "normal")

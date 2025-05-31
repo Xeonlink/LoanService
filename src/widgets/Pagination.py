@@ -1,6 +1,6 @@
 import collections.abc as c
 import customtkinter as ctk
-import widgets
+import widgets as widgets
 
 
 class Pagination(ctk.CTkFrame):

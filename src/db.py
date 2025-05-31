@@ -8,7 +8,7 @@ from peewee import (
     AutoField,
     BooleanField,
 )
-from datetime import datetime, timedelta
+from datetime import datetime
 from constants import DB_PATH
 
 

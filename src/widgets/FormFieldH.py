@@ -1,5 +1,5 @@
 import customtkinter as ctk
-import widgets
+import widgets as widgets
 
 
 class FormFieldH(ctk.CTkFrame):
@@ -20,7 +20,7 @@ class FormFieldH(ctk.CTkFrame):
         placeholder_text_key: str = "",
         lable_width: int = 110,
         default_text: str | None = None,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(
             master,
@@ -33,7 +33,7 @@ class FormFieldH(ctk.CTkFrame):
             border_color,
             background_corner_colors,
             overwrite_preferred_drawing_method,
-            **kwargs
+            **kwargs,
         )
 
         title_label = widgets.Label(

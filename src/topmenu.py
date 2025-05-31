@@ -1,6 +1,6 @@
 from collections.abc import Callable
 import customtkinter as ctk
-import widgets
+import widgets as widgets
 
 
 class ButtonDef:
@@ -56,7 +56,7 @@ class TopMenu(ctk.CTkFrame):
         overwrite_preferred_drawing_method: str | None = None,
         #
         button_defs: list[ButtonDef] | None = None,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(
             master,
@@ -69,7 +69,7 @@ class TopMenu(ctk.CTkFrame):
             border_color,
             background_corner_colors,
             overwrite_preferred_drawing_method,
-            **kwargs
+            **kwargs,
         )
 
         self.last_selected_btn: ctk.CTkButton | None = None

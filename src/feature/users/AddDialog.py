@@ -1,12 +1,11 @@
 from db import User
 from collections.abc import Callable
 from utils.I18n import I18n
-from constants import DEBUG
 import customtkinter as ctk
-import widgets
+import widgets as widgets
 import re
 import random
-import widgets
+import utils
 
 
 class AddDialog(widgets.Dialog):
@@ -78,16 +77,12 @@ class AddDialog(widgets.Dialog):
         )
 
         # --------------------------------------------------
-        if DEBUG:
+        if utils.is_frozen():
 
             def _debug_fill() -> None:
                 self.loan_code_field.set(str(random.randrange(100000, 999999)))
-                self.name_field.set(
-                    ["홍길동", "김철수", "이영희"][random.randrange(0, 3)]
-                )
-                self.contact_field.set(
-                    f"010-{random.randrange(1000,9999)}-{random.randrange(1000,9999)}"
-                )
+                self.name_field.set(["홍길동", "김철수", "이영희"][random.randrange(0, 3)])
+                self.contact_field.set(f"010-{random.randrange(1000,9999)}-{random.randrange(1000,9999)}")
 
             ctk.CTkButton(
                 self.root_frame,

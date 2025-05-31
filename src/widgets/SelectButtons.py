@@ -91,10 +91,7 @@ class SelectButtons[T](ctk.CTkSegmentedButton):
                 key="lang_changed",
                 callback=lambda _: self._on_language_change(),
             )
-            self._options_map = {
-                I18n.get_text(text): value
-                for text, value in self._raw_options_map.items()
-            }
+            self._options_map = {I18n.get_text(text): value for text, value in self._raw_options_map.items()}
         else:
             self._options_unsubscriber = None
             self._options_map = {}
@@ -104,12 +101,8 @@ class SelectButtons[T](ctk.CTkSegmentedButton):
 
     def _on_language_change(self):
         key = self.get_key()
-        self.configure(
-            values=list(map(I18n.get_text, list(self._raw_options_map.keys())))
-        )
-        self._options_map = {
-            I18n.get_text(text): value for text, value in self._raw_options_map.items()
-        }
+        self.configure(values=list(map(I18n.get_text, list(self._raw_options_map.keys()))))
+        self._options_map = {I18n.get_text(text): value for text, value in self._raw_options_map.items()}
         self.set_by_key(key)
 
     def destroy(self) -> None:

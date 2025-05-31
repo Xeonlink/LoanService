@@ -1,5 +1,5 @@
 import customtkinter as ctk
-import widgets
+import widgets as widgets
 
 
 class Page(ctk.CTkFrame):

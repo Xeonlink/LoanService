@@ -1,8 +1,7 @@
 from enum import Enum, auto
 from collections.abc import Callable
 import customtkinter as ctk
-import widgets
-import widgets.Label
+import widgets as widgets
 
 
 class Widget(Enum):

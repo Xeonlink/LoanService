@@ -1,11 +1,11 @@
 from db import Book
 from collections.abc import Callable
 from utils.I18n import I18n
-from constants import DEBUG
 import customtkinter as ctk
-import widgets
+import widgets as widgets
 import re
 import random
+import utils
 
 
 class AddDialog(widgets.Dialog):
@@ -103,7 +103,7 @@ class AddDialog(widgets.Dialog):
         )
 
         # --------------------------------------------------
-        if DEBUG:
+        if utils.is_frozen():
 
             def _debug_fill() -> None:
                 self.barcode_id_field.set(str(random.randrange(0, 123456789)))

@@ -1,7 +1,7 @@
 from db import Book
 from feature import books
 import customtkinter as ctk
-import widgets
+import widgets as widgets
 import widgets.Table as table
 import math
 
@@ -38,9 +38,7 @@ class Page(ctk.CTkFrame):
             text_key="books_page_add_book_button",
             width=100,
             height=30,
-            command=lambda: books.AddDialog.show(
-                on_destroy=lambda: self._search(self.page)
-            ),
+            command=lambda: books.AddDialog.show(on_destroy=lambda: self._search(self.page)),
         )
         book_add_btn.pack(side="left")
 

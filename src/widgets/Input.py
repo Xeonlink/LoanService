@@ -26,7 +26,7 @@ class Input(ctk.CTkEntry):
         placeholder_text_key: str | None = None,
         default_text: str | None = None,
         on_enter: Callable[[tk.Event], None] | None = None,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(
             master=master,
@@ -43,7 +43,7 @@ class Input(ctk.CTkEntry):
             placeholder_text=placeholder_text,
             font=font,
             state=state,
-            **kwargs
+            **kwargs,
         )
 
         self._on_enter = on_enter

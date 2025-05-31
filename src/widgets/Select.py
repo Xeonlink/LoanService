@@ -93,9 +93,7 @@ class Select[T](ctk.CTkOptionMenu):
                 key="lang_changed",
                 callback=lambda _: self._on_language_change(),
             )
-            self._options_map = {
-                I18n.get_text(k): v for k, v in self._raw_options_map.items()
-            }
+            self._options_map = {I18n.get_text(k): v for k, v in self._raw_options_map.items()}
         else:
             self._options_unsubscriber = None
             self._options_map = {}
@@ -106,9 +104,7 @@ class Select[T](ctk.CTkOptionMenu):
     def _on_language_change(self):
         key = self.get_key()
         self.configure(values=list(map(I18n.get_text, list(self._options_map.keys()))))
-        self._options_map = {
-            I18n.get_text(k): v for k, v in self._raw_options_map.items()
-        }
+        self._options_map = {I18n.get_text(k): v for k, v in self._raw_options_map.items()}
         self.set_by_key(key)
 
     def destroy(self) -> None:

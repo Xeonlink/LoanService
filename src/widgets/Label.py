@@ -28,7 +28,7 @@ class Label(ctk.CTkLabel):
         wraplength: int = 0,
         #
         text_key: str | None = None,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(
             master=master,
@@ -45,7 +45,7 @@ class Label(ctk.CTkLabel):
             compound=compound,
             anchor=anchor,
             wraplength=wraplength,
-            **kwargs
+            **kwargs,
         )
 
         if text_key is not None:

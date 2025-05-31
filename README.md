@@ -147,45 +147,6 @@ LoanService는 인터넷이 되지 않는 환경에서도 작동하는 도서 �
 
    파이썬으로 작성된 ORM으로 sqlite의 관리를 보다 쉽게 하기 위해서 사용했습니다.
 
-### vscode 확장프로그램
-
-1. [Black Formatter](https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter)
-
-   파일을 저장할 때 파이썬 코드를 포맷팅해주는 확장프로그램. js의 prettier와 같은 철학을 가지고 만들어졌다고 함. 설치후 해야될 설정들은 .vscode/.settings.json을 통해서 되어있으므로, 설치하고 사용하기만 하면 된다.
-
-2. [Rainbow CSV](https://marketplace.visualstudio.com/items?itemName=mechatroner.rainbow-csv)
-
-   csv파일을 볼때, 각 열을 기준으로 서로 다른 색으로 표시해주는 확장프로그램. csv를 사용하여 작업할 때, 실수의 가능성을 줄여준다.
-
-3. [SQLite Viewer](https://marketplace.visualstudio.com/items?itemName=qwtel.sqlite-viewer)
-
-   sqlite의 \*.db 파일을 gui로 볼 수 있도록 하는 확장프로그램
-
-4. [GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
-
-   코드블럭 위에, 이 코드가 언제 누구에 의해서 작성되었는지 깃내역을 분석하여 작게 적어준다. 디버깅할 때 누가 짠 코드인지 쉽게 파악하여 수정해야될 사람이 누구인지 판단할 때 도움이 된다.
-
-5. [Edit CSV](https://marketplace.visualstudio.com/items?itemName=janisdd.vscode-edit-csv)
-
-   CSV파일을 GUI에서 편집할 수 있도록 해주는 확장프로그램. 마치 액셀의 스프레드시트를 다루는 것처럼 CSV파일을 vscode안에서 수정할 수 있다.
-
-6. [IntelliCode](https://marketplace.visualstudio.com/items?itemName=VisualStudioExptTeam.vscodeintellicode)
-
-   컴퓨터 사양이 가능한 경우에 프로젝트 전역분석 및 코드 입력패턴을 분석하여 다음에 입력할 코드를 추천해주는 확장프로그램
-
-7. [Pylance](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance)
-
-   IntelliCode를 파이썬에서 사용하려면 설치해야된다고 IntelliCode설정 가이드에 나와있지만, IntelliCode를 설치하면 자동으로 설치됨.
-   관련 설정방법은 IntelliCode QuickGuide의 파이썬 설정을 참조
-
-8. [Pyright](https://marketplace.visualstudio.com/items?itemName=ms-pyright.pyright)
-
-   MS에서 지원하는 파이썬의 정적 타입체크 도구, 파이썬은 기본적으로 타입이 없는 언어이지만 typing 패키지를 사용하면, 마치 typescript처럼 런타임에는 영향을 끼치지 않는 정적 타이핑만을 지원한다.
-
-9. [SVG](https://marketplace.visualstudio.com/items?itemName=jock.svg)
-
-   vscode안에서 SVG파일의 Preview를 볼 수 있게 해주고, svg파일을 png로 변환하는 기능을 지원한다.
-
 ### Windows
 
 1. PowerShell을 통해 pyenv-win을 설치한다.
@@ -281,35 +242,44 @@ LoanService는 인터넷이 되지 않는 환경에서도 작동하는 도서 �
 
 ### 빌드과정
 
-1. constants.py에서 DEBUG를 False로, 변경
+1. uv를 설치
 
-   ```python
-   DEBUG=False
+   자세한 설치방법은 [여기](https://github.com/astral-sh/uv)를 참고
+
+2. 가상환경 생성
+
+   ```pwsh
+   uv venv
    ```
 
-2. pyinstaller가 설치되어 있지 않다면, 설치
+3. 필요한 패키지를 설치
 
-   설치되어 있다면, 다음 단계로 넘어감.
+   uv가 uv.lock파일을 살펴보고 적절한 버전에 맞는 패키지를 설치합니다.
+
    ```pwsh
-   pip install -r requirement.txt
-   또는
-   pip install pyinstaller
+   uv pip install
    ```
 
 3. 터미널에 다음의 명령어를 입력하여, 빌드
 
    ```pwsh
-   pyinstaller -w --add-data "./assets/*:assets" --add-data "./assets/themes/*:assets/themes" --add-data "./data/*:data" ./src/main.py
+   pyinstaller -w --add-data "./assets/*:assets" --add-data "./assets/themes/*:assets/themes" --add-data "./data/*:data" ./main.py
    ```
    -w : 빌드결과를 실행했을 때, 터미널창이 실행되지 않고 윈도우창만 나오도록 함
 
    --add-data "{src}:{des}" : {src}에 해당하는 파일을 빌드결과 {des}에 옮기도록 함. 수행하지 않을 경우 빌드결과물을 실행했을 때, 해당 리소스를 찾을 수 없다며 에러를 일으킴.
 
+   또는 아래의 방법으로 spec 파일을 사용하여 빌드
+
+   ```pwsh
+   pyinstaller --clean --noconfirm main.spec
+   ```
+
 ### 주의사항
 
 1. data.db 파일의 초기화
 
-   테스트할 때 사용했던 db파일이 그대로 빌드결과에 들어가기 때문에, 이를 방지하기 위해서 db파일을 포기화한 후에 빌드를 하는 것이 좋음.
+   테스트할 때 사용했던 db파일이 그대로 빌드결과에 들어가기 때문에, 이를 방지하기 위해서 db파일을 초기화한 후에 빌드를 하는 것이 좋음.
    
    db파일을 삭제한 후에 빌드해 보았으나, 삭제한 경우에는 빌드결과에 /data 폴더도 만들어지지 않아서 경로오류를 일으키며 실행이 안됨.
 

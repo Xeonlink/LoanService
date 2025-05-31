@@ -2,7 +2,7 @@ from collections.abc import Callable
 from utils.I18n import I18n
 from db import User
 import customtkinter as ctk
-import widgets
+import widgets as widgets
 
 
 class DeleteDialog(widgets.Dialog):
