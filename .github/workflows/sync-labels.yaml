@@ -7,14 +7,14 @@ on:
     branches:
       - main
     paths:
-      - .github/labels.yml
-      - .github/workflows/create-labels.yml
+      - .github/labels.yaml
+      - .github/workflows/create-labels.yaml
   pull_request:
     branches:
       - main
     paths:
-      - .github/labels.yml
-      - .github/workflows/create-labels.yml
+      - .github/labels.yaml
+      - .github/workflows/create-labels.yaml
 permissions:
   issues: write
 
@@ -29,4 +29,4 @@ jobs:
         uses: crazy-max/ghaction-github-labeler@v5
         with:
           github_token: ${{ secrets.SYNC_LABELS_TOKEN }}
-          yaml_file: .github/labels.yml
+          yaml_file: .github/labels.yaml
