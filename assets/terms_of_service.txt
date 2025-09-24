@@ -1,1 +1,28 @@
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+이용약관
+
+본 소프트웨어(Loan Service)는 사용자의 권리와 편의를 최우선으로 생각합니다. 아래의 약관은 사용자가 본 소프트웨어를 안전하고 자유롭게 이용할 수 있도록 작성되었습니다.
+
+1. 소프트웨어 이용
+- 사용자는 본 소프트웨어를 자유롭게 설치, 사용, 복사, 수정 및 삭제할 수 있습니다.
+- 소프트웨어의 모든 기능은 무료로 제공되며, 별도의 비용이나 구독이 요구되지 않습니다.
+
+2. 개인정보 보호
+- 본 소프트웨어는 개인정보를 오프라인 환경에서만 처리하며, 외부 서버로 전송하거나 제3자에게 제공하지 않습니다.
+- 개인정보 관련 사항은 별도의 개인정보 처리방침을 따릅니다.
+
+3. 데이터 소유권
+- 사용자가 소프트웨어를 통해 생성하거나 입력한 모든 데이터의 소유권은 전적으로 사용자에게 있습니다.
+- 사용자는 언제든지 자신의 데이터를 열람, 수정, 삭제할 수 있습니다.
+
+4. 책임의 한계
+- 본 소프트웨어는 "있는 그대로" 제공되며, 사용 중 발생할 수 있는 문제에 대해 최대한 신속하게 지원합니다.
+- 단, 소프트웨어의 사용으로 인한 직접적 또는 간접적 손해에 대해서는 법령이 허용하는 범위 내에서 책임을 지지 않을 수 있습니다.
+
+5. 약관의 변경
+- 본 약관은 사용자의 권익을 침해하지 않는 범위 내에서만 변경될 수 있습니다.
+- 약관이 변경될 경우, 변경 내용은 소프트웨어 내 공지 또는 별도의 안내를 통해 사전 고지합니다.
+
+6. 문의
+- 약관에 대한 문의사항은 소프트웨어 제공자에게 언제든지 연락하실 수 있습니다.
+
+본 약관은 2024년 6월 1일부터 적용됩니다.
