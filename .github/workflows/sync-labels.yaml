@@ -1,6 +1,8 @@
 name: Sync Labels
 
 on:
+  workflow_dispatch:
+    # for testing
   push:
     branches:
       - main
