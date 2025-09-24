@@ -8,13 +8,13 @@ on:
       - main
     paths:
       - .github/labels.yaml
-      - .github/workflows/create-labels.yaml
+      - .github/workflows/sync-labels.yaml
   pull_request:
     branches:
       - main
     paths:
       - .github/labels.yaml
-      - .github/workflows/create-labels.yaml
+      - .github/workflows/sync-labels.yaml
 permissions:
   issues: write
 
