@@ -40,7 +40,7 @@
 
 - name: ":book: type:documentation"
   color: "2d7ba3"
-  description: "Requests for documentation-related work (modification, addition, deletion, etc.), typo corrections, or when the documentation content is incorrect"
+  description: "Requests for documentation-related work (mod, add etc.), typo, documentation incorrect"
 
 - name: ":pushpin: type:chore"
   color: "889eab"
